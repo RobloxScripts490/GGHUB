@@ -1024,7 +1024,7 @@ end)
 
 local MainSection = Main:NewSection("Counter Blox")
 
-MainSection:NewButton("CH Hub", "ButtonInfo", function()
+MainSection:NewButton("Script1", "ButtonInfo", function()
     --[[
 The Best Counter Blox Script - Hexagon (Kill All, Gun Mods, Bomb Mods, Inventory Changer & More!) Release: March 31st 2021.
 
