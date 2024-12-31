@@ -1021,11 +1021,28 @@ end)
 
 end)
 
+local MainSection = Main:NewSection("FISCH")
+
+MainSection:NewButton("Script1!", "ButtonInfo", function()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/AyoReaper/Reaper-Hub/refs/heads/main/fisch.lua"))()
+end)
+
+local MainSection = Main:NewSection("PETSGO!")
+
+MainSection:NewButton("Script1!", "ButtonInfo", function()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/AyoReaper/Reaper-Hub/refs/heads/main/PETSGO!.lua"))()
+end)
+
+local MainSection = Main:NewSection("PS99!")
+
+MainSection:NewButton("Script1!", "ButtonInfo", function()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/AyoReaper/Reaper-Hub/refs/heads/main/PetSimulator99.lua"))()
+end)
 
 local MainSection = Main:NewSection("[BEST] Counter Blox")
 
 MainSection:NewButton("CLİCK ME!", "ButtonInfo", function()
-loadstring(game:HttpGet("https://raw.githubusercontent.com/toasty-dev/pissblox/main/solaris_bootstrapper.lua",true))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/ttwizz/Open-Aimbot/master/source.lua", true))() 
 end)
 
 local MainSection = Main:NewSection("Natural Disaster Scripts")
@@ -1698,7 +1715,6 @@ stopButton.MouseButton1Click:Connect(function()
         stopEarthquake = nil
     end
 end)
-
 
 end)
 MainSection:NewButton("Fling All!", "ButtonInfo", function()
