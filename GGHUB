@@ -447,6 +447,9 @@ end)
 
 end)
 
+MainSection:NewButton("Telekinesis By Baris!", "ButtonInfo", function()
+loadstring(game:HttpGet("https://pastefy.app/XKyd8NKb/raw"))()
+end)
 
 
 MainSection:NewButton("Lua Executor!", "ButtonInfo", function()
