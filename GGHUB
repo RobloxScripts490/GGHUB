@@ -49,6 +49,170 @@ MainSection:NewButton("Infinte Yield", "ButtonInfo", function()
 loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
 end)
 
+MainSection:NewButton("Godmode(OP)", "ButtonInfo", function()
+-- Hizmetler
+local Players = game:GetService("Players")
+local UserInputService = game:GetService("UserInputService")
+local LocalPlayer = Players.LocalPlayer
+
+-- Değişkenler
+local Character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
+local monitoring = false
+local guiMinimized = false
+
+-- Sağlık kontrol fonksiyonu
+local function monitorHealth(humanoid)
+    humanoid.HealthChanged:Connect(function(health)
+        if monitoring and health < 50 then
+            humanoid.Health = humanoid.MaxHealth -- Sağlığı 100 yap
+        end
+    end)
+end
+
+-- Karakter ve Humanoid'i dinleyen ana fonksiyon
+local function setupCharacter(character)
+    local humanoid = character:WaitForChild("Humanoid", 5) -- Humanoid'i bekle
+    if humanoid then
+        monitorHealth(humanoid)
+    end
+end
+
+-- GUI Oluşturma
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Name = "GodmodeGUI"
+ScreenGui.Parent = LocalPlayer:WaitForChild("PlayerGui")
+ScreenGui.ResetOnSpawn = false
+
+local MainFrame = Instance.new("Frame")
+MainFrame.Size = UDim2.new(0, 250, 0, 150)
+MainFrame.Position = UDim2.new(0.5, -125, 0.5, -75)
+MainFrame.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+MainFrame.BorderSizePixel = 0
+MainFrame.Parent = ScreenGui
+
+local UICorner = Instance.new("UICorner")
+UICorner.CornerRadius = UDim.new(0, 10)
+UICorner.Parent = MainFrame
+
+local Title = Instance.new("TextLabel")
+Title.Size = UDim2.new(1, -40, 0, 30)
+Title.Position = UDim2.new(0, 10, 0, 5)
+Title.Text = "Godmode"
+Title.Font = Enum.Font.SourceSansBold
+Title.TextSize = 18
+Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+Title.BackgroundTransparency = 1
+Title.Parent = MainFrame
+
+local CloseButton = Instance.new("TextButton")
+CloseButton.Size = UDim2.new(0, 30, 0, 30)
+CloseButton.Position = UDim2.new(1, -35, 0, 5)
+CloseButton.Text = "X"
+CloseButton.Font = Enum.Font.SourceSansBold
+CloseButton.TextSize = 18
+CloseButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+CloseButton.BackgroundColor3 = Color3.fromRGB(200, 50, 50)
+CloseButton.Parent = MainFrame
+
+local MinimizeButton = Instance.new("TextButton")
+MinimizeButton.Size = UDim2.new(0, 30, 0, 30)
+MinimizeButton.Position = UDim2.new(1, -70, 0, 5)
+MinimizeButton.Text = "-"
+MinimizeButton.Font = Enum.Font.SourceSansBold
+MinimizeButton.TextSize = 18
+MinimizeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+MinimizeButton.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
+MinimizeButton.Parent = MainFrame
+
+local OnButton = Instance.new("TextButton")
+OnButton.Size = UDim2.new(0.4, 0, 0.3, 0)
+OnButton.Position = UDim2.new(0.1, 0, 0.4, 0)
+OnButton.Text = "ON"
+OnButton.Font = Enum.Font.SourceSansBold
+OnButton.TextSize = 18
+OnButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+OnButton.BackgroundColor3 = Color3.fromRGB(50, 200, 50)
+OnButton.Parent = MainFrame
+
+local OffButton = Instance.new("TextButton")
+OffButton.Size = UDim2.new(0.4, 0, 0.3, 0)
+OffButton.Position = UDim2.new(0.5, 0, 0.4, 0)
+OffButton.Text = "OFF"
+OffButton.Font = Enum.Font.SourceSansBold
+OffButton.TextSize = 18
+OffButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+OffButton.BackgroundColor3 = Color3.fromRGB(200, 50, 50)
+OffButton.Parent = MainFrame
+
+-- Dragging Mekanizması
+local dragging = false
+local dragStart, startPos
+
+MainFrame.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        dragging = true
+        dragStart = input.Position
+        startPos = MainFrame.Position
+    end
+end)
+
+MainFrame.InputChanged:Connect(function(input)
+    if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
+        local delta = input.Position - dragStart
+        MainFrame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+    end
+end)
+
+UserInputService.InputEnded:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        dragging = false
+    end
+end)
+
+-- Buton İşlevleri
+OnButton.MouseButton1Click:Connect(function()
+    monitoring = true
+    OnButton.BackgroundColor3 = Color3.fromRGB(0, 150, 0)
+    OffButton.BackgroundColor3 = Color3.fromRGB(200, 50, 50)
+end)
+
+OffButton.MouseButton1Click:Connect(function()
+    monitoring = false
+    OnButton.BackgroundColor3 = Color3.fromRGB(50, 200, 50)
+    OffButton.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
+    if Character and Character:FindFirstChild("Humanoid") then
+        Character.Humanoid.Health = 0 -- Karakteri öldür
+    end
+end)
+
+CloseButton.MouseButton1Click:Connect(function()
+    ScreenGui:Destroy()
+end)
+
+MinimizeButton.MouseButton1Click:Connect(function()
+    guiMinimized = not guiMinimized
+    if guiMinimized then
+        MainFrame.Size = UDim2.new(0, 250, 0, 40)
+        OnButton.Visible = false
+        OffButton.Visible = false
+    else
+        MainFrame.Size = UDim2.new(0, 250, 0, 150)
+        OnButton.Visible = true
+        OffButton.Visible = true
+    end
+end)
+
+-- Yeni karakter oluşturulduğunda işlevi yeniden kur
+LocalPlayer.CharacterAdded:Connect(function(newCharacter)
+    Character = newCharacter
+    setupCharacter(newCharacter)
+end)
+
+-- İlk karakteri ayarla
+setupCharacter(Character)
+
+end)
+
 MainSection:NewButton("F*ck people(SUS)😳", "ButtonInfo", function()
 -- Feel free to modify, contact pystyt on discord if u want to show me the modifications you did to the script, thanks alot
 -- Detect R6 or R15
