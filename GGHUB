@@ -275,6 +275,234 @@ for _, buttonData in pairs(buttons) do
 end
 end)
 
+MainSection:NewButton("Music Player (FE)", "ButtonInfo", function()
+-- Services
+local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local StarterGui = game:GetService("StarterGui")
+local SoundService = game:GetService("SoundService")
+local LocalPlayer = Players.LocalPlayer
+
+-- Function to play sound by ID
+local function playSound(soundId, songName, showNotification)
+    -- Stop any currently playing sound before playing the new one
+    if currentSound then
+        currentSound:Stop()
+    end
+
+    local sound = Instance.new("Sound")
+    sound.SoundId = "rbxassetid://" .. soundId
+    sound.Parent = SoundService
+    sound.Volume = 1  -- Maximum volume
+    sound:Play()
+
+    -- Store current sound to stop it later
+    currentSound = sound
+
+    sound.Ended:Connect(function()
+        sound:Destroy()
+        currentSound = nil -- Clear the reference when the sound ends
+    end)
+
+    -- Show notification with song name and ":D" if showNotification is true
+    if showNotification then
+        local success, userId = pcall(function()
+            return Players:GetUserIdFromNameAsync("bok31_31mal")
+        end)
+
+        if success then
+            local thumbType = Enum.ThumbnailType.HeadShot
+            local thumbSize = Enum.ThumbnailSize.Size420x420
+            local content, isReady = Players:GetUserThumbnailAsync(userId, thumbType, thumbSize)
+
+            StarterGui:SetCore("SendNotification", {
+                Title = "Enjoy " .. songName .. " :D",  -- Dynamic title with song name and ":D"
+                Text = "By bok31_31mal",
+                Icon = content,
+                Button1 = "Ok",
+                Duration = 5
+            })
+        else
+            warn("Failed to get user ID for bok31_31mal")
+        end
+    end
+end
+
+-- GUI Creation
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Name = "MusicPlayerGUI"
+ScreenGui.ResetOnSpawn = false
+ScreenGui.Parent = LocalPlayer:WaitForChild("PlayerGui")
+
+local MainFrame = Instance.new("Frame")
+MainFrame.Size = UDim2.new(0, 400, 0, 400)  -- Boyutu küçültüldü
+MainFrame.Position = UDim2.new(0.5, -200, 0.5, -200)  -- Alt kısımdan biraz daha yukarı kaydırıldı
+MainFrame.BackgroundColor3 = Color3.fromRGB(32, 32, 32)
+MainFrame.BorderSizePixel = 0
+MainFrame.Parent = ScreenGui
+
+-- Make the GUI round
+local UICorner = Instance.new("UICorner")
+UICorner.CornerRadius = UDim.new(0, 20)
+UICorner.Parent = MainFrame
+
+-- Title
+local Title = Instance.new("TextLabel")
+Title.Size = UDim2.new(1, 0, 0, 40)
+Title.Position = UDim2.new(0, 0, 0, 0)
+Title.Text = "Music Player"
+Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+Title.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+Title.Font = Enum.Font.SourceSans
+Title.TextSize = 20
+Title.Parent = MainFrame
+
+-- Minimize Button
+local MinimizeButton = Instance.new("TextButton")
+MinimizeButton.Size = UDim2.new(0, 30, 0, 30)
+MinimizeButton.Position = UDim2.new(1, -35, 0, 5)
+MinimizeButton.Text = "-"
+MinimizeButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+MinimizeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+MinimizeButton.Font = Enum.Font.SourceSans
+MinimizeButton.TextSize = 18
+MinimizeButton.Parent = MainFrame
+
+-- Close Button (X)
+local CloseButton = Instance.new("TextButton")
+CloseButton.Size = UDim2.new(0, 30, 0, 30)
+CloseButton.Position = UDim2.new(1, -70, 0, 5)
+CloseButton.Text = "X"
+CloseButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+CloseButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+CloseButton.Font = Enum.Font.SourceSans
+CloseButton.TextSize = 18
+CloseButton.Parent = MainFrame
+
+-- Music Buttons
+local MusicButtons = {}
+local yPosition = 0.1 -- Start position for the first button (fixed extra space issue)
+
+local function createMusicButton(name, soundId)
+    local button = Instance.new("TextButton")
+    button.Size = UDim2.new(1, 0, 0, 40)  -- Yükseklik sabitlendi
+    button.Position = UDim2.new(0, 0, yPosition, 40)
+    button.Text = name
+    button.BackgroundColor3 = Color3.fromRGB(0, 128, 0)
+    button.TextColor3 = Color3.fromRGB(255, 255, 255)
+    button.Font = Enum.Font.SourceSans
+    button.TextSize = 18
+    button.Parent = MainFrame
+
+    button.MouseButton1Click:Connect(function()
+        -- Play sound when button is clicked
+        playSound(soundId, name, true)
+    end)
+
+    table.insert(MusicButtons, button) -- Add button to the list
+    yPosition = yPosition + 0.1 -- Add 0.1 offset for the next button (approx. 0.5 cm)
+end
+
+-- Adding Music Buttons with updated music IDs
+createMusicButton("Raining Tacos", "142376088")
+createMusicButton("Relaxed Scene", "1848354536")
+createMusicButton("Life in an Elevator", "1841647093")
+createMusicButton("Diamonds", "1846575559")
+
+-- Stop Music Button (Plays the specified ID when clicked)
+local StopButton = Instance.new("TextButton")
+StopButton.Size = UDim2.new(1, 0, 0, 40)
+StopButton.Position = UDim2.new(0, 0, yPosition, 40)
+StopButton.Text = "Stop Music"
+StopButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+StopButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+StopButton.Font = Enum.Font.SourceSans
+StopButton.TextSize = 18
+StopButton.Parent = MainFrame
+
+-- Store current sound for stopping it
+local currentSound = nil
+
+StopButton.MouseButton1Click:Connect(function()
+    -- Stop the current music and play the "Stop Music" sound
+    if currentSound then
+        currentSound:Stop()
+        currentSound = nil
+    end
+    
+    -- Play the "Stop Music" sound
+    playSound("297245108", "Stop Music Sound", false)
+end)
+
+-- Minimize/Close functionality
+local minimized = false
+MinimizeButton.MouseButton1Click:Connect(function()
+    minimized = not minimized
+    if minimized then
+        -- Hide all buttons
+        MainFrame:TweenSize(UDim2.new(0, 400, 0, 40), "Out", "Quad", 0.3, true)
+        MinimizeButton.Text = "+"
+        for _, button in pairs(MusicButtons) do
+            button.Visible = false
+        end
+        StopButton.Visible = false
+    else
+        -- Show all buttons
+        MainFrame:TweenSize(UDim2.new(0, 400, 0, 400), "Out", "Quad", 0.3, true)
+        MinimizeButton.Text = "-"
+        for _, button in pairs(MusicButtons) do
+            button.Visible = true
+        end
+        StopButton.Visible = true
+    end
+end)
+
+CloseButton.MouseButton1Click:Connect(function()
+    -- Play the sound first, then destroy GUI after 1 second
+    playSound("557057898", "Special Sound", false)
+    wait(1)  -- Wait for 1 second
+    ScreenGui:Destroy()  -- Destroy the GUI
+end)
+
+-- Draggable Functionality
+local dragging
+local dragInput
+local dragStart
+local startPos
+
+local function update(input)
+    local delta = input.Position - dragStart
+    MainFrame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+end
+
+MainFrame.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        dragging = true
+        dragStart = input.Position
+        startPos = MainFrame.Position
+
+        input.Changed:Connect(function()
+            if input.UserInputState == Enum.UserInputState.End then
+                dragging = false
+            end
+        end)
+    end
+end)
+
+MainFrame.InputChanged:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseMovement then
+        dragInput = input
+    end
+end)
+
+game:GetService("UserInputService").InputChanged:Connect(function(input)
+    if input == dragInput and dragging then
+        update(input)
+    end
+end)
+
+end)
+
 MainSection:NewButton("Hitbox", "ButtonInfo", function()
 --[[ 
     WARNING: Heads up! This script has not been verified by ScriptBlox. Use at your own risk! 
