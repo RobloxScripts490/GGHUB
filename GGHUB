@@ -49,6 +49,65 @@ MainSection:NewButton("Infinte Yield", "ButtonInfo", function()
 loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
 end)
 
+MainSection:NewButton("Type key and key+click to tp!", "ButtonInfo", function()
+loadstring(game:HttpGet("https://pastefy.app/lL4zTO2f/raw"))()
+end)
+
+MainSection:NewButton("TPtool (CLICK TO TP)", "ButtonInfo", function()
+-- Services
+local Players = game:GetService("Players")
+local StarterGui = game:GetService("StarterGui")
+local Mouse = Players.LocalPlayer:GetMouse()
+local Player = Players.LocalPlayer
+
+-- TPTool Creation
+local function createTool()
+    local tool = Instance.new("Tool")
+    tool.RequiresHandle = false
+    tool.Name = "TPtool BY Baris"
+
+    -- When the tool is activated (clicked)
+    tool.Activated:Connect(function()
+        -- Position to teleport to (just above the clicked point)
+        local pos = Mouse.Hit + Vector3.new(0, 2.5, 0)
+        pos = CFrame.new(pos.X, pos.Y, pos.Z)
+
+        -- Teleport the player's character to the position
+        Player.Character.HumanoidRootPart.CFrame = pos
+    end)
+
+    -- Add the tool to the player's backpack
+    tool.Parent = Player.Backpack
+
+    -- Show notification right when the tool is added to the backpack
+    StarterGui:SetCore("SendNotification", {
+        Title = "TPTool By Baris👇", -- The title of the notification
+        Text = "By bok31_31mal✅", -- Static text of the notification
+        Icon = "rbxthumb://type=Asset&id=111136737887294&w=150&h=150", -- The icon
+        Duration = 5 -- The duration of the notification
+    })
+end
+
+-- Create the tool for the first time when the script runs
+createTool()
+
+-- Listen for the player's death and respawn
+Player.CharacterAdded:Connect(function(character)
+    -- Wait until the character is fully loaded (just in case)
+    local humanoid = character:WaitForChild("Humanoid")
+    local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+
+    -- Listen for when the player dies (either by reset, fall or other means)
+    humanoid.Died:Connect(function()
+        -- Wait for 9 seconds after the death event
+        wait(7)
+
+        -- Re-create the tool after the wait period
+        createTool()
+    end)
+end)
+end)
+
 MainSection:NewButton("Godmode(OP)", "ButtonInfo", function()
 -- Hizmetler
 local Players = game:GetService("Players")
