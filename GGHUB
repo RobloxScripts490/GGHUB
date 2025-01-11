@@ -49,6 +49,9 @@ MainSection:NewButton("Infinte Yield", "ButtonInfo", function()
 loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
 end)
 
+MainSection:NewButton("Jerk off :/", "ButtonInfo", function()
+loadstring(game:HttpGet("https://pastebin.com/raw/6CPVt47a"))()
+end)
 
 MainSection:NewButton("FE ANIMATIONS GUI(OP)", "ButtonInfo", function()
 loadstring(game:HttpGet("https://pastebin.com/raw/5X3iugkW"))()
@@ -281,7 +284,7 @@ setupCharacter(Character)
 
 end)
 
-MainSection:NewButton("F*ck people(SUS)😳", "ButtonInfo", function()
+MainSection:NewButton("Bang gui-F*ck people(SUS)😳", "ButtonInfo", function()
 -- Feel free to modify, contact pystyt on discord if u want to show me the modifications you did to the script, thanks alot
 -- Detect R6 or R15
 local player = game.Players.LocalPlayer
