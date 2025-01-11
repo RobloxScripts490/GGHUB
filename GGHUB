@@ -50,11 +50,16 @@ loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/
 end)
 
 
+MainSection:NewButton("(OP) Super Ring Parts V5", "ButtonInfo", function()
+loadstring(game:HttpGet("https://pastebin.com/raw/mB0mf6VF"))()
+end)
+
+
 MainSection:NewButton("(OP) Super Ring Parts V4", "ButtonInfo", function()
 loadstring(game:HttpGet("https://pastebin.com/raw/z466kRBQ"))()
 end)
 
-MainSection:NewButton("Super Ring Parts V3", "ButtonInfo", function()
+MainSection:NewButton("(OP) Super Ring Parts V3", "ButtonInfo", function()
    -- Services
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
@@ -2126,11 +2131,15 @@ MainSection:NewButton("CH Hub", "ButtonInfo", function()
     loadstring(game:HttpGet("https://raw.githubusercontent.com/RobloxHackingProject/CHHub/main/CHHub.lua"))()
 end)
 
+MainSection:NewButton("(OP) Super Ring Parts V5", "ButtonInfo", function()
+loadstring(game:HttpGet("https://pastebin.com/raw/mB0mf6VF"))()
+end)
+
 MainSection:NewButton("(OP) Super Ring Parts V4", "ButtonInfo", function()
 loadstring(game:HttpGet("https://pastebin.com/raw/z466kRBQ"))()
 end)
 
-MainSection:NewButton("Super Ring Parts V3", "ButtonInfo", function()
+MainSection:NewButton("(OP) Super Ring Parts V3", "ButtonInfo", function()
    -- Services
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
