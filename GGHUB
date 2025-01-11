@@ -42,8 +42,8 @@ wait(0.8)
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
 local Window = Library.CreateLib("GGHUB", "BloodTheme")
 
-local Main = Window:NewTab("Scripts")
-local MainSection = Main:NewSection("Universal scripts")
+local Main = Window:NewTab("Universal")
+local MainSection = Main:NewSection("Universal Scripts")
 
 MainSection:NewButton("Infinte Yield", "ButtonInfo", function()
 loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
@@ -1528,6 +1528,8 @@ end)
 MainSection:NewButton("Free Camera!", "ButtonInfo", function()
     loadstring(game:HttpGet('https://zxfolix.github.io/freecamV2.txt'))()
 end)
+
+local Main = Window:NewTab("Game Scripts")
 
 local MainSection = Main:NewSection("Bloxfruit Scripts")
 
