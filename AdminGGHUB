@@ -49,6 +49,9 @@ MainSection:NewButton("Infinte Yield", "ButtonInfo", function()
 loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
 end)
 
+MainSection:NewButton("Invısıble Tool By Baris", "ButtonInfo", function()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/RobloxScripts490/GGHUB/refs/heads/main/invis"))()
+end)
 
 MainSection:NewButton("(OP) Super Ring Parts V5", "ButtonInfo", function()
 loadstring(game:HttpGet("https://pastebin.com/raw/mB0mf6VF"))()
