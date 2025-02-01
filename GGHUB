@@ -23,10 +23,11 @@ local function detectExecutor()
     local executor = (syn and not is_sirhurt_closure and not pebc_execute and "Synapse X")
                     or (secure_load and "Sentinel")
                     or (pebc_execute and "ProtoSmasher")
+                    or (NX and "Luna-NX")
                     or (KRNL_LOADED and "Krnl")
                     or (is_sirhurt_closure and "SirHurt")
                     or (identifyexecutor():find("ScriptWare") and "Script-Ware")
-                    or "Unsupported"
+                    or "Luna , XENO , Solara or Unsupported"
     return executor
 end
 
@@ -132,6 +133,97 @@ local Window = Library.CreateLib("GGHUB", "BloodTheme")
 
 local Main = Window:NewTab("Universal")
 local MainSection = Main:NewSection("Universal Scripts")
+
+MainSection:NewButton("Infinite Jump!", "ButtonInfo", function()
+local player = game.Players.LocalPlayer
+local screenGui = Instance.new("ScreenGui")
+screenGui.Parent = player:WaitForChild("PlayerGui")
+screenGui.ResetOnSpawn = false  -- GUI'nin spawn olduğunda kaybolmamasını sağlıyor
+
+local TweenService = game:GetService("TweenService")
+
+-- Buton oluşturma (Eski boyut: 200x50)
+local button = Instance.new("TextButton")
+button.Size = UDim2.new(0, 200, 0, 50)
+button.Position = UDim2.new(0.5, -100, 0, 50)
+button.Text = "Open Infinite Jump"
+button.BackgroundTransparency = 0.5  -- Yarı şeffaf buton
+button.TextColor3 = Color3.fromRGB(255, 255, 255)  -- Yazı rengi beyaz
+button.TextSize = 20
+button.Parent = screenGui
+
+-- "By Baris" etiketi oluşturma
+local label = Instance.new("TextLabel")
+label.Size = UDim2.new(0, 200, 0, 30)
+label.Position = UDim2.new(0, 0, 1, 5)  -- Butonun altına 5 piksel boşlukla yerleştirildi
+label.Text = "By Baris"
+label.TextSize = 20
+label.Font = Enum.Font.SourceSansBold
+label.BackgroundTransparency = 0.3  -- Hafif şeffaf arka plan
+label.TextColor3 = Color3.fromRGB(math.random(0,255), math.random(0,255), math.random(0,255))  -- Rastgele RGB renk
+label.Parent = button
+
+-- "By Baris" yazısının RGB rengini hızla değiştirme
+spawn(function()
+    while true do
+        label.TextColor3 = Color3.fromRGB(math.random(0,255), math.random(0,255), math.random(0,255))
+        wait(0.1)  -- Daha hızlı RGB değişimi (0.1 saniyede bir)
+    end
+end)
+
+-- GUI'nin sürüklenebilir olması (Daha akıcı sürükleme için Tween ekledik)
+local dragging = false
+local dragStart = nil
+local startPos = nil
+
+button.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        dragging = true
+        dragStart = input.Position
+        startPos = button.Position
+    end
+end)
+
+button.InputChanged:Connect(function(input)
+    if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
+        local delta = input.Position - dragStart
+        local newPosition = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+
+        -- Tweening ile akıcı hareket sağlıyoruz
+        local tweenInfo = TweenInfo.new(0.1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
+        local tween = TweenService:Create(button, tweenInfo, {Position = newPosition})
+        tween:Play()
+    end
+end)
+
+button.InputEnded:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        dragging = false
+    end
+end)
+
+-- Infinite Jump fonksiyonu
+local InfiniteJumpEnabled = false
+local function toggleInfiniteJump()
+    InfiniteJumpEnabled = not InfiniteJumpEnabled
+    if InfiniteJumpEnabled then
+        button.Text = "Close Infinite Jump"
+    else
+        button.Text = "Open Infinite Jump"
+    end
+end
+
+game:GetService("UserInputService").JumpRequest:Connect(function()
+    if InfiniteJumpEnabled then
+        game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Humanoid"):ChangeState("Jumping")
+    end
+end)
+
+-- Butona tıklama olayı
+button.MouseButton1Click:Connect(function()
+    toggleInfiniteJump()  -- Infinite Jump'ı açma/kapatma
+end)
+end)
 
 MainSection:NewButton("Infinte Yield", "ButtonInfo", function()
 loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
@@ -2222,6 +2314,171 @@ end)
 
 local MainSection = Main:NewSection("Natural Disaster Scripts")
 
+
+MainSection:NewButton("No Fall Damage (CLICK ME)", "ButtonInfo", function()
+        game.StarterGui:SetCore("SendNotification", {
+            Title = "No Fall Damage",
+            Text = "No Fall Damage Activited!",
+            Duration = 5,
+        })
+
+local k_ = game:GetService("Players")
+local fk = k_.LocalPlayer
+
+local function k()
+    local et
+
+    local function o(d)
+        local cet = d:WaitForChild("HumanoidRootPart")
+        if cet then
+            et = game:GetService("RunService").Heartbeat:Connect(function()
+                if not cet.Parent then et:Disconnect() end
+                local pce = cet.AssemblyLinearVelocity
+                cet.AssemblyLinearVelocity = Vector3.zero
+                game:GetService("RunService").RenderStepped:Wait()
+                cet.AssemblyLinearVelocity = pce
+            end)
+        end
+    end
+
+    local rpc = fk.Character
+    if rpc then o(rpc) end
+
+    fk.CharacterAdded:Connect(function(_)
+        if et then et:Disconnect() end
+        game.StarterGui:SetCore("SendNotification", {
+            Title = "DistiC",
+            Text = "No Fall Damage aktif!",
+            Duration = 5,
+        })
+    end)
+end
+
+k()
+fk.CharacterAdded:Connect(function(_)
+    k()
+end)
+
+end)
+
+MainSection:NewButton("Infinite Jump! (First Open No Fall Damage)", "ButtonInfo", function()
+local player = game.Players.LocalPlayer
+local screenGui = Instance.new("ScreenGui")
+screenGui.Parent = player:WaitForChild("PlayerGui")
+screenGui.ResetOnSpawn = false  -- GUI'nin spawn olduğunda kaybolmamasını sağlıyor
+
+local TweenService = game:GetService("TweenService")
+
+-- Buton oluşturma (Eski boyut: 200x50)
+local button = Instance.new("TextButton")
+button.Size = UDim2.new(0, 200, 0, 50)
+button.Position = UDim2.new(0.5, -100, 0, 50)
+button.Text = "Open Infinite Jump"
+button.BackgroundTransparency = 0.5  -- Yarı şeffaf buton
+button.TextColor3 = Color3.fromRGB(255, 255, 255)  -- Yazı rengi beyaz
+button.TextSize = 20
+button.Parent = screenGui
+
+-- "By Baris" etiketi oluşturma
+local label = Instance.new("TextLabel")
+label.Size = UDim2.new(0, 200, 0, 30)
+label.Position = UDim2.new(0, 0, 1, 5)  -- Butonun altına 5 piksel boşlukla yerleştirildi
+label.Text = "By Baris"
+label.TextSize = 20
+label.Font = Enum.Font.SourceSansBold
+label.BackgroundTransparency = 0.3  -- Hafif şeffaf arka plan
+label.TextColor3 = Color3.fromRGB(math.random(0,255), math.random(0,255), math.random(0,255))  -- Rastgele RGB renk
+label.Parent = button
+
+-- "By Baris" yazısının RGB rengini hızla değiştirme
+spawn(function()
+    while true do
+        label.TextColor3 = Color3.fromRGB(math.random(0,255), math.random(0,255), math.random(0,255))
+        wait(0.1)  -- Daha hızlı RGB değişimi (0.1 saniyede bir)
+    end
+end)
+
+-- GUI'nin sürüklenebilir olması (Daha akıcı sürükleme için Tween ekledik)
+local dragging = false
+local dragStart = nil
+local startPos = nil
+
+button.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        dragging = true
+        dragStart = input.Position
+        startPos = button.Position
+    end
+end)
+
+button.InputChanged:Connect(function(input)
+    if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
+        local delta = input.Position - dragStart
+        local newPosition = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+
+        -- Tweening ile akıcı hareket sağlıyoruz
+        local tweenInfo = TweenInfo.new(0.1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
+        local tween = TweenService:Create(button, tweenInfo, {Position = newPosition})
+        tween:Play()
+    end
+end)
+
+button.InputEnded:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        dragging = false
+    end
+end)
+
+-- Infinite Jump fonksiyonu
+local InfiniteJumpEnabled = false
+local function toggleInfiniteJump()
+    InfiniteJumpEnabled = not InfiniteJumpEnabled
+    if InfiniteJumpEnabled then
+        button.Text = "Close Infinite Jump"
+    else
+        button.Text = "Open Infinite Jump"
+    end
+end
+
+game:GetService("UserInputService").JumpRequest:Connect(function()
+    if InfiniteJumpEnabled then
+        game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Humanoid"):ChangeState("Jumping")
+    end
+end)
+
+-- Butona tıklama olayı
+button.MouseButton1Click:Connect(function()
+    toggleInfiniteJump()  -- Infinite Jump'ı açma/kapatma
+end)
+end)
+
+MainSection:NewButton("Get Green Balloon (Works Some Times)", "ButtonInfo", function()
+--BALON
+
+local function getBalloon()
+    local function notify(title, text, duration)
+        game.StarterGui:SetCore("SendNotification", {
+            Title = title;
+            Text = text;
+            Duration = duration;
+        })
+    end
+
+    local balloon = game.Workspace:FindFirstChild("GreenBalloon", true)
+    if balloon then
+        local clonedBalloon = balloon:Clone()
+        clonedBalloon.Parent = game:GetService("Players").LocalPlayer.Backpack
+        notify("Success", "Copied Someones Balloon To Your Backpack!", 5)
+    else
+        notify("Try Again Later", "No One Has Blloon On The Server", 5)
+    end
+end
+
+-- Alternatif tetikleme yöntemi burada belirlenebilir
+getBalloon()
+end)
+
+
 MainSection:NewButton("CH Hub", "ButtonInfo", function()
     loadstring(game:HttpGet("https://raw.githubusercontent.com/RobloxHackingProject/CHHub/main/CHHub.lua"))()
 end)
@@ -3506,4 +3763,3 @@ end)
 
 local Main = Window:NewTab("Credits")
 local MainSection = Main:NewSection("By bok31_31mal , BARIS")
-
