@@ -137,6 +137,10 @@ MainSection:NewButton("Infinte Yield", "ButtonInfo", function()
 loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
 end)
 
+MainSection:NewButton("QUIZ BOT! [OP]", "ButtonInfo", function()
+loadstring(game:HttpGet("https://pastebin.com/raw/PDaWRMjV"))()
+end)
+
 MainSection:NewButton("Invısıble Tool By Baris", "ButtonInfo", function()
 loadstring(game:HttpGet("https://raw.githubusercontent.com/RobloxScripts490/GGHUB/refs/heads/main/invis"))()
 end)
