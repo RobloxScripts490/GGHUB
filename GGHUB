@@ -138,6 +138,10 @@ MainSection:NewButton("Touch Fling (OP)!", "ButtonInfo", function()
 loadstring(game:HttpGet("https://pastebin.com/raw/yxkGWT56"))()
 end)
 
+MainSection:NewButton("LeftCtrl To Invisible!", "ButtonInfo", function()
+loadstring(game:HttpGet("https://pastefy.app/A6ivtIaB/raw"))()
+end)
+
 MainSection:NewButton("Infinite Jump!", "ButtonInfo", function()
 local player = game.Players.LocalPlayer
 local screenGui = Instance.new("ScreenGui")
@@ -1088,7 +1092,7 @@ for _, buttonData in pairs(buttons) do
 end
 end)
 
-MainSection:NewButton("Music Player (FE)", "ButtonInfo", function()
+MainSection:NewButton("Music Player (LocalScript)", "ButtonInfo", function()
 -- Services
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
