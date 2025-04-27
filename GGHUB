@@ -11,6 +11,7 @@ local isSupported = executorName == "Krnl" or
                     executorName == "ArceusX" or
                     executorName == "Fluxus" or
                     executorName == "Codex" or
+                    executorName == "Xeno" or
                     executorName == "Wave" or
                     executorName == "ScriptWare" or
                     executorName == "Sentinel" or
@@ -3989,7 +3990,7 @@ minimizeButton.Parent = titleBar
 local contentLabel = Instance.new("TextLabel")
 contentLabel.Size = UDim2.new(1, -20, 1, -40)
 contentLabel.Position = UDim2.new(0, 10, 0, 40)
-contentLabel.Text = "1.Krln\n2.Solara\n3.Arceus X\n4.Fluxus\n5.Codex\n6.Wave\n7.ScriptWare\n8.Sentinel\n9.RoExec\n10.DuckySploit\n11.Luna"
+contentLabel.Text = "1.Krln\n2.Solara\n3.Arceus X\n4.Fluxus\n5.Codex\n6.Wave\n7.ScriptWare\n8.Sentinel\n9.RoExec\n10.DuckySploit\n11.Luna\n12.Xeno"
 contentLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
 contentLabel.TextSize = 22
 contentLabel.TextYAlignment = Enum.TextYAlignment.Top
