@@ -3880,28 +3880,6 @@ for _,x in next, Targets do
 end
 end)
 
-local Main = Window:NewTab("Download PC Executor")
-local MainSection = Main:NewSection("Get Executor")
-
-
-MainSection:NewButton("Youtube Tutorial (TURKISH)", "ButtonInfo", function()
-    setclipboard "https://youtu.be/Kfc0LVR5GBc"
-game.StarterGui:SetCore("SendNotification", {
-    Title = "Link Copied To Clipbord!",
-    Text = "Paste It On Google To Watch Tutorial (TURKISH)",
-    Duration = "5"
-})
-end)
-
-MainSection:NewButton("Direct Download Link", "ButtonInfo", function()
-    setclipboard "https://doads.org//Monster-Executor"
-game.StarterGui:SetCore("SendNotification", {
-    Title = "Link Copied To Clipbord!",
-    Text = "Paste It On Google To Download Executor!",
-    Duration = "5"
-})
-end)
-
 local Main = Window:NewTab("Credits")
 local MainSection = Main:NewSection("By bok31_31mal , BARIS")
 
