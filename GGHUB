@@ -4103,6 +4103,12 @@ for _,x in next, Targets do
 end
 end)
 
+local Tab = Window:NewTab("Keybind Settings")
+local Section = Tab:NewSection("Keybind Settings")
+Section:NewKeybind("UI Toggle", "KeybindInfo", Enum.KeyCode.F, function()
+	Library:ToggleUI()
+end)
+
 local Main = Window:NewTab("Credits")
 local MainSection = Main:NewSection("By bok31_31mal , BARIS")
 
