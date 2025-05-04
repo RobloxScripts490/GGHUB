@@ -19,7 +19,7 @@ local isSupported = executorName == "Krnl" or
                     executorName == "Kiwi" or
                     executorName == "DuckySploit" or
                     executorName == "Luna" or
-		    executorName == "NX"
+                    executorName == "NX"
 
 -- Roblox bildirim fonksiyonu
 local function showNotification(title, description, buttonText, duration)
@@ -28,6 +28,7 @@ local function showNotification(title, description, buttonText, duration)
         Title = title,
         Text = description,
         Button1 = buttonText,
+        Icon = "rbxthumb://type=AvatarHeadShot&id=5496251247&w=48&h=48",
         Duration = duration
     })
 end
@@ -36,7 +37,6 @@ end
 if isSupported then
     -- Desteklenen durumda bildirim
     showNotification(executorName .. " Is Supported!", "GGHUB is opening..", "Ok", 5)
-
 
 
     local HttpService = game:GetService("HttpService")
@@ -151,7 +151,7 @@ local function onUpdate()
     changeColor()
 
     -- 2 saniye sonra yok olma
-    if tick() - startTime >= 3 then
+    if tick() - startTime >= 1.6 then
         screenGui:Destroy()
     end
 end
@@ -167,6 +167,11 @@ local Window = Library.CreateLib("GGHUB", "BloodTheme")
 
 local Main = Window:NewTab("Universal")
 local MainSection = Main:NewSection("Universal Scripts")
+
+MainSection:NewButton("WallHop,Difficut Chart Skip Level", "ButtonInfo", function()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/RobloxScripts490/GGHUB/refs/heads/main/wallhop"))()
+end)
+
 
 MainSection:NewButton("Touch Fling (OP)!", "ButtonInfo", function()
 loadstring(game:HttpGet("https://pastebin.com/raw/yxkGWT56"))()
