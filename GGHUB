@@ -3399,228 +3399,31 @@ MainSection:NewButton("Auto Farm", "ButtonInfo", function()
     loadstring(game:HttpGet("https://raw.githubusercontent.com/Waza80/scripts-new/main/BuildABoat.lua"))()
 end)
 
-local Main = Window:NewTab("Fun!")
-local MainSection = Main:NewSection("Periastorns (local script)")
-
-MainSection:NewButton("Get All", "ButtonInfo", function()
-
-local secs = 0.1
-local dread=game:GetObjects("rbxassetid://108158379")[1];dread.Parent=game.Players.LocalPlayer.Backpack
-wait(secs)
-local dread=game:GetObjects("rbxassetid://93136802")[1];dread.Parent=game.Players.LocalPlayer.Backpack
-wait(secs)
-local dread=game:GetObjects("rbxassetid://69499437")[1];dread.Parent=game.Players.LocalPlayer.Backpack
-wait(secs)
-local dread=game:GetObjects("rbxassetid://80661504")[1];dread.Parent=game.Players.LocalPlayer.Backpack
-wait(secs)
-local dread=game:GetObjects("rbxassetid://99119240")[1];dread.Parent=game.Players.LocalPlayer.Backpack
-wait(secs)
-local dread=game:GetObjects("rbxassetid://159229806")[1];dread.Parent=game.Players.LocalPlayer.Backpack
-wait(secs)
-local dread=game:GetObjects("rbxassetid://139577901")[1];dread.Parent=game.Players.LocalPlayer.Backpack
-wait(secs)
-local dread=game:GetObjects("rbxassetid://80597060")[1];dread.Parent=game.Players.LocalPlayer.Backpack
-wait(secs)
-local dread=game:GetObjects("rbxassetid://73829193")[1];dread.Parent=game.Players.LocalPlayer.Backpack
-wait(secs)
-local dread=game:GetObjects("rbxassetid://120307951")[1];dread.Parent=game.Players.LocalPlayer.Backpack
-wait(secs)
-local dread=game:GetObjects("rbxassetid://2544549379")[1];dread.Parent=game.Players.LocalPlayer.Backpack
-wait(secs)
-local dread=game:GetObjects("rbxassetid://233520257")[1];dread.Parent=game.Players.LocalPlayer.Backpack
-
-	end)
-
-MainSection:NewButton("Get Ivory Periastron", "ButtonInfo", function()
-local dread=game:GetObjects("rbxassetid://108158379")[1];dread.Parent=game.Players.LocalPlayer.Backpack
-	end)
-
-MainSection:NewButton("Get Amethyst Periastron Kappa", "ButtonInfo", function()
-local dread=game:GetObjects("rbxassetid://93136802")[1];dread.Parent=game.Players.LocalPlayer.Backpack
-	end)
-
-MainSection:NewButton("Get Azure Periastron Alpha", "ButtonInfo", function()
-local dread=game:GetObjects("rbxassetid://69499437")[1];dread.Parent=game.Players.LocalPlayer.Backpack
-	end)
-
-MainSection:NewButton("Get Chartreuse Periastron Gamma", "ButtonInfo", function()
-local dread=game:GetObjects("rbxassetid://80661504")[1];dread.Parent=game.Players.LocalPlayer.Backpack
-	end)
-
-MainSection:NewButton("Get Crimson Periastron Mu", "ButtonInfo", function()
-local dread=game:GetObjects("rbxassetid://99119240")[1];dread.Parent=game.Players.LocalPlayer.Backpack
-	end)
-
-MainSection:NewButton("Get Rainbow Periastron Omega", "ButtonInfo", function()
-local dread=game:GetObjects("rbxassetid://159229806")[1];dread.Parent=game.Players.LocalPlayer.Backpack
-	end)
-
-MainSection:NewButton("Get Festive Periastron Chi", "ButtonInfo", function()
-local dread=game:GetObjects("rbxassetid://139577901")[1];dread.Parent=game.Players.LocalPlayer.Backpack
-	end)
-
-MainSection:NewButton("Get Grimgold Periastron Beta", "ButtonInfo", function()
-local dread=game:GetObjects("rbxassetid://73829193")[1];dread.Parent=game.Players.LocalPlayer.Backpack
-	end)
-
-MainSection:NewButton("Get Noir Periastron Psi", "ButtonInfo", function()
-local dread=game:GetObjects("rbxassetid://120307951")[1];dread.Parent=game.Players.LocalPlayer.Backpack
-	end)
-
-MainSection:NewButton("Joyful Periastron Epsilon", "ButtonInfo", function()
-local dread=game:GetObjects("rbxassetid://233520257")[1];dread.Parent=game.Players.LocalPlayer.Backpack
-	end)
-
-MainSection:NewButton("Get Fall Periastron Xi", "ButtonInfo", function()
-local dread=game:GetObjects("rbxassetid://2544549379")[1];dread.Parent=game.Players.LocalPlayer.Backpack
-	end)
-
-local Main = Window:NewTab("Backdoor Scanners")
-local MainSection = Main:NewSection("Scanners")
-
-MainSection:NewButton("backdoor.exe", "ButtonInfo", function()
-loadstring(game:HttpGet("https://raw.githubusercontent.com/iK4oS/backdoor.exe/master/source.lua"))()
-end)
-
-MainSection:NewButton("LALOL HUB", "ButtonInfo", function()
-loadstring(game:HttpGet('https://raw.githubusercontent.com/Its-LALOL/LALOL-Hub/main/Backdoor-Scanner/script'))()
-end)
-
-MainSection:NewButton("Starlight🌟", "ButtonInfo", function()
-loadstring(game:HttpGet("https://raw.githubusercontent.com/TempUserIdk18/robloxscripts/refs/heads/main/PogsBackdoor.lua"))()
-end)
 
 
-local Main = Window:NewTab("Others")
-local MainSection = Main:NewSection("Others")
 
 
-MainSection:NewButton("Leave", "ButtonInfo", function()
--- Oyuncu oyuna girdiğinde GUI ile "Are you sure?" sorusunu sorar
 
-local player = game.Players.LocalPlayer
+local Tab = Window:NewTab("FUN!")
 
--- GUI oluştur
-local ScreenGui = Instance.new("ScreenGui")
-ScreenGui.Name = "ConfirmLeaveGui"
-ScreenGui.Parent = player:WaitForChild("PlayerGui")
+local Section = Tab:NewSection("Earthquake!")
 
-local Frame = Instance.new("Frame")
-Frame.Size = UDim2.new(0, 300, 0, 150)
-Frame.Position = UDim2.new(0.5, -150, 0.5, -75)
-Frame.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-Frame.Active = true
-Frame.Draggable = true
-Frame.Parent = ScreenGui
 
-local Title = Instance.new("TextLabel")
-Title.Size = UDim2.new(1, 0, 0.4, 0)
-Title.Position = UDim2.new(0, 0, 0, 0)
-Title.Text = "Are you sure?"
-Title.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
-Title.TextColor3 = Color3.fromRGB(255, 255, 255)
-Title.Font = Enum.Font.SourceSansBold
-Title.TextSize = 24
-Title.Parent = Frame
 
-local YesButton = Instance.new("TextButton")
-YesButton.Size = UDim2.new(0.4, 0, 0.3, 0)
-YesButton.Position = UDim2.new(0.1, 0, 0.5, 0)
-YesButton.Text = "Yes"
-YesButton.BackgroundColor3 = Color3.fromRGB(50, 200, 50)
-YesButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-YesButton.Font = Enum.Font.SourceSansBold
-YesButton.TextSize = 18
-YesButton.Parent = Frame
 
-local NoButton = Instance.new("TextButton")
-NoButton.Size = UDim2.new(0.4, 0, 0.3, 0)
-NoButton.Position = UDim2.new(0.5, 0, 0.5, 0)
-NoButton.Text = "No"
-NoButton.BackgroundColor3 = Color3.fromRGB(200, 50, 50)
-NoButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-NoButton.Font = Enum.Font.SourceSansBold
-NoButton.TextSize = 18
-NoButton.Parent = Frame
 
--- Yes butonuna tıklandığında oyuncuyu oyundan atar
-YesButton.MouseButton1Click:Connect(function()
-    player:Kick("You Leaved")
-end)
 
--- No butonuna tıklandığında GUI kapanır
-NoButton.MouseButton1Click:Connect(function()
-    ScreenGui:Destroy()
-end)
 
-end)
 
-MainSection:NewButton("Rejoin", "ButtonInfo", function()
--- Oyuncu oyuna girdiğinde GUI ile "Are you sure?" sorusunu sorar
 
-local player = game.Players.LocalPlayer
 
--- GUI oluştur
-local ScreenGui = Instance.new("ScreenGui")
-ScreenGui.Name = "ConfirmRejoinGui"
-ScreenGui.Parent = player:WaitForChild("PlayerGui")
 
-local Frame = Instance.new("Frame")
-Frame.Size = UDim2.new(0, 300, 0, 150)
-Frame.Position = UDim2.new(0.5, -150, 0.5, -75)
-Frame.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-Frame.Active = true
-Frame.Draggable = true
-Frame.Parent = ScreenGui
 
-local Title = Instance.new("TextLabel")
-Title.Size = UDim2.new(1, 0, 0.4, 0)
-Title.Position = UDim2.new(0, 0, 0, 0)
-Title.Text = "Are you sure?"
-Title.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
-Title.TextColor3 = Color3.fromRGB(255, 255, 255)
-Title.Font = Enum.Font.SourceSansBold
-Title.TextSize = 24
-Title.Parent = Frame
 
-local YesButton = Instance.new("TextButton")
-YesButton.Size = UDim2.new(0.4, 0, 0.3, 0)
-YesButton.Position = UDim2.new(0.1, 0, 0.5, 0)
-YesButton.Text = "Yes"
-YesButton.BackgroundColor3 = Color3.fromRGB(50, 200, 50)
-YesButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-YesButton.Font = Enum.Font.SourceSansBold
-YesButton.TextSize = 18
-YesButton.Parent = Frame
 
-local NoButton = Instance.new("TextButton")
-NoButton.Size = UDim2.new(0.4, 0, 0.3, 0)
-NoButton.Position = UDim2.new(0.5, 0, 0.5, 0)
-NoButton.Text = "No"
-NoButton.BackgroundColor3 = Color3.fromRGB(200, 50, 50)
-NoButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-NoButton.Font = Enum.Font.SourceSansBold
-NoButton.TextSize = 18
-NoButton.Parent = Frame
 
--- Yes butonuna tıklandığında aynı servere rejoin
-YesButton.MouseButton1Click:Connect(function()
-    local teleportService = game:GetService("TeleportService")
-    teleportService:TeleportToPlaceInstance(
-        game.PlaceId,
-        game.JobId,
-        player
-    )
-end)
-
--- No butonuna tıklandığında GUI kapanır
-NoButton.MouseButton1Click:Connect(function()
-    ScreenGui:Destroy()
-end)
-
-end)
-MainSection:NewButton("Earthquake!(FE)!", "ButtonInfo", function()
--- Earthquake GUI Script
+Section:NewButton("Earthquake(FE!)", "ButtonInfo", function()
+    -- Earthquake GUI Script
 
 -- Parent this script to StarterGui in Roblox Studio
 
@@ -3738,8 +3541,17 @@ end)
 
 end)
 
-MainSection:NewButton("Earthquake(FE)[LAGGY]", "ButtonInfo", function()
--- Roblox Script: Earthquake GUI with Adjustable Magnitude
+
+
+
+
+
+
+
+
+
+Section:NewButton("Earthquake(FE AND LAGGY!)", "ButtonInfo", function()
+    -- Roblox Script: Earthquake GUI with Adjustable Magnitude
 
 -- Define the earthquake function
 local function startEarthquake(magnitude)
@@ -3874,7 +3686,90 @@ stopButton.MouseButton1Click:Connect(function()
 end)
 
 end)
-MainSection:NewButton("Fling All!", "ButtonInfo", function()
+
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+local Section = Tab:NewSection("Fling!")
+Section:NewToggle("Touch Fling!", "ToggleInfo", function(state)
+    if state then
+        -- Fling script (equivalent to button "ON" state, no GUI)
+
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local RunService = game:GetService("RunService")
+local Players = game:GetService("Players")
+
+-- Create detection Decal if not present
+if not ReplicatedStorage:FindFirstChild("juisdfj0i32i0eidsuf0iok") then
+	local detection = Instance.new("Decal")
+	detection.Name = "juisdfj0i32i0eidsuf0iok"
+	detection.Parent = ReplicatedStorage
+end
+
+-- Fling function
+local function fling()
+	local lp = Players.LocalPlayer
+	local c, hrp, vel, movel = nil, nil, nil, 0.1
+	local hiddenfling = true -- Simulate "ON" state
+
+	while hiddenfling do
+		RunService.Heartbeat:Wait()
+		c = lp.Character
+		hrp = c and c:FindFirstChild("HumanoidRootPart")
+
+		if hrp then
+			vel = hrp.Velocity
+			hrp.Velocity = vel * 10000 + Vector3.new(0, 10000, 0)
+			RunService.RenderStepped:Wait()
+			hrp.Velocity = vel
+			RunService.Stepped:Wait()
+			hrp.Velocity = vel + Vector3.new(0, movel, 0)
+			movel = -movel
+		end
+	end
+end
+
+-- Start fling immediately (as if button is "ON")
+local flingThread = coroutine.create(fling)
+coroutine.resume(flingThread)
+    else
+        -- Script to stop the fling effect
+
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+-- Function to stop the fling
+local function stopFling()
+	-- Set hiddenfling to false to stop the fling loop
+	_G.hiddenfling = false -- Use _G to access the global hiddenfling variable
+end
+
+-- Call the stop function
+stopFling()
+    end
+end)
+
+
+
+
+
+
+
+Section:NewButton("Fling All", "ButtonInfo", function()
     --[[
 	WARNING: Heads up! This script has not been verified by ScriptBlox. Use at your own risk!
 ]]
@@ -4101,6 +3996,286 @@ for _,x in next, Targets do
         Message("Error Occurred", "Username Invalid", 5)
     end
 end
+end)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+local Section = Tab:NewSection("Periastorns!")
+
+Section:NewButton("Get Ivory Periastron", "ButtonInfo", function()
+    local dread=game:GetObjects("rbxassetid://108158379")[1];dread.Parent=game.Players.LocalPlayer.Backpack
+end)
+
+Section:NewButton("Get Amethyst Periastron Kappa", "ButtonInfo", function()
+    local dread=game:GetObjects("rbxassetid://93136802")[1];dread.Parent=game.Players.LocalPlayer.Backpack
+end)
+
+Section:NewButton("Get Azure Periastron Alpha", "ButtonInfo", function()
+    local dread=game:GetObjects("rbxassetid://69499437")[1];dread.Parent=game.Players.LocalPlayer.Backpack
+end)
+
+Section:NewButton("Get Chartreuse Periastron Gamma", "ButtonInfo", function()
+    local dread=game:GetObjects("rbxassetid://80661504")[1];dread.Parent=game.Players.LocalPlayer.Backpack
+end)
+
+Section:NewButton("Get Crimson Periastron Mu", "ButtonInfo", function()
+    local dread=game:GetObjects("rbxassetid://99119240")[1];dread.Parent=game.Players.LocalPlayer.Backpack
+end)
+
+Section:NewButton("Get Rainbow Periastron Omega", "ButtonInfo", function()
+    local dread=game:GetObjects("rbxassetid://159229806")[1];dread.Parent=game.Players.LocalPlayer.Backpack
+end)
+
+Section:NewButton("Get Festive Periastron Chi", "ButtonInfo", function()
+    local dread=game:GetObjects("rbxassetid://139577901")[1];dread.Parent=game.Players.LocalPlayer.Backpack
+end)
+
+Section:NewButton("Get Grimgold Periastron Beta", "ButtonInfo", function()
+    local dread=game:GetObjects("rbxassetid://73829193")[1];dread.Parent=game.Players.LocalPlayer.Backpack
+end)
+
+Section:NewButton("Get Noir Periastron Psi", "ButtonInfo", function()
+    local dread=game:GetObjects("rbxassetid://120307951")[1];dread.Parent=game.Players.LocalPlayer.Backpack
+end)
+
+
+Section:NewButton("Joyful Periastron Epsilon", "ButtonInfo", function()
+local dread=game:GetObjects("rbxassetid://233520257")[1];dread.Parent=game.Players.LocalPlayer.Backpack
+end)
+
+Section:NewButton("Get Fall Periastron Xi", "ButtonInfo", function()
+local dread=game:GetObjects("rbxassetid://2544549379")[1];dread.Parent=game.Players.LocalPlayer.Backpack
+end)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Section:NewButton("Get All!", "ButtonInfo", function()
+local secs = 0.1
+local dread=game:GetObjects("rbxassetid://108158379")[1];dread.Parent=game.Players.LocalPlayer.Backpack
+wait(secs)
+local dread=game:GetObjects("rbxassetid://93136802")[1];dread.Parent=game.Players.LocalPlayer.Backpack
+wait(secs)
+local dread=game:GetObjects("rbxassetid://69499437")[1];dread.Parent=game.Players.LocalPlayer.Backpack
+wait(secs)
+local dread=game:GetObjects("rbxassetid://80661504")[1];dread.Parent=game.Players.LocalPlayer.Backpack
+wait(secs)
+local dread=game:GetObjects("rbxassetid://99119240")[1];dread.Parent=game.Players.LocalPlayer.Backpack
+wait(secs)
+local dread=game:GetObjects("rbxassetid://159229806")[1];dread.Parent=game.Players.LocalPlayer.Backpack
+wait(secs)
+local dread=game:GetObjects("rbxassetid://139577901")[1];dread.Parent=game.Players.LocalPlayer.Backpack
+wait(secs)
+local dread=game:GetObjects("rbxassetid://80597060")[1];dread.Parent=game.Players.LocalPlayer.Backpack
+wait(secs)
+local dread=game:GetObjects("rbxassetid://73829193")[1];dread.Parent=game.Players.LocalPlayer.Backpack
+wait(secs)
+local dread=game:GetObjects("rbxassetid://120307951")[1];dread.Parent=game.Players.LocalPlayer.Backpack
+wait(secs)
+local dread=game:GetObjects("rbxassetid://2544549379")[1];dread.Parent=game.Players.LocalPlayer.Backpack
+wait(secs)
+local dread=game:GetObjects("rbxassetid://233520257")[1];dread.Parent=game.Players.LocalPlayer.Backpack
+end)
+
+
+
+
+
+local Main = Window:NewTab("Backdoor Scanners")
+local MainSection = Main:NewSection("Scanners")
+
+MainSection:NewButton("backdoor.exe", "ButtonInfo", function()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/iK4oS/backdoor.exe/master/source.lua"))()
+end)
+
+MainSection:NewButton("LALOL HUB", "ButtonInfo", function()
+loadstring(game:HttpGet('https://raw.githubusercontent.com/Its-LALOL/LALOL-Hub/main/Backdoor-Scanner/script'))()
+end)
+
+MainSection:NewButton("Starlight🌟", "ButtonInfo", function()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/TempUserIdk18/robloxscripts/refs/heads/main/PogsBackdoor.lua"))()
+end)
+
+
+local Main = Window:NewTab("Others")
+local MainSection = Main:NewSection("Others")
+
+
+MainSection:NewButton("Leave", "ButtonInfo", function()
+-- Oyuncu oyuna girdiğinde GUI ile "Are you sure?" sorusunu sorar
+
+local player = game.Players.LocalPlayer
+
+-- GUI oluştur
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Name = "ConfirmLeaveGui"
+ScreenGui.Parent = player:WaitForChild("PlayerGui")
+
+local Frame = Instance.new("Frame")
+Frame.Size = UDim2.new(0, 300, 0, 150)
+Frame.Position = UDim2.new(0.5, -150, 0.5, -75)
+Frame.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+Frame.Active = true
+Frame.Draggable = true
+Frame.Parent = ScreenGui
+
+local Title = Instance.new("TextLabel")
+Title.Size = UDim2.new(1, 0, 0.4, 0)
+Title.Position = UDim2.new(0, 0, 0, 0)
+Title.Text = "Are you sure?"
+Title.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
+Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+Title.Font = Enum.Font.SourceSansBold
+Title.TextSize = 24
+Title.Parent = Frame
+
+local YesButton = Instance.new("TextButton")
+YesButton.Size = UDim2.new(0.4, 0, 0.3, 0)
+YesButton.Position = UDim2.new(0.1, 0, 0.5, 0)
+YesButton.Text = "Yes"
+YesButton.BackgroundColor3 = Color3.fromRGB(50, 200, 50)
+YesButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+YesButton.Font = Enum.Font.SourceSansBold
+YesButton.TextSize = 18
+YesButton.Parent = Frame
+
+local NoButton = Instance.new("TextButton")
+NoButton.Size = UDim2.new(0.4, 0, 0.3, 0)
+NoButton.Position = UDim2.new(0.5, 0, 0.5, 0)
+NoButton.Text = "No"
+NoButton.BackgroundColor3 = Color3.fromRGB(200, 50, 50)
+NoButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+NoButton.Font = Enum.Font.SourceSansBold
+NoButton.TextSize = 18
+NoButton.Parent = Frame
+
+-- Yes butonuna tıklandığında oyuncuyu oyundan atar
+YesButton.MouseButton1Click:Connect(function()
+    player:Kick("You Leaved")
+end)
+
+-- No butonuna tıklandığında GUI kapanır
+NoButton.MouseButton1Click:Connect(function()
+    ScreenGui:Destroy()
+end)
+
+end)
+
+MainSection:NewButton("Rejoin", "ButtonInfo", function()
+-- Oyuncu oyuna girdiğinde GUI ile "Are you sure?" sorusunu sorar
+
+local player = game.Players.LocalPlayer
+
+-- GUI oluştur
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Name = "ConfirmRejoinGui"
+ScreenGui.Parent = player:WaitForChild("PlayerGui")
+
+local Frame = Instance.new("Frame")
+Frame.Size = UDim2.new(0, 300, 0, 150)
+Frame.Position = UDim2.new(0.5, -150, 0.5, -75)
+Frame.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+Frame.Active = true
+Frame.Draggable = true
+Frame.Parent = ScreenGui
+
+local Title = Instance.new("TextLabel")
+Title.Size = UDim2.new(1, 0, 0.4, 0)
+Title.Position = UDim2.new(0, 0, 0, 0)
+Title.Text = "Are you sure?"
+Title.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
+Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+Title.Font = Enum.Font.SourceSansBold
+Title.TextSize = 24
+Title.Parent = Frame
+
+local YesButton = Instance.new("TextButton")
+YesButton.Size = UDim2.new(0.4, 0, 0.3, 0)
+YesButton.Position = UDim2.new(0.1, 0, 0.5, 0)
+YesButton.Text = "Yes"
+YesButton.BackgroundColor3 = Color3.fromRGB(50, 200, 50)
+YesButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+YesButton.Font = Enum.Font.SourceSansBold
+YesButton.TextSize = 18
+YesButton.Parent = Frame
+
+local NoButton = Instance.new("TextButton")
+NoButton.Size = UDim2.new(0.4, 0, 0.3, 0)
+NoButton.Position = UDim2.new(0.5, 0, 0.5, 0)
+NoButton.Text = "No"
+NoButton.BackgroundColor3 = Color3.fromRGB(200, 50, 50)
+NoButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+NoButton.Font = Enum.Font.SourceSansBold
+NoButton.TextSize = 18
+NoButton.Parent = Frame
+
+-- Yes butonuna tıklandığında aynı servere rejoin
+YesButton.MouseButton1Click:Connect(function()
+    local teleportService = game:GetService("TeleportService")
+    teleportService:TeleportToPlaceInstance(
+        game.PlaceId,
+        game.JobId,
+        player
+    )
+end)
+
+-- No butonuna tıklandığında GUI kapanır
+NoButton.MouseButton1Click:Connect(function()
+    ScreenGui:Destroy()
+end)
+
 end)
 
 local Tab = Window:NewTab("Keybind Settings")
