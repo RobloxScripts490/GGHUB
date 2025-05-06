@@ -3471,6 +3471,128 @@ local Section = Tab:NewSection("Other Fun Scripts!")
 Section:NewButton("Tornado!(FE) and By Aras", "ButtonInfo", function()
 loadstring(game:HttpGet("https://freenote.biz/raw/npkac9kdpa"))()
 end)
+
+
+Section:NewToggle("Fly", "ToggleInfo", function(state)
+    if state then
+        -- Fly Script
+-- z4trox x Grok (düzenlenmiş)
+
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoid = character:WaitForChild("Humanoid")
+local rootPart = character:WaitForChild("HumanoidRootPart")
+
+-- Configurable Variables
+local flySpeed = 50 -- Uçma hızı
+local flying = false
+
+-- Body Movers
+local bodyVelocity = Instance.new("BodyVelocity")
+bodyVelocity.Velocity = Vector3.new(0, 0, 0)
+bodyVelocity.MaxForce = Vector3.new(math.huge, math.huge, math.huge)
+
+local bodyGyro = Instance.new("BodyGyro")
+bodyGyro.CFrame = rootPart.CFrame
+bodyGyro.MaxTorque = Vector3.new(math.huge, math.huge, math.huge)
+
+-- Uçma Başlatma
+local function startFlying()
+    if flying then return end
+    flying = true
+    bodyVelocity.Parent = rootPart
+    bodyGyro.Parent = rootPart
+    humanoid.PlatformStand = true
+    print("Uçma modu aktif!")
+end
+
+-- Uçma Durdurma (isteğe bağlı, şu an kullanılmıyor)
+local function stopFlying()
+    if not flying then return end
+    flying = false
+    bodyVelocity.Parent = nil
+    bodyGyro.Parent = nil
+    humanoid.PlatformStand = false
+    end
+-- Uçma Mantığı
+local UIS = game:GetService("UserInputService")
+local RunService = game:GetService("RunService")
+
+RunService.RenderStepped:Connect(function(deltaTime)
+    if flying and rootPart and humanoid then
+        local moveDirection = Vector3.new(0, 0, 0)
+        local camera = workspace.CurrentCamera
+
+        -- Hareket yönleri
+        if UIS:IsKeyDown(Enum.KeyCode.W) then
+            moveDirection = moveDirection + camera.CFrame.LookVector
+        end
+        if UIS:IsKeyDown(Enum.KeyCode.S) then
+            moveDirection = moveDirection - camera.CFrame.LookVector
+        end
+        if UIS:IsKeyDown(Enum.KeyCode.A) then
+            moveDirection = moveDirection - camera.CFrame.RightVector
+        end
+        if UIS:IsKeyDown(Enum.KeyCode.D) then
+            moveDirection = moveDirection + camera.CFrame.RightVector
+        end
+        if UIS:IsKeyDown(Enum.KeyCode.Space) then
+            moveDirection = moveDirection + Vector3.new(0, 1, 0)
+        end
+
+        -- Hızı uygula
+        bodyVelocity.Velocity = moveDirection * flySpeed
+        bodyGyro.CFrame = camera.CFrame
+    end
+end)
+
+-- Karakter yenilenirse uçma modunu koru
+player.CharacterAdded:Connect(function(newCharacter)
+    character = newCharacter
+    humanoid = character:WaitForChild("Humanoid")
+    rootPart = character:WaitForChild("HumanoidRootPart")
+    if flying then
+        startFlying()
+    end
+end)
+
+-- Script çalıştırıldığında uçma başlasın
+startFlying()
+    else
+        -- Stop Fly Script
+-- z4trox x Grok
+
+local player = game.Players.LocalPlayer
+local character = player.Character
+local humanoid = character and character:FindFirstChild("Humanoid")
+local rootPart = character and character:FindFirstChild("HumanoidRootPart")
+
+-- Karakter ve gerekli bileşenlerin varlığını kontrol et
+if not character or not humanoid or not rootPart then
+    warn("Karakter, Humanoid veya HumanoidRootPart bulunamadı!")
+    return
+end
+
+-- Uçma modunu kapatma fonksiyonu
+local function stopFlying()
+    -- BodyVelocity ve BodyGyro'yu kaldır
+    for _, obj in pairs(rootPart:GetChildren()) do
+        if obj:IsA("BodyVelocity") or obj:IsA("BodyGyro") then
+            obj:Destroy()
+        end
+    end
+    
+    -- PlatformStand'ı kapat
+    humanoid.PlatformStand = false
+    
+
+end
+
+-- Kapatma işlemini çalıştır
+stopFlying()
+    end
+end)
+
 local Section = Tab:NewSection("Earthquake!")
 
 
