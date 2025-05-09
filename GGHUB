@@ -4493,7 +4493,7 @@ Section:NewKeybind("UI Toggle", "KeybindInfo", Enum.KeyCode.F, function()
 end)
 
 local Main = Window:NewTab("Credits")
-local MainSection = Main:NewSection("By bok31_31mal , BARIS")
+local MainSection = Main:NewSection("By bok31_31mal , BARIS & Aras232323, ARAS")
 
 else
     -- Desteklenmeyen durumda bildirim
