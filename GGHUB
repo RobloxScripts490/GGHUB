@@ -250,6 +250,10 @@ MainSection:NewButton("WallHop,Difficut Chart Skip Level", "ButtonInfo", functio
 loadstring(game:HttpGet("https://raw.githubusercontent.com/RobloxScripts490/GGHUB/refs/heads/main/wallhop"))()
 end)
 
+MainSection:NewButton("FE HELICOPTER GUI!", "ButtonInfo", function()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/RobloxScripts490/GGHUB/refs/heads/main/HELICOPTER%20GUI%20FE"))()
+end)
+
 MainSection:NewButton("Fuck Roblox!", "ButtonInfo", function()
 local res1 = 1
 local res2 = 1
