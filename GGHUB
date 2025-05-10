@@ -2345,6 +2345,15 @@ end)
 
 local Main = Window:NewTab("Game Scripts")
 
+local MainSection = Main:NewSection("Race Clicker")
+
+MainSection:NewButton("Race Clicker OP Script", "ButtonInfo", function()
+    loadstring(game:HttpGet("https://freenote.biz/raw/u8jplwwd0h"))()
+end)
+
+
+
+
 local MainSection = Main:NewSection("Bloxfruit Scripts")
 
 MainSection:NewButton("Bloxfruit Script 1", "ButtonInfo", function()
