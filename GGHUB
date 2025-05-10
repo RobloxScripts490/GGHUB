@@ -250,6 +250,118 @@ MainSection:NewButton("WallHop,Difficut Chart Skip Level", "ButtonInfo", functio
 loadstring(game:HttpGet("https://raw.githubusercontent.com/RobloxScripts490/GGHUB/refs/heads/main/wallhop"))()
 end)
 
+MainSection:NewButton("Fuck Roblox!", "ButtonInfo", function()
+local CoreGui = game:GetService("CoreGui")
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+
+-- Function to hide the GUI
+local function hideGUI()
+    local noclipGui = CoreGui:FindFirstChild("Noclip")
+    if noclipGui then
+        noclipGui.Enabled = false
+        print("Noclip GUI hidden")
+    else
+        print("Noclip GUI not found")
+    end
+    
+    for _, gui in pairs(CoreGui:GetChildren()) do
+        if gui:IsA("ScreenGui") and gui.Name ~= "RobloxGui" and gui.Name ~= "TeleportGui" and gui.Name ~= "GuiToggleControl" then
+            gui.Enabled = false
+            print("Hid GUI: " .. gui.Name)
+        end
+    end
+    print("GUI has been hidden.")
+end
+
+-- Function to show the GUI
+local function showGUI()
+    local noclipGui = CoreGui:FindFirstChild("Noclip")
+    if noclipGui then
+        noclipGui.Enabled = true
+        print("Noclip GUI restored")
+    else
+        print("Noclip GUI not found")
+    end
+    
+    for _, gui in pairs(CoreGui:GetChildren()) do
+        if gui:IsA("ScreenGui") and gui.Name ~= "RobloxGui" and gui.Name ~= "TeleportGui" and gui.Name ~= "GuiToggleControl" then
+            gui.Enabled = true
+            print("Restored GUI: " .. gui.Name)
+        end
+    end
+    print("GUI has been restored.")
+end
+
+-- Create a new ScreenGui for the toggle button
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "GuiToggleControl"
+screenGui.Parent = CoreGui
+screenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+screenGui.IgnoreGuiInset = true
+print("Created ScreenGui: GuiToggleControl")
+
+-- Create draggable Frame
+local frame = Instance.new("Frame")
+frame.Name = "ToggleFrame"
+frame.Parent = screenGui
+frame.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+frame.BorderSizePixel = 0
+frame.Position = UDim2.new(0, 10, 0.5, -30) -- Left side, vertically centered
+frame.Size = UDim2.new(0, 140, 0, 60)
+frame.Active = true
+frame.Draggable = true
+print("Created Frame: ToggleFrame")
+
+-- Add rounded corners to Frame
+local frameCorner = Instance.new("UICorner")
+frameCorner.CornerRadius = UDim.new(0, 12)
+frameCorner.Parent = frame
+
+-- Create Toggle Button
+local toggleButton = Instance.new("TextButton")
+toggleButton.Name = "ToggleButton"
+toggleButton.Parent = frame
+toggleButton.BackgroundColor3 = Color3.fromRGB(200, 0, 0) -- Red for OFF
+toggleButton.BorderSizePixel = 0
+toggleButton.Size = UDim2.new(1, -8, 1, -8)
+toggleButton.Position = UDim2.new(0, 4, 0, 4)
+toggleButton.Font = Enum.Font.SourceSansBold
+toggleButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+toggleButton.TextSize = 20
+toggleButton.Text = "FUCK ROBLOX!: OFF"
+
+
+-- Add rounded corners to Button
+local buttonCorner = Instance.new("UICorner")
+buttonCorner.CornerRadius = UDim.new(0, 10)
+buttonCorner.Parent = toggleButton
+
+-- Toggle state
+local isGuiVisible = true -- Start with GUI visible
+
+-- Button click handler
+toggleButton.MouseButton1Click:Connect(function()
+    isGuiVisible = not isGuiVisible
+    if isGuiVisible then
+        toggleButton.Text = "FUCK ROBLOX!: ON"
+        toggleButton.BackgroundColor3 = Color3.fromRGB(0, 200, 0) -- Green for ON
+        showGUI()
+    else
+        toggleButton.Text = "FUCK ROBLOX!: OFF"
+        toggleButton.BackgroundColor3 = Color3.fromRGB(200, 0, 0) -- Red for OFF
+        hideGUI()
+    end
+end)
+
+-- Debug: List all ScreenGui in CoreGui
+
+for _, gui in pairs(CoreGui:GetChildren()) do
+    if gui:IsA("ScreenGui") then
+        print("...")
+    end
+end
+end)
 
 MainSection:NewButton("Touch Fling (OP)!", "ButtonInfo", function()
 loadstring(game:HttpGet("https://pastebin.com/raw/yxkGWT56"))()
