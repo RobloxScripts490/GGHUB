@@ -3627,6 +3627,12 @@ closeButton.MouseButton1Click:Connect(function()
 end)
 end)
 
+local MainSection = Main:NewSection("Tsb Scripts")
+
+MainSection:NewButton("Best Tsb Script 1", "ButtonInfo", function()
+loadstring(game:HttpGet("https://pastefy.app/lhhqlgRE/raw"))()
+end)
+
 
 local MainSection = Main:NewSection("Build A Boat Scripts")
 
