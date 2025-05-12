@@ -3627,6 +3627,14 @@ closeButton.MouseButton1Click:Connect(function()
 end)
 end)
 
+local MainSection = Main:NewSection("Grow A Garden")
+
+MainSection:NewButton("Grow A Garden OP Script", "ButtonInfo", function()
+loadstring(game:HttpGet("https://pastefy.app/uJrUNmAv/raw"))()
+end)
+
+
+
 local MainSection = Main:NewSection("Tsb Scripts")
 
 MainSection:NewButton("Best Tsb Script 1", "ButtonInfo", function()
