@@ -3655,7 +3655,7 @@ end)
 
 local Tab = Window:NewTab("FUN!")
 
-local Section = Tab:NewSection("Other Fun Scripts!")
+local Section = Tab:NewSection("Tornado Scripts")
 Section:NewButton("Tornado!(FE) and By Aras[NO KEY]", "ButtonInfo", function()
 loadstring(game:HttpGet("https://freenote.biz/raw/npkac9kdpa"))()
 end)
@@ -3663,6 +3663,246 @@ end)
 Section:NewButton("Tornado!(FE) and By Aras[KEYSYSTEM]", "ButtonInfo", function()
 loadstring(game:HttpGet("https://freenote.biz/raw/dxlfh7tiok"))()
 end)
+
+local Section = Tab:NewSection("Tornado Scripts")
+Section:NewToggle("Noclip", "ToggleInfo", function(state)
+    if state then
+        local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local Plr = Players.LocalPlayer
+
+-- Ensure character exists
+if not Plr.Character then
+    Plr.CharacterAdded:Wait()
+end
+
+-- Clean up any existing Noclip connection
+if _G.NoclipStepped then
+    _G.NoclipStepped:Disconnect()
+end
+
+-- Enable Noclip
+_G.NoclipStepped = RunService.Stepped:Connect(function()
+    if Plr.Character then
+        for _, v in pairs(Plr.Character:GetDescendants()) do
+            if v:IsA("BasePart") then
+                v.CanCollide = false
+            end
+        end
+    end
+end)
+    else
+        local Players = game:GetService("Players")
+local Plr = Players.LocalPlayer
+
+-- Karakterin yüklenmesini bekle
+if not Plr.Character then
+    Plr.CharacterAdded:Wait()
+end
+
+-- Mevcut Noclip bağlantısını kes
+if _G.NoclipStepped then
+    _G.NoclipStepped:Disconnect()
+    _G.NoclipStepped = nil
+end
+
+-- Çarpışmaları geri yükle
+for _, v in pairs(Plr.Character:GetDescendants()) do
+    if v:IsA("BasePart") then
+        v.CanCollide = true
+    end
+end
+    end
+end)
+
+Section:NewToggle("FullBright", "ToggleInfo", function(state)
+    if state then
+        local Lighting = game:GetService("Lighting")
+Lighting.Brightness = 3.6
+Lighting.OutdoorAmbient = Color3.fromRGB(255, 255, 255)
+    else
+        local Lighting = game:GetService("Lighting")
+Lighting.Brightness = 0
+Lighting.OutdoorAmbient = Color3.fromRGB(255, 255, 255)
+    end
+end)
+
+Section:NewToggle("Invisible", "ToggleInfo", function(state)
+    if state then
+        -- Başlangıç tanımlamaları
+local makeTransparent = true -- Klonun saydam olup olmayacağı
+local player = game:GetService("Players").LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait() -- Oyuncunun karakteri
+local isRunning = true -- Mekanizmanın aktifliği
+local isInvisible = false -- Görünmezlik durumu
+local clone -- Klonlanmış karakter
+local platform -- Platform
+local currentRootPart -- Şu anki HumanoidRootPart referansı
+
+-- Platform ve klon oluşturma
+local function setupCloneAndPlatform()
+    character.Archivable = true
+    clone = character:Clone() -- Karakteri klonla
+    platform = Instance.new("Part", workspace) -- Platform oluştur
+    platform.Anchored = true
+    platform.Size = Vector3.new(200, 1, 200) -- Platform boyutu
+    platform.CFrame = CFrame.new(0, -500, 0) -- Platform konumu (görünmez alanda)
+    platform.CanCollide = true
+    clone.Parent = workspace
+    clone.HumanoidRootPart.CFrame = platform.CFrame * CFrame.new(0, 5, 0) -- Klonu platformun üstüne yerleştir
+
+    -- Yerel betikleri kopyala ve devre dışı bırak
+    for _, child in pairs(character:GetChildren()) do
+        if child:IsA("LocalScript") then
+            local clonedScript = child:Clone()
+            clonedScript.Disabled = true
+            clonedScript.Parent = clone
+        end
+    end
+
+    -- Klonun parçalarını saydam yap (isteğe bağlı)
+    if makeTransparent then
+        for _, descendant in pairs(clone:GetDescendants()) do
+            if descendant:IsA("BasePart") then
+                descendant.Transparency = 0.7
+            end
+        end
+    end
+
+    currentRootPart = clone.HumanoidRootPart -- Klonun root part'ını takip et
+end
+
+-- Karakter öldüğünde veya yeniden yüklendiğinde sıfırlama
+local function resetCharacter()
+    isRunning = false
+    character:Destroy() -- Mevcut karakteri yok et
+    character = player.Character -- Yeni karakteri al
+    isRunning = true
+    clone:Destroy() -- Eski klonu yok et
+    platform:Destroy() -- Eski platformu yok et
+
+    -- Yeni platform ve klon oluştur
+    platform = Instance.new("Part", workspace)
+    platform.Anchored = true
+    platform.Size = Vector3.new(200, 1, 200)
+    platform.CFrame = CFrame.new(9999, 9999, 9999) -- Uzak bir konum
+    platform.CanCollide = true
+    clone = character:Clone()
+    clone.Parent = workspace
+    clone.HumanoidRootPart.CFrame = platform.CFrame * CFrame.new(0, 5, 0)
+
+    -- Yerel betikleri kopyala
+    for _, child in pairs(character:GetChildren()) do
+        if child:IsA("LocalScript") then
+            local clonedScript = child:Clone()
+            clonedScript.Disabled = true
+            clonedScript.Parent = clone
+        end
+    end
+
+    -- Saydamlık ayarı
+    if makeTransparent then
+        for _, descendant in pairs(clone:GetDescendants()) do
+            if descendant:IsA("BasePart") then
+                descendant.Transparency = 0.7
+            end
+        end
+    end
+
+    currentRootPart = clone.HumanoidRootPart -- Yeni root part'ı güncelle
+
+    -- Ölüm olayı
+    character.Humanoid.Died:Connect(function()
+        character:Destroy()
+        clone:Destroy()
+    end)
+
+    -- Otomatik görünmezlik (sıfırlama sonrası)
+    if character:FindFirstChild("HumanoidRootPart") and clone:FindFirstChild("HumanoidRootPart") then
+        toggleVisibility()
+    end
+end
+
+-- Görünürlük değiştirme (otomatik görünmezlik için)
+local function toggleVisibility()
+    if not isInvisible then
+        -- Görünmez moda geç
+        local originalCFrame = character.HumanoidRootPart.CFrame
+        character.HumanoidRootPart.CFrame = clone.HumanoidRootPart.CFrame
+        clone.HumanoidRootPart.CFrame = originalCFrame
+        character.Humanoid:UnequipTools() -- Araçları bırak
+        player.Character = clone -- Oyuncuyu klona bağla
+        workspace.CurrentCamera.CameraSubject = clone.Humanoid -- Kamerayı klona odakla
+        currentRootPart = character.HumanoidRootPart -- Root part'ı güncelle
+        for _, child in pairs(clone:GetChildren()) do
+            if child:IsA("LocalScript") then
+                child.Disabled = false -- Betikleri etkinleştir
+            end
+        end
+        isInvisible = true
+    end
+end
+
+-- İlk kurulum
+setupCloneAndPlatform()
+
+-- Otomatik görünmezlik (başlangıçta)
+if character:FindFirstChild("HumanoidRootPart") and clone:FindFirstChild("HumanoidRootPart") then
+    toggleVisibility()
+end
+
+-- Klonun pozisyonunu platformda tut
+game:GetService("RunService").RenderStepped:Connect(function()
+    if currentRootPart then
+        currentRootPart.CFrame = platform.CFrame * CFrame.new(0, 5, 0)
+    end
+end)
+
+-- Karakter ölümü ve yeniden yüklenme olayları
+character.Humanoid.Died:Connect(function()
+    character:Destroy()
+    clone:Destroy()
+end)
+player.CharacterAppearanceLoaded:Connect(resetCharacter)
+    else
+        -- Başlangıç tanımlamaları
+local player = game:GetService("Players").LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+
+-- Karakterin görünür olduğundan emin ol
+local function ensureCharacterVisible()
+    -- Karakterin yüklendiğini kontrol et
+    if not character or not character:FindFirstChild("HumanoidRootPart") or not character:FindFirstChild("Humanoid") then
+        warn("Karakter, HumanoidRootPart veya Humanoid bulunamadı!")
+        return
+    end
+
+    -- Karakterin saydamlığını sıfırla (görünür yap)
+    for _, descendant in pairs(character:GetDescendants()) do
+        if descendant:IsA("BasePart") then
+            descendant.Transparency = 0 -- Tamamen görünür
+        end
+    end
+
+    -- Kamerayı orijinal karaktere odakla
+    workspace.CurrentCamera.CameraSubject = character.Humanoid
+    workspace.CurrentCamera.CameraType = Enum.CameraType.Custom
+
+    -- Karakterin pozisyonunu sıfırla (gerekirse)
+    character.HumanoidRootPart.CFrame = CFrame.new(0, 5, 0) -- Varsayılan bir konuma yerleştir
+end
+
+-- İlk çalıştırma
+ensureCharacterVisible()
+
+-- Karakter yeniden yüklendiğinde görünürlüğü koru
+player.CharacterAppearanceLoaded:Connect(function(newCharacter)
+    character = newCharacter
+    ensureCharacterVisible()
+end)
+    end
+end)
+
 
 
 Section:NewToggle("Fly", "ToggleInfo", function(state)
