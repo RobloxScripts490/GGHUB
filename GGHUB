@@ -6,6 +6,7 @@ local executorName = getexecutorname and getexecutorname() or "Unknown"
 -- Desteklenen executor kontrolü (Level 5 ve üstü bilinen executorlar)
 local isSupported = executorName == "Krnl" or
                     executorName == "Solara" or
+		    executorName == "Drift" or
                     executorName == "Arceus X" or
                     executorName == "Arceus" or
                     executorName == "ArceusX" or
