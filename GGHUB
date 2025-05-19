@@ -222,7 +222,7 @@ else
 end
 
 
-print "GGHUB loading..."
+print "GGHUB Is Loading..."
 
 
 local screenGui = Instance.new("ScreenGui")
