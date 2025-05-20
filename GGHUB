@@ -17,7 +17,7 @@ local isSupported = executorName == "Krnl" or
                     executorName == "ScriptWare" or
                     executorName == "Sentinel" or
                     executorName == "RoExec" or
-                    executorName == "Kiwi" or
+                    executorName == "Delta" or
                     executorName == "DuckySploit" or
                     executorName == "Luna" or
                     executorName == "NX"
