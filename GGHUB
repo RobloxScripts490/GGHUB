@@ -3300,6 +3300,109 @@ end)
 
 local Main = Window:NewTab("Game Scripts")
 
+local SlapSection = Main:NewSection("Troll Slap Tower")
+
+
+SlapSection:NewButton("TP To Game", "ButtonInfo", function()
+-- LocalScript olarak çalışır
+local TeleportService = game:GetService("TeleportService")
+local Players = game:GetService("Players")
+local placeId = 128829279907343 -- Hedef place ID
+
+-- LocalPlayer'ı al
+local player = Players.LocalPlayer
+
+-- Teleport fonksiyonu
+local function teleportToPlace()
+    if player then
+        TeleportService:Teleport(placeId, player)
+    else
+        
+    end
+end
+
+-- Teleport işlemini başlat
+teleportToPlace()
+end)
+
+
+
+-- Equip Glove Buttons
+SlapSection:NewButton("Get Galaxy Glove", "ButtonInfo", function()
+    game:GetService('ReplicatedStorage').EquipSlapEvent:FireServer('GalaxySlap')
+end)
+
+SlapSection:NewButton("Get Streak Glove", "ButtonInfo", function()
+    game:GetService('ReplicatedStorage').EquipSlapEvent:FireServer('StreakSlap')
+end)
+
+SlapSection:NewButton("Get Error Glove", "ButtonInfo", function()
+    game:GetService('ReplicatedStorage').EquipSlapEvent:FireServer('Error')
+end)
+
+-- Spam Slap Toggle
+local spamSlapEnabled = false
+SlapSection:NewToggle("Spam Slap Everyone(Galaxy Glove Only)", "ToggleInfo", function(state)
+    spamSlapEnabled = state
+    if state then
+        print("Slap Spam All Enabled")
+    else
+        print("Slap Spam All Disabled")
+    end
+end)
+
+-- Spam Slap Loop
+task.spawn(function()
+    while true do
+        if spamSlapEnabled then
+            pcall(function()
+                local character = LocalPlayer.Character
+                local galaxySlap = character and character:FindFirstChild('GalaxySlap')
+                
+                if galaxySlap and galaxySlap:FindFirstChild('Event') then
+                    for _, player in ipairs(Players:GetPlayers()) do
+                        if player ~= LocalPlayer and player.Character and player.Character:FindFirstChild('HumanoidRootPart') then
+                            galaxySlap.Event:FireServer('slash', player.Character, player.Character.HumanoidRootPart.Position)
+                        end
+                    end
+                end
+            end)
+        end
+        task.wait(0.3)
+    end
+end)
+
+-- Black Hole Toggle
+local blackHoleEnabled = false
+SlapSection:NewToggle("Black Hole Spam(Galaxy Glove Only)", "ToggleInfo", function(state)
+    blackHoleEnabled = state
+    if state then
+        print("Slap Black Hole Spam Enabled")
+    else
+        print("Slap Black Hole Spam Disabled")
+    end
+end)
+
+-- Black Hole Loop
+task.spawn(function()
+    while true do
+        if blackHoleEnabled then
+            pcall(function()
+                local character = LocalPlayer.Character
+                local galaxySlap = character and character:FindFirstChild('GalaxySlap')
+                if galaxySlap and galaxySlap:FindFirstChild('BlackholeEvent') then
+                    galaxySlap.BlackholeEvent:FireServer()
+                end
+            end)
+        end
+        task.wait(0.1)
+    end
+end)
+
+
+
+
+
 local MainSection = Main:NewSection("Race Clicker")
 
 MainSection:NewButton("Race Clicker OP Script", "ButtonInfo", function()
