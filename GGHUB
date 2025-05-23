@@ -3340,6 +3340,43 @@ SlapSection:NewButton("Get Error Glove", "ButtonInfo", function()
     game:GetService('ReplicatedStorage').EquipSlapEvent:FireServer('Error')
 end)
 
+SlapSection:NewButton("Get God's Hand", "ButtonInfo", function()
+    game:GetService('ReplicatedStorage').EquipSlapEvent:FireServer("God's Hand")
+end)
+
+-- Spam Slap Toggle
+local spamSlapEnabled = false
+SlapSection:NewToggle("Spam Slap Everyone(God's Hand Only!)", "ToggleInfo", function(state)
+    spamSlapEnabled = state
+    if state then
+        print("Slap Spam All Enabled")
+    else
+        print("Slap Spam All Disabled")
+    end
+end)
+
+-- Spam Slap Loop
+task.spawn(function()
+    while true do
+        if spamSlapEnabled then
+            pcall(function()
+                local character = LocalPlayer.Character
+                local galaxySlap = character and character:FindFirstChild('GalaxySlap')
+                local godSlap = character and character:FindFirstChild("God's Hand")
+                
+                if godSlap and godSlap:FindFirstChild('Event') then
+                    for _, player in ipairs(Players:GetPlayers()) do
+                        if player ~= LocalPlayer and player.Character and player.Character:FindFirstChild('HumanoidRootPart') then
+                            godSlap.Event:FireServer('slash', player.Character, player.Character.HumanoidRootPart.Position)
+                        end
+                    end
+                end
+            end)
+        end
+        task.wait(0.3)
+    end
+end)
+
 -- Spam Slap Toggle
 local spamSlapEnabled = false
 SlapSection:NewToggle("Spam Slap Everyone(Galaxy Glove Only)", "ToggleInfo", function(state)
