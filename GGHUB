@@ -5963,6 +5963,119 @@ Section:NewKeybind("UI Toggle", "KeybindInfo", Enum.KeyCode.F, function()
 	Library:ToggleUI()
 end)
 
+
+local HttpService = game:GetService("HttpService")
+local StarterGui = game:GetService("StarterGui")
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+-- Global cooldown verisi (script yeniden çalışsa bile korunur)
+_G.cooldownData = _G.cooldownData or {} -- Oyuncu UserId'sine göre cooldown saklar
+
+local Tab = Window:NewTab("Send Feedback")
+local Section = Tab:NewSection("Submit Feedback")
+
+local cooldown = 3600 -- 1 saat
+local feedbackText = ""
+
+local function showNotification(message)
+    local success, err = pcall(function()
+        StarterGui:SetCore("SendNotification", {
+            Title = "Feedback System",
+            Text = message,
+            Duration = 5
+        })
+    end)
+    if not success then
+        warn("Notification error: " .. tostring(err))
+    end
+end
+
+local function sendToWebhook(feedback)
+    local webhookUrl = "https://discord.com/api/webhooks/1377282016055263324/0B5YI-YDUbCTa5XLUGeyrBW2XaS2-9Qq1KOu4cOJXbA9cNj-bWpeWTZ05Mgte23AwZnj"
+    local data = {
+        content = "",
+        embeds = {
+            {
+                title = "New Feedback by " .. LocalPlayer.Name,
+                url = "https://www.roblox.com/users/" .. LocalPlayer.UserId .. "/profile",
+                description = feedback,
+                color = 0x00FF00,
+                timestamp = os.date("!%Y-%m-%dT%H:%M:%SZ")
+            }
+        }
+    }
+    local jsonData
+    local encodeSuccess, encodeErr = pcall(function()
+        jsonData = HttpService:JSONEncode(data)
+    end)
+    if not encodeSuccess then
+        showNotification("JSON encode error: " .. tostring(encodeErr))
+        warn("JSON encode error: " .. tostring(encodeErr))
+        return
+    end
+
+    local request = http_request or syn and syn.request or request or HttpPost
+    if not request then
+        showNotification("Executor does not support HTTP requests!")
+        warn("No HTTP request function available")
+        return
+    end
+
+    local success, result = pcall(function()
+        local response = request({
+            Url = webhookUrl,
+            Method = "POST",
+            Headers = {["Content-Type"] = "application/json"},
+            Body = jsonData
+        })
+        if response.StatusCode ~= 204 and response.StatusCode ~= 200 then
+            error("Webhook failed with status " .. tostring(response.StatusCode))
+        end
+    end)
+    if not success then
+        showNotification("Webhook error: " .. tostring(result))
+        warn("Webhook error: " .. tostring(result))
+    end
+end
+
+Section:NewTextBox("Feedback", "Enter your feedback here", function(txt)
+    feedbackText = txt
+end)
+
+Section:NewButton("Submit Feedback(1 Hour Cooldown)", "Send to developers", function()
+    local currentTime = os.time()
+    local playerId = LocalPlayer.UserId
+    local lastSent = _G.cooldownData[playerId] or 0
+    local timeSinceLast = currentTime - lastSent
+    local timeLeft = cooldown - timeSinceLast
+
+    if timeSinceLast >= cooldown then
+        if feedbackText and feedbackText ~= "" then
+            local success, err = pcall(function()
+                sendToWebhook(feedbackText)
+                _G.cooldownData[playerId] = currentTime -- Cooldown'u güncelle
+                showNotification("Feedback sent successfully!")
+                feedbackText = ""
+            end)
+            if not success then
+                showNotification("Error sending feedback: " .. tostring(err))
+                warn("Feedback send error: " .. tostring(err))
+            end
+        else
+            showNotification("Please enter feedback!")
+        end
+    else
+        local minutesLeft = math.floor(timeLeft / 60)
+        local secondsLeft = math.floor(timeLeft % 60)
+        local timeString = minutesLeft > 0 and (minutesLeft .. " Minutes") or (secondsLeft .. " Seconds")
+        showNotification("You Are In Cooldown! Please Wait " .. timeString)
+    end
+end)
+
+
+
+
+
 local Main = Window:NewTab("Credits")
 local MainSection = Main:NewSection("By bok31_31mal , BARIS & Aras232323, ARAS")
 
