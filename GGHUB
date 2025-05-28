@@ -272,6 +272,145 @@ local Window = Library.CreateLib("GGHUB", "BloodTheme")
 local Main = Window:NewTab("Universal")
 local MainSection = Main:NewSection("Universal Scripts")
 
+
+MainSection:NewButton("Baris GUI V1 (VISUAL!!)", "ButtonInfo", function()
+
+--[[
+	WARNING: Heads up! This script has not been verified by ScriptBlox. Use at your own risk!
+]]
+-- Baris Gui V1 (Sürüklenebilir GUI)
+local ScreenGui = Instance.new("ScreenGui", game.Players.LocalPlayer:WaitForChild("PlayerGui"))
+ScreenGui.Name = "BarisGuiV1"
+local Frame = Instance.new("Frame", ScreenGui)
+Frame.Size = UDim2.new(0, 300, 0, 350)
+Frame.Position = UDim2.new(0.05, 0, 0.2, 0)
+Frame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+Frame.Active = true Frame.Draggable = true
+Instance.new("UICorner", Frame)
+
+local UIList = Instance.new("UIListLayout", Frame)
+UIList.Padding = UDim.new(0, 6)
+
+-- Buton Fonksiyonu
+local function createButton(text, callback)
+	local btn = Instance.new("TextButton", Frame)
+	btn.Size = UDim2.new(1, -10, 0, 40)
+	btn.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+	btn.TextColor3 = Color3.new(1,1,1)
+	btn.Text = text
+	btn.Font = Enum.Font.SourceSansBold
+	btn.TextScaled = true
+	Instance.new("UICorner", btn)
+	btn.MouseButton1Click:Connect(callback)
+end
+
+-- 1. MESSAGE
+createButton("MESSAGE", function()
+	local message = Instance.new("Message", workspace)
+	message.Text = "Baris HACKED GAME! 🇬 🇺 🇪 🇸 🇹   🇹 🇪 🇦 🇲r!"
+	while true do
+		message.Text = message.Text
+		task.wait()
+	end
+end)
+
+-- 2. HİNT LOOP
+createButton("HINT LOOP", function()
+	local h = Instance.new("Hint", workspace)
+	local text = "Baris HACKED GAME 🇬 🇺 🇪 🇸 🇹   🇹 🇪 🇦 🇲r!"
+	while true do
+		h.Text = text
+		text = text:sub(2) .. text:sub(1,1)
+		task.wait(0.1)
+	end
+end)
+
+-- 3. IŞIK PATLAMASI 🌈
+createButton("LIGHT EXPLOSION 🌈", function()
+	for _, m in pairs(workspace:GetDescendants()) do
+		if m:IsA("Model") then
+			local light = Instance.new("PointLight", m:FindFirstChildWhichIsA("Part") or m:FindFirstChildWhichIsA("MeshPart") or m)
+			light.Brightness = 9999
+			light.Range = 100
+			light.Color = Color3.fromHSV(math.random(), 1, 1)
+		end
+	end
+	local car = Instance.new("Model", workspace)
+	car.Name = "Baris ARABA"
+	local part = Instance.new("Part", car)
+	part.Size = Vector3.new(6, 2, 4)
+	part.Anchored = true
+	part.Position = Vector3.new(0, 10, 0)
+	local skybox = Instance.new("Sky", game.Lighting)
+	skybox.SkyboxBk = "http://www.roblox.com/asset/?id=159454299"
+	skybox.SkyboxDn = "http://www.roblox.com/asset/?id=159454296"
+	skybox.SkyboxFt = "http://www.roblox.com/asset/?id=159454293"
+	skybox.SkyboxLf = "http://www.roblox.com/asset/?id=159454286"
+	skybox.SkyboxRt = "http://www.roblox.com/asset/?id=159454300"
+	skybox.SkyboxUp = "http://www.roblox.com/asset/?id=159454288"
+end)
+
+-- 4. ŞARKI
+createButton("SONG", function()
+	local sound = Instance.new("Sound", workspace)
+	sound.SoundId = "rbxassetid://6018028320"
+	sound.Volume = math.huge
+	sound.Looped = true
+	sound:Play()
+end)
+
+
+
+
+---------------------------------------------------------------------
+
+
+
+-- 1. SUNUCU ÇÖKERTME
+createButton("SERVER CRASH", function()
+	for _, v in pairs(game:GetDescendants()) do
+		if v:IsA("TextLabel") or v:IsA("TextBox") or v:IsA("TextButton") then
+			v.Text = "Baris AND GUEST 666"
+			task.spawn(function()
+				while true do
+					v.TextColor3 = Color3.fromHSV(tick()%5/5,1,1)
+					task.wait(0.1)
+				end
+			end)
+		end
+	end
+	for i = 1, 20 do
+		local label = Instance.new("TextLabel", ScreenGui)
+		label.Size = UDim2.new(0, 200, 0, 50)
+		label.Position = UDim2.new(math.random(), 0, math.random(), 0)
+		label.Text = "Baris"
+		label.BackgroundTransparency = 1
+		label.TextColor3 = Color3.new(1, 0, 0)
+		label.Font = Enum.Font.Arcade
+		label.TextScaled = true
+		task.delay(6, function() label:Destroy() end)
+	end
+end)
+
+-- 2. HARİTA EFEKLİYİCİ
+createButton("MAP EFFECT", function()
+	for _, obj in pairs(workspace:GetDescendants()) do
+		if obj:IsA("Model") or obj:IsA("Part") then
+			local p = Instance.new("ParticleEmitter", obj:FindFirstChildWhichIsA("Part") or obj)
+			p.Rate = 50
+			p.Lifetime = NumberRange.new(1)
+			p.Speed = NumberRange.new(5)
+			p.Size = NumberSequence.new(1)
+			p.Color = ColorSequence.new{
+				ColorSequenceKeypoint.new(0, Color3.fromRGB(0,0,255)),
+				ColorSequenceKeypoint.new(1, Color3.fromRGB(255,0,0))
+			}
+		end
+	end
+end)
+
+end)
+
 MainSection:NewButton("UNC Test", "ButtonInfo", function()
 local UserInputService = game:GetService("UserInputService")
 local VirtualInputManager = game:GetService("VirtualInputManager")
