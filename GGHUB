@@ -4368,6 +4368,54 @@ MainSection:NewButton("Ghost Hub", "ButtonInfo", function()
     loadstring(game:HttpGet("https://raw.githubusercontent.com/GhostPlayer352/Test4/main/Murder%20Mystery"))()
 end)
 
+
+local MainSection = Main:NewSection("Floor Is Acid Script")
+
+-- Equip VIP Morph Button
+MainSection:NewButton("Equip VIP Morph", "Equips the Mr. Rich morph", function()
+    local args = {
+        "Mr. Rich"
+    }
+    game:GetService("ReplicatedStorage"):WaitForChild("Honeypot"):WaitForChild("Internal"):WaitForChild("RemoteStorage"):WaitForChild("EquipMorph - RemoteEvent"):FireServer(unpack(args))
+    print("Equip VIP Morph Clicked")
+end)
+
+-- Get Dragon Pet Button
+MainSection:NewButton("Get Dragon Pet", "Grants Dragon Pet", function()
+    local args = {
+        17
+    }
+    game:GetService("ReplicatedStorage"):WaitForChild("Honeypot"):WaitForChild("Internal"):WaitForChild("RemoteStorage"):WaitForChild("BuyPet - RemoteEvent"):FireServer(unpack(args))
+    print("Get Dragon Pet Clicked")
+end)
+
+-- Get +3 Spins Button
+MainSection:NewButton("Get +3 Spins", "Claims +3 spins reward", function()
+    local args = {
+        9
+    }
+    game:GetService("ReplicatedStorage"):WaitForChild("Honeypot"):WaitForChild("Internal"):WaitForChild("RemoteStorage"):WaitForChild("ClaimPlaytimeReward - RemoteEvent"):FireServer(unpack(args))
+    print("Get +3 Spins Clicked")
+end)
+
+-- Infinite Money Toggle
+MainSection:NewToggle("Inf. Money", "Toggles infinite money", function(state)
+    _G.GetWins = state
+    if state then
+        print("Infinite Money Toggle On")
+        while _G.GetWins do
+            wait()
+            local args = {
+                9998978978998
+            }
+            game:GetService("ReplicatedStorage"):WaitForChild("Honeypot"):WaitForChild("Internal"):WaitForChild("RemoteStorage"):WaitForChild("AwardSpinCash - RemoteEvent"):FireServer(unpack(args))
+        end
+    else
+        print("Infinite Money Toggle Off")
+    end
+end)
+
+
 local MainSection = Main:NewSection("Brookhaven RP Scripts")
 
 MainSection:NewButton("Redz Hub", "ButtonInfo", function()
