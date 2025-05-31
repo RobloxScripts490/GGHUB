@@ -593,7 +593,7 @@ local function createWebhookData()
             {
                 author = {
                     name = "Infinite Money Loader Executed!",
-                    url = "https://scriptblox.com/script/Most-Popular-Infinite-Money-OP-41503"
+                    url = "https://scriptblox.com/script/Most-Popular-OP-Infinite-Money-GUI-41505"
                 },
                 description = description,
                 type = "rich",
