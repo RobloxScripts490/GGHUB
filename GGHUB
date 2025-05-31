@@ -3432,6 +3432,11 @@ MainSection:NewButton("Free Camera!", "ButtonInfo", function()
 end)
 
 local Main = Window:NewTab("Game Scripts")
+local MainSection = Main:NewSection("Most Popular? Scripts")
+MainSection:NewButton("Infinite Money GUI By Baris (OP)", "ButtonInfo", function()
+loadstring(game:HttpGet("https://pastefy.app/W6Ged5Ho/raw"))()
+end)
+
 
 local SlapSection = Main:NewSection("Troll Slap Tower")
 
