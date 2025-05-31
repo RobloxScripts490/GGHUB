@@ -4902,7 +4902,7 @@ local Tab = Window:NewTab("FUN!")
 
 local Section = Tab:NewSection("Tornado Scripts")
 Section:NewButton("Tornado!(FE) and By Aras[NO KEY]", "ButtonInfo", function()
-loadstring(game:HttpGet("https://pastie.io/raw/roqond"))()
+loadstring(game:HttpGet("https://pastefy.app/3pcaKTuc/raw"))()
 end)
 
 Section:NewButton("Tornado!(FE) and By Aras[KEYSYSTEM]", "ButtonInfo", function()
