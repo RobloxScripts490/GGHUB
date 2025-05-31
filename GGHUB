@@ -4841,7 +4841,7 @@ end)
 
 local MainSection = Main:NewSection("Just A Baseplate")
 MainSection:NewButton("FE Baris Hub", "ButtonInfo", function()
-https://pastefy.app/7SYdIwfV/raw"))()
+loadstring(game:HttpGet("https://pastefy.app/7SYdIwfV/raw"))()
 end)
 
 local MainSection = Main:NewSection("Build A Boat Scripts")
