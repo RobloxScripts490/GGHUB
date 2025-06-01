@@ -193,16 +193,19 @@ end
 local function createMainGUI()
     local success, err = pcall(function()
         local RemoteFunction = ReplicatedStorage.Packages._Index["sleitnick_knit@1.5.1"].knit.Services.GiftService.RF.GetPresent
+        local SpinService = ReplicatedStorage.Packages._Index["sleitnick_knit@1.5.1"].knit.Services.SpinService.RE
         getgenv().running = false
         getgenv().loopKillAll = false
+        getgenv().autoSpin = false
         local guiKeybind = "F"
         local toggleKeybind = "Q"
         local loopKillAllKeybind = "L"
         local killAllKeybind = "T"
+        local autoSpinKeybind = "P"
 
         -- Keybind çakışması kontrol fonksiyonu
         local function checkKeybindConflict(input, excludeKeybind)
-            local keybinds = {guiKeybind, toggleKeybind, loopKillAllKeybind, killAllKeybind}
+            local keybinds = {guiKeybind, toggleKeybind, loopKillAllKeybind, killAllKeybind, autoSpinKeybind}
             if excludeKeybind then
                 for i, key in ipairs(keybinds) do
                     if key == excludeKeybind then
@@ -295,7 +298,7 @@ local function createMainGUI()
 
         local toggleButton = Instance.new("TextButton")
         toggleButton.Size = UDim2.new(0, 150, 0, 40)
-        toggleButton.Position = UDim2.new(0.5, -75, 0.1, 0)
+        toggleButton.Position = UDim2.new(0.5, -75, 0.08, 0)
         toggleButton.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
         toggleButton.Text = "Spam Everything: OFF"
         toggleButton.TextColor3 = Color3.fromRGB(255, 255, 255)
@@ -308,8 +311,8 @@ local function createMainGUI()
         toggleCorner.Parent = toggleButton
 
         local statusLabel = Instance.new("TextLabel")
-        statusLabel.Size = UDim2.new(0, 200, 0, 30)
-        statusLabel.Position = UDim2.new(0.5, -100, 0.18, 0)
+        statusLabel.Size = UDim2.new(0, 200, 0, 20)
+        statusLabel.Position = UDim2.new(0.5, -100, 0.15, 0)
         statusLabel.BackgroundTransparency = 1
         statusLabel.Text = "Spam Everything: OFF"
         statusLabel.TextColor3 = Color3.fromRGB(255, 0, 0)
@@ -318,8 +321,8 @@ local function createMainGUI()
         statusLabel.Parent = frame
 
         local loopKillAllButton = Instance.new("TextButton")
-        loopKillAllButton.Size = UDim2.new(0, 100, 0, 40)
-        loopKillAllButton.Position = UDim2.new(0.5, -50, 0.26, 0)
+        loopKillAllButton.Size = UDim2.new(0, 100, 0, 30)
+        loopKillAllButton.Position = UDim2.new(0.5, -50, 0.21, 0)
         loopKillAllButton.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
         loopKillAllButton.Text = "Loop Kill All: OFF"
         loopKillAllButton.TextColor3 = Color3.fromRGB(255, 255, 255)
@@ -332,8 +335,8 @@ local function createMainGUI()
         loopKillAllCorner.Parent = loopKillAllButton
 
         local loopKillAllStatusLabel = Instance.new("TextLabel")
-        loopKillAllStatusLabel.Size = UDim2.new(0, 200, 0, 30)
-        loopKillAllStatusLabel.Position = UDim2.new(0.5, -100, 0.34, 0)
+        loopKillAllStatusLabel.Size = UDim2.new(0, 200, 0, 20)
+        loopKillAllStatusLabel.Position = UDim2.new(0.5, -100, 0.27, 0)
         loopKillAllStatusLabel.BackgroundTransparency = 1
         loopKillAllStatusLabel.Text = "Loop Kill All: OFF"
         loopKillAllStatusLabel.TextColor3 = Color3.fromRGB(255, 0, 0)
@@ -341,9 +344,47 @@ local function createMainGUI()
         loopKillAllStatusLabel.Font = Enum.Font.Gotham
         loopKillAllStatusLabel.Parent = frame
 
+        local autoSpinButton = Instance.new("TextButton")
+        autoSpinButton.Size = UDim2.new(0, 100, 0, 30)
+        autoSpinButton.Position = UDim2.new(0.5, -50, 0.33, 0)
+        autoSpinButton.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
+        autoSpinButton.Text = "Auto Spin: OFF"
+        autoSpinButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+        autoSpinButton.TextScaled = true
+        autoSpinButton.Font = Enum.Font.GothamBold
+        autoSpinButton.Parent = frame
+
+        local autoSpinCorner = Instance.new("UICorner")
+        autoSpinCorner.CornerRadius = UDim.new(0, 10)
+        autoSpinCorner.Parent = autoSpinButton
+
+        local autoSpinStatusLabel = Instance.new("TextLabel")
+        autoSpinStatusLabel.Size = UDim2.new(0, 200, 0, 20)
+        autoSpinStatusLabel.Position = UDim2.new(0.5, -100, 0.39, 0)
+        autoSpinStatusLabel.BackgroundTransparency = 1
+        autoSpinStatusLabel.Text = "Auto Spin: OFF"
+        autoSpinStatusLabel.TextColor3 = Color3.fromRGB(255, 0, 0)
+        autoSpinStatusLabel.TextScaled = true
+        autoSpinStatusLabel.Font = Enum.Font.Gotham
+        autoSpinStatusLabel.Parent = frame
+
+        local redeemAllCodesButton = Instance.new("TextButton")
+        redeemAllCodesButton.Size = UDim2.new(0, 100, 0, 30)
+        redeemAllCodesButton.Position = UDim2.new(0.5, -50, 0.45, 0)
+        redeemAllCodesButton.BackgroundColor3 = Color3.fromRGB(200, 50, 50)
+        redeemAllCodesButton.Text = "Redeem All Codes"
+        redeemAllCodesButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+        redeemAllCodesButton.TextScaled = true
+        redeemAllCodesButton.Font = Enum.Font.GothamBold
+        redeemAllCodesButton.Parent = frame
+
+        local redeemAllCodesCorner = Instance.new("UICorner")
+        redeemAllCodesCorner.CornerRadius = UDim.new(0, 10)
+        redeemAllCodesCorner.Parent = redeemAllCodesButton
+
         local killAllButton = Instance.new("TextButton")
-        killAllButton.Size = UDim2.new(0, 100, 0, 40)
-        killAllButton.Position = UDim2.new(0.5, -50, 0.42, 0)
+        killAllButton.Size = UDim2.new(0, 100, 0, 30)
+        killAllButton.Position = UDim2.new(0.5, -50, 0.51, 0)
         killAllButton.BackgroundColor3 = Color3.fromRGB(200, 50, 50)
         killAllButton.Text = "Kill All"
         killAllButton.TextColor3 = Color3.fromRGB(255, 255, 255)
@@ -356,8 +397,8 @@ local function createMainGUI()
         killAllCorner.Parent = killAllButton
 
         local killPlayerLabel = Instance.new("TextLabel")
-        killPlayerLabel.Size = UDim2.new(0, 100, 0, 30)
-        killPlayerLabel.Position = UDim2.new(0.15, 0, 0.50, 0)
+        killPlayerLabel.Size = UDim2.new(0, 100, 0, 20)
+        killPlayerLabel.Position = UDim2.new(0.15, 0, 0.57, 0)
         killPlayerLabel.BackgroundTransparency = 1
         killPlayerLabel.Text = "Kill Player:"
         killPlayerLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
@@ -366,8 +407,8 @@ local function createMainGUI()
         killPlayerLabel.Parent = frame
 
         local killPlayerTextbox = Instance.new("TextBox")
-        killPlayerTextbox.Size = UDim2.new(0, 100, 0, 30)
-        killPlayerTextbox.Position = UDim2.new(0.65, 0, 0.50, 0)
+        killPlayerTextbox.Size = UDim2.new(0, 100, 0, 20)
+        killPlayerTextbox.Position = UDim2.new(0.65, 0, 0.57, 0)
         killPlayerTextbox.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
         killPlayerTextbox.PlaceholderText = "Player Name"
         killPlayerTextbox.Text = ""
@@ -381,8 +422,8 @@ local function createMainGUI()
         killPlayerTextboxCorner.Parent = killPlayerTextbox
 
         local walkSpeedLabel = Instance.new("TextLabel")
-        walkSpeedLabel.Size = UDim2.new(0, 100, 0, 30)
-        walkSpeedLabel.Position = UDim2.new(0.15, 0, 0.58, 0)
+        walkSpeedLabel.Size = UDim2.new(0, 100, 0, 20)
+        walkSpeedLabel.Position = UDim2.new(0.15, 0, 0.63, 0)
         walkSpeedLabel.BackgroundTransparency = 1
         walkSpeedLabel.Text = "Set WalkSpeed:"
         walkSpeedLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
@@ -391,10 +432,10 @@ local function createMainGUI()
         walkSpeedLabel.Parent = frame
 
         local walkSpeedTextbox = Instance.new("TextBox")
-        walkSpeedTextbox.Size = UDim2.new(0, 100, 0, 30)
-        walkSpeedTextbox.Position = UDim2.new(0.65, 0, 0.58, 0)
+        walkSpeedTextbox.Size = UDim2.new(0, 100, 0, 20)
+        walkSpeedTextbox.Position = UDim2.new(0.65, 0, 0.63, 0)
         walkSpeedTextbox.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-        walkSpeedTextbox.PlaceholderText = "Enter Speed (Default: 790)"
+        walkSpeedTextbox.PlaceholderText = "Enter Speed"
         walkSpeedTextbox.Text = ""
         walkSpeedTextbox.TextColor3 = Color3.fromRGB(255, 255, 255)
         walkSpeedTextbox.TextScaled = true
@@ -406,8 +447,8 @@ local function createMainGUI()
         walkSpeedTextboxCorner.Parent = walkSpeedTextbox
 
         local guiKeybindLabel = Instance.new("TextLabel")
-        guiKeybindLabel.Size = UDim2.new(0, 100, 0, 30)
-        guiKeybindLabel.Position = UDim2.new(0.15, 0, 0.66, 0)
+        guiKeybindLabel.Size = UDim2.new(0, 100, 0, 20)
+        guiKeybindLabel.Position = UDim2.new(0.15, 0, 0.69, 0)
         guiKeybindLabel.BackgroundTransparency = 1
         guiKeybindLabel.Text = "GUI Keybind:"
         guiKeybindLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
@@ -416,8 +457,8 @@ local function createMainGUI()
         guiKeybindLabel.Parent = frame
 
         local guiKeybindTextbox = Instance.new("TextBox")
-        guiKeybindTextbox.Size = UDim2.new(0, 30, 0, 30)
-        guiKeybindTextbox.Position = UDim2.new(0.65, 0, 0.66, 0)
+        guiKeybindTextbox.Size = UDim2.new(0, 30, 0, 20)
+        guiKeybindTextbox.Position = UDim2.new(0.65, 0, 0.69, 0)
         guiKeybindTextbox.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
         guiKeybindTextbox.Text = guiKeybind
         guiKeybindTextbox.TextColor3 = Color3.fromRGB(255, 255, 255)
@@ -430,8 +471,8 @@ local function createMainGUI()
         guiKeybindCorner.Parent = guiKeybindTextbox
 
         local toggleKeybindLabel = Instance.new("TextLabel")
-        toggleKeybindLabel.Size = UDim2.new(0, 100, 0, 30)
-        toggleKeybindLabel.Position = UDim2.new(0.15, 0, 0.74, 0)
+        toggleKeybindLabel.Size = UDim2.new(0, 100, 0, 20)
+        toggleKeybindLabel.Position = UDim2.new(0.15, 0, 0.75, 0)
         toggleKeybindLabel.BackgroundTransparency = 1
         toggleKeybindLabel.Text = "Toggle Keybind:"
         toggleKeybindLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
@@ -440,8 +481,8 @@ local function createMainGUI()
         toggleKeybindLabel.Parent = frame
 
         local toggleKeybindTextbox = Instance.new("TextBox")
-        toggleKeybindTextbox.Size = UDim2.new(0, 30, 0, 30)
-        toggleKeybindTextbox.Position = UDim2.new(0.65, 0, 0.74, 0)
+        toggleKeybindTextbox.Size = UDim2.new(0, 30, 0, 20)
+        toggleKeybindTextbox.Position = UDim2.new(0.65, 0, 0.75, 0)
         toggleKeybindTextbox.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
         toggleKeybindTextbox.Text = toggleKeybind
         toggleKeybindTextbox.TextColor3 = Color3.fromRGB(255, 255, 255)
@@ -454,18 +495,18 @@ local function createMainGUI()
         toggleKeybindCorner.Parent = toggleKeybindTextbox
 
         local loopKillAllKeybindLabel = Instance.new("TextLabel")
-        loopKillAllKeybindLabel.Size = UDim2.new(0, 100, 0, 30)
-        loopKillAllKeybindLabel.Position = UDim2.new(0.15, 0, 0.82, 0)
+        loopKillAllKeybindLabel.Size = UDim2.new(0, 100, 0, 20)
+        loopKillAllKeybindLabel.Position = UDim2.new(0.15, 0, 0.81, 0)
         loopKillAllKeybindLabel.BackgroundTransparency = 1
-        loopKillAllKeybindLabel.Text = "Loop Kill All Keybind:"
+        loopKillAllKeybindLabel.Text = "Loop Kill Keybind:"
         loopKillAllKeybindLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
         loopKillAllKeybindLabel.TextScaled = true
         loopKillAllKeybindLabel.Font = Enum.Font.Gotham
         loopKillAllKeybindLabel.Parent = frame
 
         local loopKillAllKeybindTextbox = Instance.new("TextBox")
-        loopKillAllKeybindTextbox.Size = UDim2.new(0, 30, 0, 30)
-        loopKillAllKeybindTextbox.Position = UDim2.new(0.65, 0, 0.82, 0)
+        loopKillAllKeybindTextbox.Size = UDim2.new(0, 30, 0, 20)
+        loopKillAllKeybindTextbox.Position = UDim2.new(0.65, 0, 0.81, 0)
         loopKillAllKeybindTextbox.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
         loopKillAllKeybindTextbox.Text = loopKillAllKeybind
         loopKillAllKeybindTextbox.TextColor3 = Color3.fromRGB(255, 255, 255)
@@ -478,8 +519,8 @@ local function createMainGUI()
         loopKillAllKeybindCorner.Parent = loopKillAllKeybindTextbox
 
         local killAllKeybindLabel = Instance.new("TextLabel")
-        killAllKeybindLabel.Size = UDim2.new(0, 100, 0, 30)
-        killAllKeybindLabel.Position = UDim2.new(0.15, 0, 0.90, 0)
+        killAllKeybindLabel.Size = UDim2.new(0, 100, 0, 20)
+        killAllKeybindLabel.Position = UDim2.new(0.15, 0, 0.87, 0)
         killAllKeybindLabel.BackgroundTransparency = 1
         killAllKeybindLabel.Text = "Kill All Keybind:"
         killAllKeybindLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
@@ -488,8 +529,8 @@ local function createMainGUI()
         killAllKeybindLabel.Parent = frame
 
         local killAllKeybindTextbox = Instance.new("TextBox")
-        killAllKeybindTextbox.Size = UDim2.new(0, 30, 0, 30)
-        killAllKeybindTextbox.Position = UDim2.new(0.65, 0, 0.90, 0)
+        killAllKeybindTextbox.Size = UDim2.new(0, 30, 0, 20)
+        killAllKeybindTextbox.Position = UDim2.new(0.65, 0, 0.87, 0)
         killAllKeybindTextbox.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
         killAllKeybindTextbox.Text = killAllKeybind
         killAllKeybindTextbox.TextColor3 = Color3.fromRGB(255, 255, 255)
@@ -500,6 +541,30 @@ local function createMainGUI()
         local killAllKeybindCorner = Instance.new("UICorner")
         killAllKeybindCorner.CornerRadius = UDim.new(0, 5)
         killAllKeybindCorner.Parent = killAllKeybindTextbox
+
+        local autoSpinKeybindLabel = Instance.new("TextLabel")
+        autoSpinKeybindLabel.Size = UDim2.new(0, 100, 0, 20)
+        autoSpinKeybindLabel.Position = UDim2.new(0.15, 0, 0.93, 0)
+        autoSpinKeybindLabel.BackgroundTransparency = 1
+        autoSpinKeybindLabel.Text = "Auto Spin Keybind:"
+        autoSpinKeybindLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+        autoSpinKeybindLabel.TextScaled = true
+        autoSpinKeybindLabel.Font = Enum.Font.Gotham
+        autoSpinKeybindLabel.Parent = frame
+
+        local autoSpinKeybindTextbox = Instance.new("TextBox")
+        autoSpinKeybindTextbox.Size = UDim2.new(0, 30, 0, 20)
+        autoSpinKeybindTextbox.Position = UDim2.new(0.65, 0, 0.93, 0)
+        autoSpinKeybindTextbox.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+        autoSpinKeybindTextbox.Text = autoSpinKeybind
+        autoSpinKeybindTextbox.TextColor3 = Color3.fromRGB(255, 255, 255)
+        autoSpinKeybindTextbox.TextScaled = true
+        autoSpinKeybindTextbox.Font = Enum.Font.GothamBold
+        autoSpinKeybindTextbox.Parent = frame
+
+        local autoSpinKeybindCorner = Instance.new("UICorner")
+        autoSpinKeybindCorner.CornerRadius = UDim.new(0, 5)
+        autoSpinKeybindCorner.Parent = autoSpinKeybindTextbox
 
         local toggleStroke = Instance.new("UIStroke")
         toggleStroke.Thickness = 2
@@ -512,6 +577,12 @@ local function createMainGUI()
         loopKillAllStroke.Color = Color3.fromRGB(0, 255, 255)
         loopKillAllStroke.Enabled = false
         loopKillAllStroke.Parent = loopKillAllButton
+
+        local autoSpinStroke = Instance.new("UIStroke")
+        autoSpinStroke.Thickness = 2
+        autoSpinStroke.Color = Color3.fromRGB(0, 255, 255)
+        autoSpinStroke.Enabled = false
+        autoSpinStroke.Parent = autoSpinButton
 
         local dragging
         local dragInput
@@ -598,9 +669,74 @@ local function createMainGUI()
             end
         end
 
+        local function toggleAutoSpin()
+            getgenv().autoSpin = not getgenv().autoSpin
+            if getgenv().autoSpin then
+                autoSpinButton.Text = "Auto Spin: ON"
+                autoSpinButton.BackgroundColor3 = Color3.fromRGB(0, 200, 0)
+                autoSpinStatusLabel.Text = "Auto Spin: ON"
+                autoSpinStatusLabel.TextColor3 = Color3.fromRGB(0, 255, 0)
+                autoSpinStroke.Enabled = true
+                spawn(function()
+                    while getgenv().autoSpin do
+                        local success, err = pcall(function()
+                            SpinService.SkullSpinButtonPressed:FireServer()
+                            task.wait(4)
+                            SpinService.FreeSpinButtonPressed:FireServer()
+                        end)
+                        if not success then
+                            warn("Auto Spin Error: " .. tostring(err))
+                        end
+                        task.wait(4)
+                    end
+                end)
+            else
+                autoSpinButton.Text = "Auto Spin: OFF"
+                autoSpinButton.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
+                autoSpinStatusLabel.Text = "Auto Spin: OFF"
+                autoSpinStatusLabel.TextColor3 = Color3.fromRGB(255, 0, 0)
+                autoSpinStroke.Enabled = false
+            end
+        end
+
         local function triggerKillAll()
             spawn(function()
                 teleportToPlayers(false)
+            end)
+        end
+
+        local function redeemAllCodes()
+            local TFunction = ReplicatedStorage:WaitForChild("Events"):WaitForChild("TFunction")
+            local codes = {
+                "SANTA", "PRESENTS", "TURKEY", "BOK", "THANKSGIVING", "SPOOKY", "GHOST", "CANDYCORN",
+                "BLOBBY", "ABC", "YAY", "170KLIKES", "YIPPEE", "FUNFUN", "165KLIKES", "FIREWORK",
+                "BOOM", "GLORP", "UPD26", "160KLIKES", "UPD25", "BUGS", "FUNSIZE", "150KLIKES",
+                "SUMMER24", "RAIN", "SPRING", "FLOWERS", "140KLIKES", "EGGS", "BUNNY", "130KLIKES",
+                "UPD20", "120KLIKES", "MARCH24", "110KLIKES", "VDAY", "HEARTS", "SNOWING",
+                "MOREUPDATES", "UPD17", "WINTER", "100KLIKES", "90KLIKES", "XMAS", "BIGGIFT",
+                "CANDYCANE", "SNOWMAN", "HAPPYHOLIDAYS", "WINTERCODE", "60KLIKES", "THANKU",
+                "55KLIKES", "JOINTHEGROUP", "WOAHHHH", "HALFWAYTHERE", "50KLIKES", "YAYMORECODES",
+                "QWERTYUIOP", "45KLIKES", "40KLIKES", "HUGECODES", "30KLIKES", "12345",
+                "BRUHMOMENT", "24KLIKES", "EASYSIZE", "BIGCODE", "BEHAPPY", "AUGUST", "20KLIKES",
+                "18KLIKES", "19KLIKES", "ROBLOXDOWN", "LIKES17K", "UPD6", "SAVING", "LIKES16K",
+                "PURPLESHAKE", "TOOMANYCODES", "URTHEBEST", "14KLIKES", "JULY4", "13KLIKES",
+                "SUMMERBREAK", "ONETHREE", "12KWOW", "UPD5", "2XDAILY", "MEMORIALDAY", "10KLIKES",
+                "9KLIKES", "SUMMERSOON", "9KSIZE", "8THOUSAND", "ALMOSTSUMMER", "H8SCHOOL",
+                "UPD4", "7THOUSAND", "MOMDAY", "EGG", "EASTER", "PATTY25", "CLOVER", "LUCK",
+                "FLAG", "MEEP", "FEB25", "NEWYEAR", "SNAKE", "2025", "SNOWFLAKE"
+            }
+            spawn(function()
+                for _, code in ipairs(codes) do
+                    local success, err = pcall(function()
+                        TFunction:InvokeServer(code)
+                        print("Attempted to redeem code: " .. code)
+                    end)
+                    if not success then
+                        warn("Code redemption error for " .. code .. ": " .. tostring(err))
+                    end
+                    task.wait(4.7)
+                end
+                print("All codes have been attempted!")
             end)
         end
 
@@ -644,6 +780,9 @@ local function createMainGUI()
             if getgenv().loopKillAll then
                 toggleLoopKillAll()
             end
+            if getgenv().autoSpin then
+                toggleAutoSpin()
+            end
             screenGui:Destroy()
         end)
 
@@ -657,6 +796,9 @@ local function createMainGUI()
                 statusLabel.Visible = false
                 loopKillAllButton.Visible = false
                 loopKillAllStatusLabel.Visible = false
+                autoSpinButton.Visible = false
+                autoSpinStatusLabel.Visible = false
+                redeemAllCodesButton.Visible = false
                 killAllButton.Visible = false
                 killPlayerLabel.Visible = false
                 killPlayerTextbox.Visible = false
@@ -670,6 +812,8 @@ local function createMainGUI()
                 loopKillAllKeybindTextbox.Visible = false
                 killAllKeybindLabel.Visible = false
                 killAllKeybindTextbox.Visible = false
+                autoSpinKeybindLabel.Visible = false
+                autoSpinKeybindTextbox.Visible = false
                 minimizeButton.Text = "+"
             else
                 local tween = TweenService:Create(frame, TweenInfo.new(0.3), {Size = UDim2.new(0, 300, 0, 600)})
@@ -678,6 +822,9 @@ local function createMainGUI()
                 statusLabel.Visible = true
                 loopKillAllButton.Visible = true
                 loopKillAllStatusLabel.Visible = true
+                autoSpinButton.Visible = true
+                autoSpinStatusLabel.Visible = true
+                redeemAllCodesButton.Visible = true
                 killAllButton.Visible = true
                 killPlayerLabel.Visible = true
                 killPlayerTextbox.Visible = true
@@ -691,6 +838,8 @@ local function createMainGUI()
                 loopKillAllKeybindTextbox.Visible = true
                 killAllKeybindLabel.Visible = true
                 killAllKeybindTextbox.Visible = true
+                autoSpinKeybindLabel.Visible = true
+                autoSpinKeybindTextbox.Visible = true
                 minimizeButton.Text = "-"
             end
         end)
@@ -698,6 +847,10 @@ local function createMainGUI()
         toggleButton.MouseButton1Click:Connect(toggleState)
 
         loopKillAllButton.MouseButton1Click:Connect(toggleLoopKillAll)
+
+        autoSpinButton.MouseButton1Click:Connect(toggleAutoSpin)
+
+        redeemAllCodesButton.MouseButton1Click:Connect(redeemAllCodes)
 
         killAllButton.MouseButton1Click:Connect(triggerKillAll)
 
@@ -761,6 +914,18 @@ local function createMainGUI()
             end
         end)
 
+        autoSpinKeybindTextbox.FocusLost:Connect(function(enterPressed)
+            if enterPressed then
+                local input = autoSpinKeybindTextbox.Text:upper()
+                if #input == 1 and input:match("%w") and not checkKeybindConflict(input, autoSpinKeybind) then
+                    autoSpinKeybind = input
+                    autoSpinKeybindTextbox.Text = input
+                else
+                    autoSpinKeybindTextbox.Text = autoSpinKeybind
+                end
+            end
+        end)
+
         UserInputService.InputBegan:Connect(function(input, gameProcessedEvent)
             if gameProcessedEvent then return end
             if input.UserInputType == Enum.UserInputType.Keyboard then
@@ -773,6 +938,8 @@ local function createMainGUI()
                     toggleLoopKillAll()
                 elseif key == killAllKeybind then
                     triggerKillAll()
+                elseif key == autoSpinKeybind then
+                    toggleAutoSpin()
                 end
             end
         end)
@@ -794,6 +961,26 @@ local function createMainGUI()
 
         loopKillAllButton.MouseLeave:Connect(function()
             local tween = TweenService:Create(loopKillAllButton, TweenInfo.new(0.2), {BackgroundColor3 = getgenv().loopKillAll and Color3.fromRGB(0, 200, 0) or Color3.fromRGB(100, 100, 100)})
+            tween:Play()
+        end)
+
+        autoSpinButton.MouseEnter:Connect(function()
+            local tween = TweenService:Create(autoSpinButton, TweenInfo.new(0.2), {BackgroundColor3 = getgenv().autoSpin and Color3.fromRGB(0, 255, 0) or Color3.fromRGB(150, 150, 150)})
+            tween:Play()
+        end)
+
+        autoSpinButton.MouseLeave:Connect(function()
+            local tween = TweenService:Create(autoSpinButton, TweenInfo.new(0.2), {BackgroundColor3 = getgenv().autoSpin and Color3.fromRGB(0, 200, 0) or Color3.fromRGB(100, 100, 100)})
+            tween:Play()
+        end)
+
+        redeemAllCodesButton.MouseEnter:Connect(function()
+            local tween = TweenService:Create(redeemAllCodesButton, TweenInfo.new(0.2), {BackgroundColor3 = Color3.fromRGB(255, 50, 50)})
+            tween:Play()
+        end)
+
+        redeemAllCodesButton.MouseLeave:Connect(function()
+            local tween = TweenService:Create(redeemAllCodesButton, TweenInfo.new(0.2), {BackgroundColor3 = Color3.fromRGB(200, 50, 50)})
             tween:Play()
         end)
 
@@ -843,9 +1030,6 @@ end)
 if not success then
     warn("Script initialization failed: " .. tostring(err))
 end
-
-
-
 
 
 --// Config
