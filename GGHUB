@@ -466,7 +466,9 @@ local Window = Library.CreateLib("GGHUB", "BloodTheme")
 
 local Main = Window:NewTab("Universal")
 local MainSection = Main:NewSection("Universal Scripts")
-
+MainSection:NewButton("Script Searcher", "ButtonInfo", function()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/AZYsGithub/chillz-workshop/main/ScriptSearcher"))()
+end)
 
 MainSection:NewButton("Baris GUI V1 (VISUAL!!)", "ButtonInfo", function()
 
@@ -3794,9 +3796,31 @@ MainSection:NewButton("Bloxfruit Script 1", "ButtonInfo", function()
     loadstring(game:HttpGet"https://raw.githubusercontent.com/Basicallyy/Basicallyy/main/MinGamingV4.lua")()
 end)
 
-MainSection:NewButton("Bloxfruit Script 2", "ButtonInfo", function()
+MainSection:NewButton("Blox Fruits Script 2", "Script", function()
+    loadstring(game:HttpGet('https://raw.githubusercontent.com/VEZ2/NEVAHUB/main/2'))()
+end)
+
+
+MainSection:NewButton("Bloxfruit Script 3", "ButtonInfo", function()
     loadstring(game:HttpGet("https://raw.githubusercontent.com/Yatsuraa/Yuri/main/Winterhub_V2.lua"))()
 end)
+
+
+MainSection:NewButton("Blox Fruits Script 4", "Script", function()
+    loadstring(game:HttpGet('https://raw.githubusercontent.com/REWzaKunGz1/premium/main/PadoHub'))()
+end)
+
+MainSection:NewButton("Blox Fruits Script 5", "Loads Blox Fruits script", function()
+    loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/ahmadsgamer2/Script--Game/main/Script%20Game"))()
+end)
+
+local MainSection = Main:NewSection("Arsenal")
+
+MainSection:NewButton("Arsenal Script 1", "Script", function()
+    loadstring(game:HttpGet(("https://raw.githubusercontent.com/Maikderninja/Maikderninja/main/PWNERHUB.lua"), true))()
+end)
+
+
 
 local MainSection = Main:NewSection("Fortline")
 
@@ -3968,6 +3992,10 @@ end)
 
 end)
 
+MainSection:NewButton("Lucky Block Script 2", "Loads Lucky Block script", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/stillnotgivingafuck/LuckyBlocks/main/loader.lua"))()
+end)
+
 local MainSection = Main:NewSection("FISCH")
 
 MainSection:NewButton("Script1!", "ButtonInfo", function()
@@ -3988,7 +4016,7 @@ end)
 
 local MainSection = Main:NewSection("[BEST] Counter Blox")
 
-MainSection:NewButton("CLİCK ME!", "ButtonInfo", function()
+MainSection:NewButton("CLICK ME!", "ButtonInfo", function()
 loadstring(game:HttpGet("https://raw.githubusercontent.com/ttwizz/Open-Aimbot/master/source.lua", true))() 
 end)
 
@@ -4567,11 +4595,120 @@ local MainSection = Main:NewSection("Doors Scripts")
 MainSection:NewButton("Doors Script 1", "ButtonInfo", function()
     loadstring(game:HttpGet('https://rawscripts.net/raw/DOORS-FFJ-Hub-11365'))()
 end)
+MainSection:NewButton("Doors Script 2", "Loads Doors script", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/GamingScripter/Darkrai-X/main/Games/Evade"))()
+end)
+
 
 local MainSection = Main:NewSection("MM2 Scripts")
 
 MainSection:NewButton("Ghost Hub", "ButtonInfo", function()
     loadstring(game:HttpGet("https://raw.githubusercontent.com/GhostPlayer352/Test4/main/Murder%20Mystery"))()
+end)
+
+MainSection:NewButton("Murder Mystery 2 Script 2 ", "Script", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/CriShoux/OwlHub/master/OwlHub.txt"))();
+end)
+local MainSection = Main:NewSection("Big Paintball")
+
+MainSection:NewButton("BIG Paintball Script 1 ", "Script", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/CriShoux/OwlHub/master/OwlHub.txt"))();
+end)
+
+
+local MainSection = Main:NewSection("Funky Friday")
+MainSection:NewButton("Funky Friday  Script 1", "Script", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/wally-rblx/funky-friday-autoplay/main/main.lua",true))()
+end)
+
+local MainSection = Main:NewSection("KAT")
+MainSection:NewButton("KAT Script ( OP BRING ALL )", "Script", function()
+    loadstring(game:HttpGet('https://pastebin.com/raw/TDBuxW7W'))()
+end)
+
+MainSection:NewButton("KAT Script 2 ( Owl Hub )", "Script", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/CriShoux/OwlHub/master/OwlHub.txt"))();
+end)
+
+
+local MainSection = Main:NewSection("Muscle Legends")
+MainSection:NewButton("Muscle Legends Script 1", "Script", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/harisiskandar178/Roblox-Script/main/Muscle%20Legend"))()
+end)
+local MainSection = Main:NewSection("Strong Muscle Simulator")
+MainSection:NewButton("Strong Muscle Simulator Script 1", "Loads Strong Muscle Simulator script", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/Alendaa/Scripts/main/StrongMuscle", true))()
+end)
+MainSection:NewButton("Strong Muscle Simulator Script 2", "Loads Strong Muscle Simulator script", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/ToraIsMe2/ToraIsMe2/main/0strongmuscle", true))()
+end)
+
+local MainSection = Main:NewSection("Prison Life")
+MainSection:NewButton("Prison Life Script 1", "Loads Prison Life script", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/LiverMods/xRawnder/main/Project"))()
+end)
+MainSection:NewButton("Prison Life Script 2", "Loads Prison Life script", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/Denverrz/scripts/master/PRISONWARE_v1.3.txt"))()
+end)
+
+local MainSection = Main:NewSection("Stud Walls Jump Pe Difficulty")
+MainSection:NewButton("Stud Walls Jump Per Difficulty Script 1", "Loads Stud Walls script", function()
+    loadstring(game:HttpGet("https://pastebin.com/raw/NNzW96gB"))()
+end)
+
+local MainSection = Main:NewSection("My Restaurant")
+MainSection:NewButton("My Restaurant Script 1", "Loads My Restaurant script", function()
+    loadstring(game:HttpGet("https://pastebin.com/raw/uBpUr2vU"))()
+end)
+MainSection:NewButton("My Restaurant Script 2", "Loads My Restaurant script", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/NukeVsCity/TheALLHACKLoader/main/NukeLoader"))()
+end)
+
+
+
+local MainSection = Main:NewSection("Lifting Titans")
+MainSection:NewButton("Lifting Titans Script 1", "Loads Lifting Titans script", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/Arth795-scripts/Luashit/main/liftingtitansOP", true))()
+end)
+
+
+local MainSection = Main:NewSection("Zombie Attack")
+MainSection:NewButton("Zombie Attack Script 1", "Loads Zombie Attack script", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/YellowGreg/Zombie-Attack-Gui/main/Zombie%20Attack%20V1.lua"))()
+end)
+
+local MainSection = Main:NewSection("Car Dealership Tycoon")
+MainSection:NewButton("Car Dealership Tycoon Script 1", "Loads Car Dealership Tycoon script", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/IExpIoit/Script/main/Car%20Dealership%20Tycoon.lua"))()
+end)
+
+local MainSection = Main:NewSection("Legends Of Speed")
+MainSection:NewButton("Legends Of Speed Script 1", "Loads Legends Of Speed script", function()
+    loadstring(game:HttpGet("https://pastebin.com/raw/1iMHrZ50", true))()
+end)
+
+
+
+local MainSection = Main:NewSection("Ninja Legends")
+MainSection:NewButton("Ninja Legends Script 1", "Loads Ninja Legends script", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/TrixAde/Proxima-Hub/main/Main.lua"))()
+end)
+
+local MainSection = Main:NewSection("Squid Game")
+MainSection:NewButton("Squid Game Script 1", "Loads Squid Game script", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/LilFrench21/Hecta/main/Script/Squid%20Game"))()
+end)
+
+
+
+local MainSection = Main:NewSection("PSX")
+MainSection:NewButton("Pet Simulator X Script 1", "Loads Pet Simulator X script", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/Muhammad6196/Project-WD/main/Mainstring.lua"))()
+end)
+
+local MainSection = Main:NewSection("SharkBite 2")
+MainSection:NewButton("SharkBite 2 Script 1 ", "Script", function()
+    loadstring(game:HttpGet(('https://raw.githubusercontent.com/ghostapustaja/legionhub/main/sharkbite2'),true))()
 end)
 
 
