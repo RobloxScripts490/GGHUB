@@ -21,6 +21,7 @@ local isSupported = executorName == "Krnl" or
                     executorName == "DuckySploit" or
                     executorName == "Luna" or
                     executorName == "NX" or
+                    executorName == "Hydrogen"
                    
 -- Roblox bildirim fonksiyonu
 local function showNotification(title, description, buttonText, duration)
