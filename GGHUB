@@ -3268,7 +3268,7 @@ loadstring(game:HttpGet("https://pastefy.app/W6Ged5Ho/raw"))()
 end)
 
 
-local SlapSection = Main:NewSection("Troll Slap Tower")
+local SlapSection = Main:NewSection("Troll Slapping Tower")
 
 
 SlapSection:NewButton("TP To Game", "ButtonInfo", function()
@@ -3293,118 +3293,1193 @@ end
 teleportToPlace()
 end)
 
+SlapSection:NewButton("Troll Slapping Tower OP Script", "ButtonInfo", function()
+-- Services
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local UserInputService = game:GetService("UserInputService")
+local TweenService = game:GetService("TweenService")
+local TeleportService = game:GetService("TeleportService")
+local GuiService = game:GetService("GuiService")
+local LocalPlayer = Players.LocalPlayer
+local Camera = workspace.CurrentCamera
 
+-- Anti-Lag Configuration for Troll System
+local DEBOUNCE_TIME = 0.005 -- Ultra-low input lag
+local ATTACK_COOLDOWN = 0.02 -- Super-fast attack rate
+local MAX_HITBOX_SIZE = 1000 -- Insane max hitbox size
+local MIN_HITBOX_SIZE = 1 -- Minimum hitbox size
+local HITBOX_UPDATE_RATE = 1/120 -- 120 FPS hitbox updates
+local SLAP_POWER = 10000 -- Mega slap force (10k studs into the air)
 
--- Equip Glove Buttons
-SlapSection:NewButton("Get Galaxy Glove", "ButtonInfo", function()
-    game:GetService('ReplicatedStorage').EquipSlapEvent:FireServer('GalaxySlap')
-end)
+-- PlaceID Check
+local gameplaceid = game.PlaceId -- Define gameplaceid using game.PlaceId
+if gameplaceid == 128829279907343 then
+    getgenv().deletewhendupefound = true
+    local localplr = game.Players.LocalPlayer
+    local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
+    local Window = Library.CreateLib("Troll Slapping Tower Script By Baris", "DarkTheme")
 
-SlapSection:NewButton("Get Streak Glove", "ButtonInfo", function()
-    game:GetService('ReplicatedStorage').EquipSlapEvent:FireServer('StreakSlap')
-end)
+    -- Tabs
+    local MainTab = Window:NewTab("Main")
+    local GlovesTab = Window:NewTab("Gloves")
+    local BuildTab = Window:NewTab("Build")
+    local AfkTab = Window:NewTab("Afk Slap Farm")
+    local TrollTab = Window:NewTab("Troll") -- Troll Tab
 
-SlapSection:NewButton("Get Error Glove", "ButtonInfo", function()
-    game:GetService('ReplicatedStorage').EquipSlapEvent:FireServer('Error')
-end)
+    -- Sections
+    local MainSection = MainTab:NewSection("Main")
+    local GlovesSection = GlovesTab:NewSection("Gloves")
+    local BuildSection = BuildTab:NewSection("Build")
+    local AfkSection = AfkTab:NewSection("Afk Slap Farm")
+    local TrollSection = TrollTab:NewSection("Troll (OP)") -- Troll Section
 
-SlapSection:NewButton("Get God's Hand", "ButtonInfo", function()
-    game:GetService('ReplicatedStorage').EquipSlapEvent:FireServer("God's Hand")
-end)
+    -- Variables for Troll System
+    local Spamming = false
+    local hitboxSize = 10
+    local hitboxIndicator = nil
+    local lastUpdate = 0
+    local cachedPlayers = {}
+    local connection
+    local nkbd = false -- For No Killbrick Damage
+    local loopKillAll = false -- For Loop Kill All toggle
 
--- Spam Slap Toggle
-local spamSlapEnabled = false
-SlapSection:NewToggle("Spam Slap Everyone(God's Hand Only!)", "ToggleInfo", function(state)
-    spamSlapEnabled = state
-    if state then
-        print("Slap Spam All Enabled")
-    else
-        print("Slap Spam All Disabled")
+    -- Safe Wait Function for Troll System
+    local function safeWait(time)
+        local start = tick()
+        while tick() - start < time do
+            RunService.Heartbeat:Wait()
+        end
     end
-end)
 
--- Spam Slap Loop
-task.spawn(function()
-    while true do
-        if spamSlapEnabled then
+    -- Create Visual Hitbox
+    local function createHitbox()
+        if hitboxIndicator then
+            pcall(function() hitboxIndicator:Destroy() end)
+            hitboxIndicator = nil
+        end
+
+        local success, err = pcall(function()
+            hitboxIndicator = Instance.new("Part")
+            hitboxIndicator.Name = "TrollHitbox"
+            hitboxIndicator.Size = Vector3.new(hitboxSize, hitboxSize, hitboxSize)
+            hitboxIndicator.Anchored = true
+            hitboxIndicator.CanCollide = false
+            hitboxIndicator.Transparency = 0.5
+            hitboxIndicator.Color = Color3.fromRGB(150, 100, 255)
+            hitboxIndicator.Material = Enum.Material.ForceField
+            hitboxIndicator.Parent = workspace
+        end)
+
+        if not success then
+            print("Warning: Failed to create hitbox: " .. tostring(err))
+        end
+    end
+
+    -- Update Hitbox Position/Size
+    local function updateHitbox()
+        if not Spamming or not localplr.Character or not localplr.Character:FindFirstChild("HumanoidRootPart") then
+            if hitboxIndicator then
+                pcall(function() hitboxIndicator:Destroy() end)
+                hitboxIndicator = nil
+            end
+            return
+        end
+
+        if hitboxIndicator then
             pcall(function()
-                local character = LocalPlayer.Character
-                local galaxySlap = character and character:FindFirstChild('GalaxySlap')
-                local godSlap = character and character:FindFirstChild("God's Hand")
-                
-                if godSlap and godSlap:FindFirstChild('Event') then
-                    for _, player in ipairs(Players:GetPlayers()) do
-                        if player ~= LocalPlayer and player.Character and player.Character:FindFirstChild('HumanoidRootPart') then
-                            godSlap.Event:FireServer('slash', player.Character, player.Character.HumanoidRootPart.Position)
-                        end
+                hitboxIndicator.Size = Vector3.new(hitboxSize, hitboxSize, hitboxSize)
+                hitboxIndicator.Position = localplr.Character.HumanoidRootPart.Position
+            end)
+        end
+    end
+
+    -- Cache Players for Performance
+    local function updatePlayerCache()
+        cachedPlayers = {}
+        pcall(function()
+            for _, player in pairs(Players:GetPlayers()) do
+                if player ~= localplr and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+                    table.insert(cachedPlayers, player)
+                end
+            end
+        end)
+    end
+
+    -- Detect Attack Remote
+    local function getAttackRemote()
+        local char = localplr.Character
+        if char then
+            local success, result = pcall(function()
+                for _, tool in pairs(char:GetChildren()) do
+                    if tool:IsA("Tool") and tool:FindFirstChild("Event") then
+                        return tool.Event
                     end
                 end
             end)
+            if success then
+                return result
+            end
         end
-        task.wait(0.3)
+        return nil
     end
-end)
 
--- Spam Slap Toggle
-local spamSlapEnabled = false
-SlapSection:NewToggle("Spam Slap Everyone(Galaxy Glove Only)", "ToggleInfo", function(state)
-    spamSlapEnabled = state
-    if state then
-        print("Slap Spam All Enabled")
-    else
-        print("Slap Spam All Disabled")
-    end
-end)
-
--- Spam Slap Loop
-task.spawn(function()
-    while true do
-        if spamSlapEnabled then
-            pcall(function()
-                local character = LocalPlayer.Character
-                local galaxySlap = character and character:FindFirstChild('GalaxySlap')
-                
-                if galaxySlap and galaxySlap:FindFirstChild('Event') then
-                    for _, player in ipairs(Players:GetPlayers()) do
-                        if player ~= LocalPlayer and player.Character and player.Character:FindFirstChild('HumanoidRootPart') then
-                            galaxySlap.Event:FireServer('slash', player.Character, player.Character.HumanoidRootPart.Position)
+    -- Remote Fire Logic (Super High Slap with 10k Power)
+    local function triggerHitbox()
+        while Spamming do
+            local rootPart = localplr.Character and localplr.Character:FindFirstChild("HumanoidRootPart")
+            local remote = getAttackRemote()
+            if rootPart and remote then
+                updatePlayerCache()
+                for _, player in pairs(cachedPlayers) do
+                    local targetPart = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
+                    if targetPart then
+                        local distance = (targetPart.Position - rootPart.Position).Magnitude
+                        if distance <= hitboxSize then
+                            coroutine.wrap(function()
+                                pcall(function()
+                                    remote:FireServer("slash", player.Character, targetPart.Position, Vector3.new(0, SLAP_POWER, 0))
+                                    if targetPart and targetPart.Parent:FindFirstChild("BodyVelocity") == nil then
+                                        local bodyVelocity = Instance.new("BodyVelocity")
+                                        bodyVelocity.MaxForce = Vector3.new(0, math.huge, 0)
+                                        bodyVelocity.Velocity = Vector3.new(0, SLAP_POWER, 0)
+                                        bodyVelocity.Parent = targetPart
+                                        game.Debris:AddItem(bodyVelocity, 0.5)
+                                    end
+                                end)
+                            end)()
                         end
                     end
                 end
-            end)
+            end
+            safeWait(ATTACK_COOLDOWN)
         end
-        task.wait(0.3)
     end
-end)
 
--- Black Hole Toggle
-local blackHoleEnabled = false
-SlapSection:NewToggle("Black Hole Spam(Galaxy Glove Only)", "ToggleInfo", function(state)
-    blackHoleEnabled = state
-    if state then
-        print("Slap Black Hole Spam Enabled")
-    else
-        print("Slap Black Hole Spam Disabled")
+    -- Function to toggle CanTouch for killbricks
+    local function dkb(kb)
+        if kb:IsA("BasePart") and (kb.Color == Color3.fromRGB(175, 0, 175) or kb.Color == Color3.fromRGB(17, 17, 17) or kb.Color == Color3.fromRGB(107, 50, 124) or kb.Color == Color3.fromRGB(255, 0, 0)) and kb:FindFirstChildWhichIsA("TouchTransmitter") then
+            kb.CanTouch = not nkbd
+            return kb.CanTouch == false -- Return true if CanTouch is successfully set to false
+        end
+        return false
     end
-end)
 
--- Black Hole Loop
-task.spawn(function()
-    while true do
-        if blackHoleEnabled then
-            pcall(function()
-                local character = LocalPlayer.Character
-                local galaxySlap = character and character:FindFirstChild('GalaxySlap')
-                if galaxySlap and galaxySlap:FindFirstChild('BlackholeEvent') then
-                    galaxySlap.BlackholeEvent:FireServer()
+    -- Function to toggle No Killbrick Damage for all killbricks
+    local function dnkbd()
+        local allDisabled = true
+        for _, v in pairs(workspace:GetChildren()) do
+            if v:IsA("BasePart") then
+                if not dkb(v) and nkbd then
+                    allDisabled = false
+                end
+            elseif v:IsA("Model") then
+                for _, part in pairs(v:GetChildren()) do
+                    if not dkb(part) and nkbd then
+                        allDisabled = false
+                    end
+                end
+            end
+        end
+        return allDisabled
+    end
+
+    -- Toggle No Killbrick Damage
+    local function toggleNoKillbrickDamage(bool)
+        nkbd = bool
+        dnkbd()
+        if nkbd then
+            print("No Killbrick Damage enabled")
+        else
+            print("No Killbrick Damage disabled")
+        end
+    end
+
+    -- Kill All (OP) Function
+    local function killAllOP()
+        if not localplr.Character or not localplr.Character:FindFirstChild("HumanoidRootPart") then
+            print("Error: No character or HumanoidRootPart found")
+            return
+        end
+
+        -- Store original position
+        local originalCFrame = localplr.Character.HumanoidRootPart.CFrame
+        print("Stored original position: " .. tostring(originalCFrame.Position))
+
+        -- Enable No Killbrick Damage and verify it's applied
+        toggleNoKillbrickDamage(true)
+        local attempts = 0
+        local maxAttempts = 15
+        while not dnkbd() and attempts < maxAttempts do
+            print("Killbricks not fully disabled, retrying... Attempt " .. (attempts + 1))
+            toggleNoKillbrickDamage(true)
+            safeWait(0.05)
+            attempts = attempts + 1
+        end
+        if attempts >= maxAttempts then
+            print("Warning: Could not fully disable killbricks after " .. maxAttempts .. " attempts")
+        else
+            print("No Killbrick Damage verified successfully")
+        end
+        safeWait(0.3) -- Extended delay for reliability
+
+        -- Teleport to specified coordinates
+        pcall(function()
+            localplr.Character.HumanoidRootPart.CFrame = CFrame.new(35.504459381103516, 3.691742420196533, 25.949811935424805)
+            print("Teleported to: (35.504459381103516, 3.691742420196533, 25.949811935424805)")
+        end)
+
+        -- Bring all players
+        local event = nil
+        if not localplr.Character:FindFirstChild("SwapperSlap") and not localplr.Backpack:FindFirstChild("SwapperSlap") then
+            print("Equipping SwapperSlap")
+            game.ReplicatedStorage.EquipSlapEvent:FireServer("SwapperSlap")
+            localplr.Backpack:WaitForChild("SwapperSlap", 10).Parent = localplr.Character
+            event = localplr.Character.SwapperSlap.Event
+        elseif localplr.Backpack:FindFirstChild("SwapperSlap") then
+            print("Moving SwapperSlap from Backpack to Character")
+            localplr.Backpack.SwapperSlap.Parent = localplr.Character
+            event = localplr.Character.SwapperSlap.Event
+        elseif localplr.Character:FindFirstChild("SwapperSlap") then
+            print("SwapperSlap already equipped")
+            event = localplr.Character.SwapperSlap.Event
+        end
+
+        if event then
+            print("Bringing all players")
+            for _, v in pairs(Players:GetPlayers()) do
+                if v.Character and v ~= localplr then
+                    pcall(function()
+                        event:FireServer("swap", localplr.Character.HumanoidRootPart.Position, localplr.Character.HumanoidRootPart.Position, v)
+                        print("Brought player: " .. v.Name)
+                    end)
+                end
+            end
+        else
+            print("Error: Could not find SwapperSlap event")
+        end
+
+        -- Automatically return to original position
+        pcall(function()
+            localplr.Character.HumanoidRootPart.CFrame = originalCFrame
+            print("Returned to original position: " .. tostring(originalCFrame.Position))
+        end)
+
+        -- Disable No Killbrick Damage unless Loop Kill All is active
+        if not loopKillAll then
+            toggleNoKillbrickDamage(false)
+            print("No Killbrick Damage disabled")
+        end
+    end
+
+    -- Loop Kill All Function
+    local function loopKillAllFunc()
+        while loopKillAll do
+            killAllOP()
+            safeWait(0.5) -- Fast but stable interval
+        end
+        -- Disable No Killbrick Damage when loop is turned off
+        toggleNoKillbrickDamage(false)
+        print("Loop Kill All stopped, No Killbrick Damage disabled")
+    end
+
+    -- Kavo UI Controls for Troll System
+    TrollSection:NewToggle("Hitbox", "Enable/Disable Troll Hitbox", function(state)
+        Spamming = state
+        if state then
+            print("Troll System On")
+            createHitbox()
+            coroutine.wrap(triggerHitbox)()
+        else
+            print("Troll System Off")
+            if hitboxIndicator then
+                pcall(function() hitboxIndicator:Destroy() end)
+                hitboxIndicator = nil
+            end
+        end
+    end)
+
+    TrollSection:NewSlider("Hitbox Size", "Adjust Hitbox Size", MAX_HITBOX_SIZE, MIN_HITBOX_SIZE, function(value)
+        hitboxSize = math.floor(value)
+        if Spamming then
+            createHitbox()
+        end
+        updateHitbox()
+        print("Hitbox Size Set To: " .. hitboxSize)
+    end)
+
+    TrollSection:NewButton("Kill All (OP)", "Enables No Killbrick Damage, teleports to specified location, brings all players, returns", function()
+        print("Kill All (OP) button activated")
+        killAllOP()
+    end)
+
+    TrollSection:NewToggle("Loop Kill All", "Continuously runs Kill All (OP) until disabled", function(state)
+        loopKillAll = state
+        if state then
+            print("Loop Kill All enabled")
+            coroutine.wrap(loopKillAllFunc)()
+        else
+            print("Loop Kill All disabled")
+        end
+    end)
+
+    -- Optimized Hitbox Update
+    connection = RunService.Heartbeat:Connect(function(deltaTime)
+        if Spamming and tick() - lastUpdate >= HITBOX_UPDATE_RATE then
+            updateHitbox()
+            lastUpdate = tick()
+        end
+    end)
+
+    -- Main Tab Variables
+    local apb = false
+    local ofs = -3.5
+    local conn = {}
+    local nse = false
+    local av = true
+    local af = false
+    local aw = false
+    local afap = false
+    local amtw = 1
+    local fxyz = Vector3.new(0, 10, 0)
+    local asb = false
+    local asbh = false
+    local ass = false
+
+    -- Anti-Void Setup
+    local OrgDestroyHeight = workspace.FallenPartsDestroyHeight
+    workspace.FallenPartsDestroyHeight = -500000
+    local antivoidloop = game:GetService("RunService").Stepped:Connect(function()
+        local root = (localplr.Character and localplr.Character:FindFirstChild("HumanoidRootPart"))
+        if av and root and root.Position.Y <= OrgDestroyHeight + 25 then
+            root.Velocity = root.Velocity + Vector3.new(0, 250, 0)
+        end
+    end)
+
+    -- Character and Anti-Fling/Anti-Time Stop Functions
+    function da(c)
+        if c:IsA("BasePart") then
+            c:GetPropertyChangedSignal("Anchored"):Connect(function()
+                if af and c.Anchored == true then
+                    c.Anchored = false
+                end
+            end)
+        elseif c:IsA("Humanoid") then
+            c:GetPropertyChangedSignal("WalkSpeed"):Connect(function()
+                if af and c.WalkSpeed < 16 then
+                    c.WalkSpeed = 16
+                end
+            end)
+            c:GetPropertyChangedSignal("JumpPower"):Connect(function()
+                if af and c.JumpPower < 50 then
+                    c.JumpPower = 50
                 end
             end)
         end
-        task.wait(0.1)
+    end
+
+    function onca(c)
+        table.insert(conn, c.DescendantAdded:Connect(function(child)
+            if nse and string.find(child.Name, "Velocity") then
+                child:Destroy()
+                localplr.Character.Humanoid.Sit = false
+                localplr.Character.Humanoid.PlatformStand = false
+            end
+            da(child)
+        end))
+        table.insert(conn, c.ChildAdded:Connect(function(child)
+            da(child)
+        end))
+        for i, v in pairs(c:GetChildren()) do
+            da(v)
+        end
+    end
+
+    if localplr.Character then
+        onca(localplr.Character)
+    end
+    table.insert(conn, localplr.CharacterAdded:Connect(onca))
+
+    -- AFK Slap Farm Toggle
+    AfkSection:NewToggle("AFK Slap Farm", "Toggles auto fling all players and auto win", function(bool)
+        afap = bool
+        aw = bool
+        if bool then
+            local winpad = nil
+            for i, v in pairs(workspace:GetChildren()) do
+                if v:IsA("BasePart") and v.Color == Color3.fromRGB(0, 255, 0) and v:FindFirstChildWhichIsA("ProximityPrompt") then
+                    winpad = v
+                    break
+                end
+            end
+            coroutine.wrap(function()
+                while afap do
+                    task.wait()
+                    local event = nil
+                    for i, v in pairs(game.Players:GetPlayers()) do
+                        if v:FindFirstChild("Backpack") and v.Backpack:FindFirstChild("IsSlapTool", true) then
+                            event = v.Backpack:FindFirstChild("IsSlapTool", true).Parent.Event
+                            break
+                        elseif v.Character and v.Character:FindFirstChild("IsSlapTool", true) then
+                            event = v.Character:FindFirstChild("IsSlapTool", true).Parent.Event
+                            break
+                        end
+                    end
+                    if event then
+                        for i, v in pairs(game.Players:GetPlayers()) do
+                            if v.Character and v ~= localplr then
+                                pcall(function()
+                                    event:FireServer("slash", v.Character, fxyz)
+                                end)
+                            end
+                        end
+                    end
+                end
+            end)()
+            if winpad then
+                coroutine.wrap(function()
+                    while aw do
+                        task.wait()
+                        for i = 1, amtw do
+                            pcall(function()
+                                localplr.Character:PivotTo(winpad.CFrame)
+                                winpad.ProximityPrompt.HoldDuration = 0
+                                fireproximityprompt(winpad.ProximityPrompt, 0)
+                            end)
+                        end
+                    end
+                end)()
+            end
+        end
+    end)
+
+    -- Main Tab UI Elements
+    MainSection:NewToggle("Auto Place Block (Need Block Glove)", "Toggles auto block placement", function(bool)
+        apb = bool
+        while apb do
+            task.wait()
+            pcall(function()
+                (workspace:FindFirstChild("BlockSlap", true) or game.Players:FindFirstChild("BlockSlap", true)).PlaceBlock:FireServer(
+                    (localplr.Character.HumanoidRootPart.CFrame + Vector3.new(0, ofs, 0)) * CFrame.fromEulerAnglesYXZ(math.rad(90), 0, 0)
+                )
+            end)
+        end
+    end)
+
+    MainSection:NewTextBox("Set Height Offset", "-3.5 for floating platform", function(txt)
+        ofs = tonumber(txt) or -3.5
+    end)
+
+    MainSection:NewToggle("No Slap Effect/Fling", "Disables slap fling effects", function(bool)
+        nse = bool
+    end)
+
+    MainSection:NewToggle("Infinite Yield Anti-Void", "Prevents falling into void", function(bool)
+        av = bool
+    end, true)
+
+    MainSection:NewToggle("Anti-Time Stop (client-sided)", "Prevents time stop effects", function(bool)
+        af = bool
+    end)
+
+    MainSection:NewTextBox("Set Win Multiplier", "DO NOT SET HIGHER THAN 10/20", function(txt)
+        amtw = tonumber(txt) or 1
+    end)
+
+    MainSection:NewToggle("Auto Win", "Automatically triggers win condition", function(bool)
+        aw = bool
+        local winpad = nil
+        for i, v in pairs(workspace:GetChildren()) do
+            if v:IsA("BasePart") and v.Color == Color3.fromRGB(0, 255, 0) and v:FindFirstChildWhichIsA("ProximityPrompt") then
+                winpad = v
+            end
+        end
+        while aw do
+            task.wait()
+            for i = 1, amtw do
+                localplr.Character:PivotTo(winpad.CFrame)
+                winpad.ProximityPrompt.HoldDuration = 0
+                fireproximityprompt(winpad.ProximityPrompt, 0)
+            end
+        end
+    end)
+
+    MainSection:NewTextBox("Set Fling XYZ", "Format: x,y,z (e.g., 0,10,0)", function(txt)
+        local xyz = string.split(txt, ",")
+        fxyz = Vector3.new(tonumber(xyz[1]) or 0, tonumber(xyz[2]) or 10, tonumber(xyz[3]) or 0)
+    end)
+
+    MainSection:NewButton("Fling All Players", "Flings all other players", function()
+        local event = nil
+        for i, v in pairs(game.Players:GetPlayers()) do
+            if v:FindFirstChild("Backpack") and v.Backpack:FindFirstChild("IsSlapTool", true) then
+                event = v.Backpack:FindFirstChild("IsSlapTool", true).Parent.Event
+                break
+            elseif v.Character and v.Character:FindFirstChild("IsSlapTool", true) then
+                event = v.Character:FindFirstChild("IsSlapTool", true).Parent.Event
+                break
+            end
+        end
+        if event then
+            for i, v in pairs(game.Players:GetPlayers()) do
+                if v.Character and v ~= localplr then
+                    task.wait()
+                    event:FireServer("slash", v.Character, fxyz)
+                end
+            end
+        end
+    end)
+
+    -- Player Dropdowns
+    local plrnames = {}
+    local plrs = {}
+    local function getname(plr)
+        if plr then
+            if plr.DisplayName == plr.Name then
+                return plr.Name
+            else
+                return plr.DisplayName .. "/" .. plr.Name
+            end
+        end
+    end
+
+    local flingDropdown = MainSection:NewDropdown("Fling Player", "Select player to fling", {}, function(plr)
+        local event = nil
+        local splr = plrs[plr]
+        for i, v in pairs(game.Players:GetPlayers()) do
+            if v:FindFirstChild("Backpack") and v.Backpack:FindFirstChild("IsSlapTool", true) then
+                event = v.Backpack:FindFirstChild("IsSlapTool", true).Parent.Event
+                break
+            elseif v.Character and v.Character:FindFirstChild("IsSlapTool", true) then
+                event = v.Character:FindFirstChild("IsSlapTool", true).Parent.Event
+                break
+            end
+        end
+        if event then
+            event:FireServer("slash", splr.Character, fxyz)
+        end
+    end)
+
+    local bringDropdown = MainSection:NewDropdown("Bring Player", "Select player to bring", {}, function(plr)
+        local event = nil
+        local splr = plrs[plr]
+        if not localplr.Character:FindFirstChild("SwapperSlap") and not localplr.Backpack:FindFirstChild("SwapperSlap") then
+            game.ReplicatedStorage.EquipSlapEvent:FireServer("SwapperSlap")
+            localplr.Backpack:WaitForChild("SwapperSlap", 10).Parent = localplr.Character
+            event = localplr.Character.SwapperSlap.Event
+        elseif localplr.Backpack:FindFirstChild("SwapperSlap") then
+            localplr.Backpack.SwapperSlap.Parent = localplr.Character
+            event = localplr.Character.SwapperSlap.Event
+        end
+        if event then
+            event:FireServer("swap", localplr.Character.HumanoidRootPart.Position, localplr.Character.HumanoidRootPart.Position, splr)
+        end
+    end)
+
+    MainSection:NewButton("Bring All Players", "Brings all players to you", function()
+        local event = nil
+        if not localplr.Character:FindFirstChild("SwapperSlap") and not localplr.Backpack:FindFirstChild("SwapperSlap") then
+            game.ReplicatedStorage.EquipSlapEvent:FireServer("SwapperSlap")
+            localplr.Backpack:WaitForChild("SwapperSlap", 10).Parent = localplr.Character
+            event = localplr.Character.SwapperSlap.Event
+        elseif localplr.Backpack:FindFirstChild("SwapperSlap") then
+            localplr.Backpack.SwapperSlap.Parent = localplr.Character
+            event = localplr.Character.SwapperSlap.Event
+        end
+        if event then
+            for i, v in pairs(game.Players:GetPlayers()) do
+                if v.Character and v ~= localplr then
+                    event:FireServer("swap", localplr.Character.HumanoidRootPart.Position, localplr.Character.HumanoidRootPart.Position, v)
+                end
+            end
+        end
+    end)
+
+    local function dp(plr, ns)
+        local name = getname(plr)
+        table.insert(plrnames, name)
+        table.sort(plrnames, function(a, b)
+            return a:lower() < b:lower()
+        end)
+        if not ns then
+            flingDropdown:Refresh(plrnames)
+            bringDropdown:Refresh(plrnames)
+        end
+        plrs[name] = plr
+    end
+
+    for i, v in pairs(game.Players:GetPlayers()) do
+        dp(v, true)
+    end
+    flingDropdown:Refresh(plrnames)
+    bringDropdown:Refresh(plrnames)
+
+    table.insert(conn, game.Players.PlayerAdded:Connect(function(plr)
+        dp(plr, false)
+    end))
+
+    table.insert(conn, game.Players.PlayerRemoving:Connect(function(plr)
+        local name = getname(plr)
+        pcall(function()
+            plrs[name] = nil
+            table.remove(plrnames, table.find(plrnames, name))
+        end)
+        table.sort(plrnames, function(a, b)
+            return a:lower() < b:lower()
+        end)
+        flingDropdown:Refresh(plrnames)
+        bringDropdown:Refresh(plrnames)
+    end))
+
+    MainSection:NewToggle("Auto Spam Bricks (Requires Brick Glove)", "Spams bricks", function(bool)
+        asb = bool
+        while asb do
+            task.wait()
+            pcall(function()
+                (workspace:FindFirstChild("BrickSlap", true) or game.Players:FindFirstChild("BrickSlap", true)).Event:FireServer("lego")
+            end)
+        end
+    end)
+
+    MainSection:NewToggle("Auto Spam Black Holes (Requires Galaxy Glove)", "Spams black holes", function(bool)
+        asbh = bool
+        while asbh do
+            task.wait()
+            pcall(function()
+                (workspace:FindFirstChild("GalaxySlap", true) or game.Players:FindFirstChild("GalaxySlap", true)).BlackholeEvent:FireServer()
+            end)
+        end
+    end)
+
+    MainSection:NewToggle("Auto Spam Swapper (PERMANENT DAMAGE)", "Spams swapper", function(bool)
+        ass = bool
+        local resetsw = 0
+        while ass do
+            task.wait(0.2)
+            resetsw = resetsw + 1
+            local event = nil
+            if resetsw % 3 == 0 then
+                if localplr.Character:FindFirstChild("SwapperSlap") then
+                    localplr.Character.SwapperSlap:Destroy()
+                elseif localplr.Backpack:FindFirstChild("SwapperSlap") then
+                    localplr.Backpack.SwapperSlap:Destroy()
+                end
+                game.ReplicatedStorage.EquipSlapEvent:FireServer("SwapperSlap")
+                localplr.Backpack:WaitForChild("SwapperSlap", 10).Parent = localplr.Character
+                event = localplr.Character.SwapperSlap.Event
+            else
+                if localplr.Character:FindFirstChild("SwapperSlap") then
+                    event = localplr.Character.SwapperSlap.Event
+                elseif localplr.Backpack:FindFirstChild("SwapperSlap") then
+                    event = localplr.Backpack.SwapperSlap.Event
+                end
+            end
+            if event then
+                for i, v in pairs(game.Players:GetPlayers()) do
+                    if v.Character and v ~= localplr then
+                        pcall(function()
+                            event:FireServer("swap", v.Character.HumanoidRootPart.Position, localplr.Character.HumanoidRootPart.Position, v)
+                        end)
+                    end
+                end
+            end
+        end
+    end)
+
+    MainSection:NewToggle("No Killbrick Damage", "Disables killbrick damage", function(bool)
+        toggleNoKillbrickDamage(bool)
+    end)
+
+    -- Gloves Tab
+    local cd = nil
+    local cd2 = nil
+    local slapsize = Vector3.new(2.46, 3.255954, 0.915844)
+
+    function set0mass(part)
+        part.Massless = true
+    end
+
+    table.insert(conn, localplr.Backpack.ChildAdded:Connect(function(child)
+        if cd and child:IsA("Tool") and child:FindFirstChild("Speed") then
+            child.Speed.Value = cd
+        end
+        if cd2 and child:IsA("Tool") and child:FindFirstChild("IsSlapTool") then
+            set0mass(child.Handle)
+            child.Handle.Size = slapsize * cd2
+        end
+    end))
+
+    GlovesSection:NewTextBox("Set Cooldown for Gloves", "-1 to default", function(txt)
+        txt = tonumber(txt)
+        if txt == -1 then
+            cd = nil
+        else
+            cd = txt
+        end
+        if cd then
+            for i, v in pairs(localplr.Backpack:GetChildren()) do
+                if v:IsA("Tool") and v:FindFirstChild("Speed") then
+                    v.Speed.Value = cd
+                end
+            end
+            for i, v in pairs(localplr.Character:GetChildren()) do
+                if v:IsA("Tool") and v:FindFirstChild("Speed") then
+                    v.Speed.Value = cd
+                end
+            end
+        end
+    end)
+
+    GlovesSection:NewTextBox("Set Size for Gloves", "-1 to default", function(txt)
+        txt = tonumber(txt)
+        if txt == -1 then
+            cd2 = nil
+        else
+            cd2 = txt
+        end
+        if cd2 then
+            for i, v in pairs(localplr.Backpack:GetChildren()) do
+                if v:IsA("Tool") and v:FindFirstChild("IsSlapTool") then
+                    set0mass(v.Handle)
+                    v.Handle.Size = slapsize * cd2
+                end
+            end
+            for i, v in pairs(localplr.Character:GetChildren()) do
+                if v:IsA("Tool") and v:FindFirstChild("IsSlapTool") then
+                    set0mass(v.Handle)
+                    v.Handle.Size = slapsize * cd2
+                end
+            end
+        end
+    end)
+
+    GlovesSection:NewLabel("Gloves")
+    local names = {}
+    for i, v in pairs(game.ReplicatedStorage.SlapTools:GetChildren()) do
+        local sgs = string.gsub(v.Name, "Slap", " Glove")
+        table.insert(names, sgs)
+    end
+    table.sort(names, function(a, b)
+        return a:lower() < b:lower()
+    end)
+
+    for i, v in pairs(names) do
+        GlovesSection:NewButton("Get " .. v, "Equips " .. v, function()
+            local sgs = string.gsub(v, " Glove", "Slap")
+            if localplr.Backpack:FindFirstChild(sgs) then
+                localplr.Backpack[sgs]:Destroy()
+            end
+            game.ReplicatedStorage.EquipSlapEvent:FireServer(sgs)
+            localplr.Backpack:WaitForChild(sgs, 10).Parent = localplr.Character
+        end)
+    end
+
+    -- Build Tab
+    local mouse = localplr:GetMouse()
+    local singleframe = 1 / 60
+    local partcfr = {}
+    local credit = " (BY: Baris)"
+    local display = Instance.new("Part")
+    display.Anchored = true
+    display.Transparency = 1
+    display.Color = Color3.fromRGB(117, 112, 116)
+    display.Size = Vector3.new(8, 10, 1)
+    display.CanCollide = false
+    display.CastShadow = false
+    display.Name = "DisplayBuild"
+    display.CanQuery = false
+    display.Parent = workspace
+
+    local display2 = Instance.new("Highlight")
+    display2.FillTransparency = 1
+    display2.OutlineColor = Color3.fromRGB(255, 0, 0)
+    display2.DepthMode = Enum.HighlightDepthMode.Occluded
+    display2.Parent = game.CoreGui
+
+    local on = true
+    local obs = false
+    local mb = true
+    local dist = 10
+    local snapcf = false
+
+    function convrot(int)
+        return (int * 360) / (math.pi * 2)
+    end
+
+    function snap(cframe)
+        local x, y, z = cframe:ToOrientation()
+        local cfr2 = { math.rad(math.round(convrot(x) / 45) * 45), math.rad(math.round(convrot(y) / 45) * 45), math.rad(math.round(convrot(z) / 45) * 45) }
+        return CFrame.new(cframe.Position) * CFrame.fromOrientation(table.unpack(cfr2))
+    end
+
+    function getpos()
+        local cfr = (CFrame.new(((mouse.Hit.Position - localplr.Character:GetPivot().Position).Unit * dist)) * mouse.Hit.Rotation) + localplr.Character:GetPivot().Position
+        if snapcf then
+            cfr = snap(cfr)
+        end
+        return cfr
+    end
+
+    local deq = false
+    BuildSection:NewButton("Get Build Tools", "Equips build and delete tools", function()
+        if localplr.Backpack:FindFirstChild("funny build" .. credit) then
+            localplr.Backpack["funny build" .. credit]:Destroy()
+        end
+        if localplr.Character:FindFirstChild("funny build" .. credit) then
+            localplr.Character["funny build" .. credit]:Destroy()
+        end
+        if localplr.Backpack:FindFirstChild("funny delete" .. credit) then
+            localplr.Backpack["funny delete" .. credit]:Destroy()
+        end
+        if localplr.Character:FindFirstChild("funny delete" .. credit) then
+            localplr.Character["funny delete" .. credit]:Destroy()
+        end
+        local fb = Instance.new("Tool")
+        fb.Name = "funny build" .. credit
+        fb.RequiresHandle = false
+        fb.Equipped:Connect(function()
+            display.Transparency = 0.6
+        end)
+        fb.Unequipped:Connect(function()
+            display.Transparency = 1
+        end)
+        fb.Parent = localplr.Backpack
+        fb.Activated:Connect(function()
+            local hit = mouse.Hit
+            if snapcf then
+                hit = snap(hit)
+            end
+            if obs then
+                hit = getpos()
+            end
+            table.insert(partcfr, hit)
+            local plcbl = workspace:FindFirstChild("PlaceBlock", true) or game.Players:FindFirstChild("PlaceBlock", true)
+            if plcbl then
+                plcbl:FireServer(hit)
+            end
+        end)
+        local fb = Instance.new("Tool")
+        fb.Name = "funny delete" .. credit
+        fb.RequiresHandle = false
+        fb.Equipped:Connect(function()
+            deq = true
+        end)
+        fb.Unequipped:Connect(function()
+            deq = false
+        end)
+        fb.Parent = localplr.Backpack
+        fb.Activated:Connect(function()
+            if display2.Adornee ~= nil then
+                for i, v in pairs(partcfr) do
+                    if v.Position == display2.Adornee.Position then
+                        partcfr[i] = nil
+                        break
+                    end
+                end
+            end
+        end)
+    end)
+
+    BuildSection:NewToggle("Make Blocks", "Toggles block placement", function(bool)
+        mb = bool
+    end, true)
+
+    BuildSection:NewButton("Delete Last Block", "Removes the last placed block", function()
+        partcfr[#partcfr] = nil
+    end)
+
+    BuildSection:NewButton("Delete All Blocks", "Clears all placed blocks", function()
+        partcfr = {}
+    end)
+
+    BuildSection:NewToggle("Use other build positioning system", "Alternative block positioning", function(bool)
+        obs = bool
+    end)
+
+    BuildSection:NewSlider("Set Block Distance", "Adjusts block placement distance", 50, 0, function(num)
+        dist = num
+    end)
+
+    BuildSection:NewToggle("Snap Rotation", "Snaps block rotation to 45 degrees", function(bool)
+        snapcf = bool
+    end)
+
+    coroutine.wrap(function()
+        while on do
+            task.wait()
+            pcall(function()
+                if obs then
+                    display.CFrame = getpos()
+                else
+                    local hit = mouse.Hit
+                    if snapcf then
+                        hit = snap(hit)
+                    end
+                    display.CFrame = hit
+                end
+                if mouse.Target and mouse.Target.Name == "PlacedBlock" and deq then
+                    display2.Adornee = mouse.Target
+                else
+                    display2.Adornee = nil
+                end
+            end)
+        end
+    end)()
+
+    coroutine.wrap(function()
+        while on do
+            task.wait(2 - (#partcfr / 10) * singleframe)
+            if mb and (workspace:FindFirstChild("PlaceBlock", true) or game.Players:FindFirstChild("PlaceBlock", true)) then
+                local plcbl = workspace:FindFirstChild("PlaceBlock", true) or game.Players:FindFirstChild("PlaceBlock", true)
+                for i, v in pairs(partcfr) do
+                    if i % 15 == 0 then
+                        task.wait()
+                    end
+                    plcbl:FireServer(v)
+                end
+            elseif localplr.Backpack:FindFirstChild("funny build" .. credit) or localplr.Character:FindFirstChild("funny build" .. credit) then
+                game.ReplicatedStorage.EquipSlapEvent:FireServer("BlockSlap")
+            end
+        end
+    end)()
+
+    -- Player Folder for Target Filtering
+    local plrf = Instance.new("Folder")
+    plrf.Name = "PLRFOLDER"
+    plrf.Parent = workspace
+    mouse.TargetFilter = plrf
+
+    function oca(c)
+        c.Parent = plrf
+    end
+
+    function opa(p)
+        if p.Character then
+            oca(p.Character)
+        end
+        table.insert(conn, p.CharacterAdded:Connect(oca))
+    end
+
+    table.insert(conn, game.Players.PlayerAdded:Connect(opa))
+    for i, v in pairs(game.Players:GetPlayers()) do
+        opa(v)
+    end
+
+    -- Cleanup Function
+    Library.ondestroyedfunc = function()
+        apb = false
+        nse = false
+        aw = false
+        afap = false
+        asb = false
+        asbh = false
+        ass = false
+        nkbd = false
+        on = false
+        av = false
+        af = false
+        Spamming = false -- Disable Troll System
+        loopKillAll = false -- Disable Loop Kill All
+        if hitboxIndicator then
+            pcall(function() hitboxIndicator:Destroy() end)
+        end
+        if connection then
+            pcall(function() connection:Disconnect() end)
+        end
+        toggleNoKillbrickDamage(false)
+        for i, v in pairs(conn) do
+            v:Disconnect()
+        end
+        for i, v in pairs(localplr.Backpack:GetChildren()) do
+            if v:IsA("Tool") and v:FindFirstChild("IsSlapTool") then
+                v.Handle.Massless = false
+                v.Handle.Size = slapsize
+            end
+        end
+        for i, v in pairs(localplr.Character:GetChildren()) do
+            if v:IsA("Tool") and v:FindFirstChild("IsSlapTool") then
+                v.Handle.Massless = false
+                v.Handle.Size = slapsize
+            end
+        end
+        if localplr.Backpack:FindFirstChild("funny build" .. credit) then
+            localplr.Backpack["funny build" .. credit]:Destroy()
+        end
+        if localplr.Character:FindFirstChild("funny build" .. credit) then
+            localplr.Character["funny build" .. credit]:Destroy()
+        end
+        if localplr.Backpack:FindFirstChild("funny delete" .. credit) then
+            localplr.Backpack["funny delete" .. credit]:Destroy()
+        end
+        if localplr.Character:FindFirstChild("funny delete" .. credit) then
+            localplr.Character["funny delete" .. credit]:Destroy()
+        end
+        display:Destroy()
+        display2:Destroy()
+        workspace.FallenPartsDestroyHeight = OrgDestroyHeight
+        for i, v in pairs(plrf:GetChildren()) do
+            v.Parent = workspace
+        end
+        plrf:Destroy()
+    end
+else
+    -- Notification GUI for Unsupported Game
+    local function showNotification()
+        local player = game.Players.LocalPlayer
+        local playerGui = player:WaitForChild("PlayerGui")
+        
+        -- Create ScreenGui
+        local screenGui = Instance.new("ScreenGui")
+        screenGui.Name = "TeleportNotification"
+        screenGui.Parent = playerGui
+        
+        -- Create Frame
+        local frame = Instance.new("Frame")
+        frame.Size = UDim2.new(0, 300, 0, 150)
+        frame.Position = UDim2.new(0.5, -150, 0.5, -75)
+        frame.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+        frame.BorderSizePixel = 2
+        frame.Parent = screenGui
+        
+        -- Create TextLabel
+        local textLabel = Instance.new("TextLabel")
+        textLabel.Size = UDim2.new(1, 0, 0, 50)
+        textLabel.Position = UDim2.new(0, 0, 0, 10)
+        textLabel.Text = "Unsupported Game Want To Teleport?"
+        textLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+        textLabel.BackgroundTransparency = 1
+        textLabel.TextScaled = true
+        textLabel.Parent = frame
+        
+        -- Create Yes Button
+        local yesButton = Instance.new("TextButton")
+        yesButton.Size = UDim2.new(0, 100, 0, 50)
+        yesButton.Position = UDim2.new(0.2, 0, 0.5, 10)
+        yesButton.Text = "Yes"
+        yesButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+        yesButton.BackgroundColor3 = Color3.fromRGB(0, 128, 0)
+        yesButton.TextScaled = true
+        yesButton.Parent = frame
+        
+        -- Create No Button
+        local noButton = Instance.new("TextButton")
+        noButton.Size = UDim2.new(0, 100, 0, 50)
+        noButton.Position = UDim2.new(0.6, 0, 0.5, 10)
+        noButton.Text = "No"
+        noButton.TextColor3 = Color3.fromRGB(128, 0, 0)
+        noButton.TextScaled = true
+        noButton.Parent = frame
+        
+        -- Button functionality
+        yesButton.MouseButton1Click:Connect(function()
+            screenGui:Destroy()
+            TeleportService:Teleport(128829279907343, player)
+        end)
+        
+        noButton.MouseButton1Click:Connect(function()
+            screenGui:Destroy()
+        end)
+    end
+
+    -- Display the notification
+    showNotification()
+end
+end)
+
+local trollgear = Main:NewSection("Troll Gear Tower")
+
+trollgear:NewButton("Troll Gear Tower Script OP", "ButtonInfo", function()
+    local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
+local Window = Library.CreateLib("Troll Gear Tower Script By Baris", "DarkTheme")
+local Tab = Window:NewTab("Main")
+local Section = Tab:NewSection("Features")
+
+-- Get All Tool Button
+Section:NewButton("Get All Tool", "Teleports to locations and returns", function()
+    local player = game.Players.LocalPlayer
+    local character = player.Character
+    if character and character:FindFirstChild("HumanoidRootPart") then
+        local originalPos = character.HumanoidRootPart.Position
+        local locations = {
+            Vector3.new(280.33831787109375, 181.375, -14.942472457885742),
+            Vector3.new(-26.781801223754883, -40.987643241882324, -46.7821044921875),
+            Vector3.new(-327.1382751464844, 4.0000152587890625, -43.7821044921875),
+            Vector3.new(86.2972183227539, 4),
+            Vector3.new(-1.7550508975982666, 353.9999694824219, 287.1971740722656)
+        }
+        
+        for _, pos in ipairs(locations) do
+            character.HumanoidRootPart.CFrame = CFrame.new(pos)
+            wait(0.5) -- Adjust wait time as needed
+        end
+        
+        -- Return to original position
+        character.HumanoidRootPart.CFrame = CFrame.new(originalPos)
     end
 end)
 
+-- Get Admin, Carpet, Lasergun Button
+Section:NewButton("Get Admin, Carpet, Lasergun", "Fires server events", function()
+    local replicatedStorage = game:GetService("ReplicatedStorage")
+    replicatedStorage.CarpetEvent:FireServer()
+    replicatedStorage.LazerGunEvent:FireServer()
+    replicatedStorage.AdminRankEvent:FireServer()
+end)
 
+-- Kill All Button
+Section:NewButton("Kill All", "Prepares ;kill commands for all players", function()
+    local players = game:GetService("Players")
+    local localPlayer = players.LocalPlayer
+    
+    for _, player in ipairs(players:GetPlayers()) do
+        if player ~= localPlayer then -- Skip the local player
+            local command = ";kill " .. player.Name
+            -- Since we can't open the command bar, we'll simulate command execution
+            -- This assumes the game has an admin system that processes these commands
+            game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(command, "All")
+            wait(0.1) -- Delay to prevent spam
+        end
+    end
+    
+    -- Notify player to open command bar manually if needed
+    print("Commands sent as chat messages. Open command bar (/) to execute manually if needed.")
+end)
+
+-- Coin Farm Toggle
+local coinFarmActive = false
+Section:NewToggle("Coin Farm", "Teleports to coin locations", function(state)
+    local player = game.Players.LocalPlayer
+    coinFarmActive = state
+    
+    if state then
+        spawn(function()
+            local timewait = 0.3
+            local locations = {
+                Vector3.new(-12.434035301208496, 356.4478454589844, 285.68255615234375),
+                Vector3.new(282.03692626953125, 182.18545532226562, -7.405041217803955),
+                Vector3.new(-35.77463912963867, -39.5596923828125, 138.065185546875),
+                Vector3.new(-326.78472900390625, 5.3647918701171875, -51.06169891357422),
+                Vector3.new(94.66232299804688, 5.020847797393799, -155.49066162109375)
+            }
+            
+            while coinFarmActive do
+                for _, pos in ipairs(locations) do
+                    if not coinFarmActive then break end
+                    if player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+                        player.Character.HumanoidRootPart.CFrame = CFrame.new(pos)
+                        wait(timewait)
+                    end
+                end
+            end
+        end)
+    else
+        -- Reset player when toggle is turned off
+        if player.Character and player.Character:FindFirstChild("Humanoid") then
+            player.Character.Humanoid.Health = 0
+        end
+    end
+end)
+end)
 
 
 
@@ -5979,7 +7054,7 @@ loadstring(game:HttpGet('https://raw.githubusercontent.com/Its-LALOL/LALOL-Hub/m
 end)
 
 MainSection:NewButton("Starlight🌟", "ButtonInfo", function()
-loadstring(game:HttpGet("https://raw.githubusercontent.com/TempUserIdk18/robloxscripts/refs/heads/main/PogsBackdoor.lua"))()
+loadstring(game:HttpGet("https://pastefy.app/ed156XNO/raw"))()
 end)
 
 
