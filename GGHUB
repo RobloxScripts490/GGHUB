@@ -1823,6 +1823,7 @@ local function createTool()
     StarterGui:SetCore("SendNotification", {
         Title = "TPTool By Baris👇", -- The title of the notification
         Text = "By bok31_31mal✅", -- Static text of the notification
+	Text = "By lime0script✅" -- Static text of the notification  
         Icon = "rbxthumb://type=Asset&id=111136737887294&w=150&h=150", -- The icon
         Duration = 5 -- The duration of the notification
     })
