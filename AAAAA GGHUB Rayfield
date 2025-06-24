@@ -1,28 +1,5 @@
-local Rayfield = loadstring(game:HttpGet("https://raw.githubusercontent.com/SiriusSoftwareLtd/Rayfield/main/source.lua"))()
-
-
-local Window = Rayfield:CreateWindow({
-    Name = "My Game",
-    LoadingTitle = "Loading...",
-    LoadingSubtitle = "by arron",
-    ConfigurationSaving = {
-        Enabled = true,
-        FolderName = "MyConfigFolder",
-        FileName = "MyConfig"
-    },
-    Discord = {
-        Enabled = false,
-    },
-    KeySystem = false,
-})
-
-local MainTab = Window:CreateTab("Main", 4483362458)
-
-MainTab:CreateToggle({
-    Name = "Auto Click",
-    CurrentValue = false,
-    Flag = "AutoClickToggle",
-    Callback = function(Value)
-        print("Auto Click:", Value)
-    end,
-})
+--[[
+WARNING: Heads up! This script has not been verified by ScriptBlox. Use at your own risk!
+]]
+--// Services
+local UserInputService = game:GetService("UserInputService");
