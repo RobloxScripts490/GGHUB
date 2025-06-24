@@ -53,7 +53,7 @@ screenGui.ResetOnSpawn = false  -- Bu, GUI'nin oyuncu yeniden doğduğunda kaybo
 
 local textLabel = Instance.new("TextLabel")
 textLabel.Parent = screenGui
-textLabel.Text = "CREATED BY BARIS And lime0script, PLS WAIT 3-15 SECS TO LOAD!"
+textLabel.Text = "CREATED BY BARIS And lime0script!!"
 textLabel.Size = UDim2.new(0, 600, 0, 75)  -- Yazının genişliğini ve yüksekliğini büyüttük
 textLabel.Position = UDim2.new(0.5, -300, 0.5, -37.5)  -- Ekranın tam ortasına yerleştirir
 textLabel.TextColor3 = Color3.fromRGB(255, 255, 255)  -- Başlangıçta beyaz renk
@@ -7202,7 +7202,17 @@ end)
 
 local Main = Window:NewTab("Credits")
 local MainSection = Main:NewSection("By BARIS, ARAS & lime0script")
+MainSection:NewButton("Copy Discord Invinite", "ButtonInfo", function()
+setclipboard("discord.gg/5krw7NZvPC")
+local StarterGui = game:GetService("StarterGui")
 
+-- Bildirim gönderme
+StarterGui:SetCore("SendNotification", {
+    Title = "Discord Invinite Copied",
+    Text = "Thanks For joining Discord",
+    Duration = 5 -- 5 saniye ekranda kalır
+})
+end)
 else
     -- Desteklenmeyen durumda bildirim
     showNotification(executorName .. " Is Unsupported :(", "Please use a supported executor.", "Ok", 5)
