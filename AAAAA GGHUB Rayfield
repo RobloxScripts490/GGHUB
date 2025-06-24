@@ -1,6 +1,8 @@
---[[
-WARNING: Heads up! This script has not been verified by ScriptBlox. Use at your own risk!
-]]
-local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/vozoid/ui-libraries/main/drawing/void/source.lua"))()
-
-local watermark = library:Watermark("watermark | 60 fps | v4.20 | dev")
+local button = library:CreateButton("Join Discord", function()
+    setclipboard("https://discord.gg/YOUR_INVITE")
+    game.StarterGui:SetCore("SendNotification", {
+        Title = "Discord",
+        Text = "Invite link copied to clipboard!",
+        Duration = 5
+    })
+end)
