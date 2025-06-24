@@ -52,7 +52,7 @@ screenGui.ResetOnSpawn = false  -- Bu, GUI'nin oyuncu yeniden doğduğunda kaybo
 
 local textLabel = Instance.new("TextLabel")
 textLabel.Parent = screenGui
-textLabel.Text = "CREATED BY BARIS, PLS WAIT 3-15 SECS TO LOAD!"
+textLabel.Text = "CREATED BY BARIS And lime0script, PLS WAIT 3-15 SECS TO LOAD!"
 textLabel.Size = UDim2.new(0, 600, 0, 75)  -- Yazının genişliğini ve yüksekliğini büyüttük
 textLabel.Position = UDim2.new(0.5, -300, 0.5, -37.5)  -- Ekranın tam ortasına yerleştirir
 textLabel.TextColor3 = Color3.fromRGB(255, 255, 255)  -- Başlangıçta beyaz renk
