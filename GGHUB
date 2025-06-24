@@ -7201,7 +7201,7 @@ end)
 
 
 local Main = Window:NewTab("Credits")
-local MainSection = Main:NewSection("By bok31_31mal , BARIS & Aras232323, ARAS")
+local MainSection = Main:NewSection("By BARIS, ARAS & lime0script")
 
 else
     -- Desteklenmeyen durumda bildirim
