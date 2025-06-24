@@ -1,5 +1,6 @@
 --[[
 WARNING: Heads up! This script has not been verified by ScriptBlox. Use at your own risk!
 ]]
---// Services
-local UserInputService = game:GetService("UserInputService");
+local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/vozoid/ui-libraries/main/drawing/void/source.lua"))()
+
+local watermark = library:Watermark("watermark | 60 fps | v4.20 | dev")
