@@ -1,0 +1,125 @@
+local UserInputService = game:GetService("UserInputService")
+local GuiService = game:GetService("GuiService")
+local HttpService = game:GetService("HttpService")
+
+game:GetService("StarterGui"):SetCore("SendNotification", {
+            Title = "IMPORTANT NOTE!",
+            Text = "You need to wait 5-6 seconds to execute!!",
+            Duration = 30,
+            Button1 = "Ok"
+        })
+
+-- Cihaz türünü kontrol et (mobil mi, PC mi)
+local isMobile = UserInputService.TouchEnabled and (game:GetService("GuiService"):IsTenFootInterface() or not UserInputService.KeyboardEnabled)
+
+if isMobile then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/RobloxScripts490/TLauncher-Setup/refs/heads/main/ksys"))()
+else
+    -- PC için GUI oluştur
+    local ScreenGui = Instance.new("ScreenGui")
+    ScreenGui.Name = "KeySystemGui"
+    ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+    ScreenGui.ResetOnSpawn = false
+
+    local Frame = Instance.new("Frame")
+    Frame.Size = UDim2.new(0, 350, 0, 250) -- Boyutu büyüttük
+    Frame.Position = UDim2.new(0.5, -175, 0.5, -125)
+    Frame.BackgroundColor3 = Color3.fromRGB(30, 30, 30) -- Daha koyu, modern arka plan
+    Frame.BorderSizePixel = 0
+    Frame.Active = true
+    Frame.Draggable = true
+    Frame.Parent = ScreenGui
+
+    -- Gölge efekti için UIStroke
+    local UIStroke = Instance.new("UIStroke")
+    UIStroke.Thickness = 2
+    UIStroke.Color = Color3.fromRGB(100, 100, 100)
+    UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+    UIStroke.Parent = Frame
+
+    local Title = Instance.new("TextLabel")
+    Title.Size = UDim2.new(1, -10, 0, 60) -- Taşmayı önlemek için kenar boşluğu
+    Title.Position = UDim2.new(0, 5, 0, 5)
+    Title.BackgroundColor3 = Color3.fromRGB(20, 20, 20) -- Hafif kontrastlı başlık çubuğu
+    Title.Text = "Key System PC"
+    Title.TextColor3 = Color3.fromRGB(200, 200, 200) -- Daha yumuşak beyaz
+    Title.TextSize = 24 -- Sabit metin boyutu, taşmayı önler
+    Title.TextXAlignment = Enum.TextXAlignment.Center
+    Title.Font = Enum.Font.GothamBold
+    Title.Parent = Frame
+
+    local CloseButton = Instance.new("TextButton")
+    CloseButton.Size = UDim2.new(0, 40, 0, 40)
+    CloseButton.Position = UDim2.new(1, -50, 0, 10)
+    CloseButton.BackgroundColor3 = Color3.fromRGB(220, 20, 20)
+    CloseButton.Text = "X"
+    CloseButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+    CloseButton.TextSize = 20
+    CloseButton.Font = Enum.Font.GothamBold
+    CloseButton.Parent = Frame
+    CloseButton.MouseButton1Click:Connect(function()
+        ScreenGui:Destroy()
+    end)
+
+    local ButtonV1 = Instance.new("TextButton")
+    ButtonV1.Size = UDim2.new(0.8, 0, 0, 60)
+    ButtonV1.Position = UDim2.new(0.1, 0, 0.35, 0)
+    ButtonV1.BackgroundColor3 = Color3.fromRGB(50, 50, 50) -- Modern gri ton
+    ButtonV1.Text = "Keysystem V1"
+    ButtonV1.TextColor3 = Color3.fromRGB(200, 200, 200)
+    ButtonV1.TextSize = 20
+    ButtonV1.Font = Enum.Font.Gotham
+    ButtonV1.Parent = Frame
+    ButtonV1.MouseButton1Click:Connect(function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/RobloxScripts490/TLauncher-Setup/refs/heads/main/ksys"))()
+        ScreenGui:Destroy()
+    end)
+
+    local ButtonV2 = Instance.new("TextButton")
+    ButtonV2.Size = UDim2.new(0.8, 0, 0, 60)
+    ButtonV2.Position = UDim2.new(0.1, 0, 0.65, 0)
+    ButtonV2.BackgroundColor3 = Color3.fromRGB(0, 120, 215) -- Önerilen için mavi ton
+    ButtonV2.Text = "Keysystem V2 (recommended)"
+    ButtonV2.TextColor3 = Color3.fromRGB(255, 255, 255)
+    ButtonV2.TextSize = 20
+    ButtonV2.Font = Enum.Font.Gotham
+    ButtonV2.Parent = Frame
+    ButtonV2.MouseButton1Click:Connect(function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/RobloxScripts490/TLauncher-Setup/refs/heads/main/ksys2"))()
+        ScreenGui:Destroy()
+    end)
+
+    -- Köşeleri yuvarlatma
+    local UICorner = Instance.new("UICorner")
+    UICorner.CornerRadius = UDim.new(0, 12)
+    UICorner.Parent = Frame
+    local UICornerTitle = Instance.new("UICorner")
+    UICornerTitle.CornerRadius = UDim.new(0, 8)
+    UICornerTitle.Parent = Title
+    local UICornerV1 = Instance.new("UICorner")
+    UICornerV1.CornerRadius = UDim.new(0, 10)
+    UICornerV1.Parent = ButtonV1
+    local UICornerV2 = Instance.new("UICorner")
+    UICornerV2.CornerRadius = UDim.new(0, 10)
+    UICornerV2.Parent = ButtonV2
+    local UICornerClose = Instance.new("UICorner")
+    UICornerClose.CornerRadius = UDim.new(0, 8)
+    UICornerClose.Parent = CloseButton
+
+    -- Butonlar için hover efekti
+    local function addHoverEffect(button)
+        button.MouseEnter:Connect(function()
+            button.BackgroundColor3 = Color3.fromRGB(button.BackgroundColor3.r * 255 + 20, button.BackgroundColor3.g * 255 + 20, button.BackgroundColor3.b * 255 + 20)
+        end)
+        button.MouseLeave:Connect(function()
+            if button == ButtonV2 then
+                button.BackgroundColor3 = Color3.fromRGB(0, 120, 215)
+            else
+                button.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+            end
+        end)
+    end
+    addHoverEffect(ButtonV1)
+    addHoverEffect(ButtonV2)
+    addHoverEffect(CloseButton)
+end
